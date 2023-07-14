@@ -27,6 +27,7 @@ class Crawler {
       const userHomeUrl = `https://maplestory.nexon.com${character
         .find('td.left dl dt a')
         .attr('href')}`;
+      const userGuild = character.find('td:nth-child(6)').text();
 
       const secretKey = userHomeUrl.split('=')[1];
 
@@ -121,6 +122,7 @@ class Crawler {
           },
           current_exp,
           popularity,
+          guild: userGuild,
         },
         rank: {
           total,
