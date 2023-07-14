@@ -64,6 +64,7 @@ class Crawler {
           .replaceAll(',', '')
           .substring(3),
       );
+      const char_img = charInfo.find('div.char_img div img').attr('src');
 
       // 랭킹 정보
 
@@ -113,6 +114,7 @@ class Crawler {
 
       return {
         character: {
+          char_img,
           nickname: charNickname,
           level,
           job,
