@@ -3,6 +3,7 @@ import cors from '@koa/cors';
 import dotenv from 'dotenv';
 import KoaLogger from 'koa-logger';
 import { bodyParser } from '@koa/bodyparser';
+import routes from './routes';
 dotenv.config();
 
 export default class Server {
@@ -28,6 +29,9 @@ export default class Server {
 
     /** bodyparser setting */
     this.app.use(bodyParser());
+
+    /** routes setting */
+    this.app.use(routes.routes()).use(routes.allowedMethods());
   }
 
   /** server start */
