@@ -1,8 +1,12 @@
 import { Injectable } from '@nestjs/common';
+import { AppVersionReturnTypes } from 'src/app.types';
 
 @Injectable()
 export class AppService {
-  getHello(): string {
-    return 'Hello World!';
+  public getVersion(): AppVersionReturnTypes {
+    return {
+      project: 'MSIN',
+      version: '1.0.0',
+    };
   }
 }
