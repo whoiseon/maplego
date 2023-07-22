@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
-import { AppVersionReturnTypes } from 'src/app.types';
+import { AppVersionReturnTypes } from 'src/types';
 
 @Controller()
 export class AppController {

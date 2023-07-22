@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { AppVersionReturnTypes } from 'src/app.types';
+import { AppVersionReturnTypes } from 'src/types';
 
 @Injectable()
 export class AppService {
