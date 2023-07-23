@@ -1,5 +1,5 @@
 import { ApiBaseResponseType } from 'src/types';
-import { Tokens } from 'src/auth/types/token.type';
+import { Tokens } from 'src/token/types/token.type';
 import { User } from '@prisma/client';
 
 export interface SignInResponseType extends ApiBaseResponseType {

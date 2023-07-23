@@ -11,6 +11,7 @@ import { SignUpBodyDto } from 'src/auth/dto/sign-up-body.dto';
 import { SignInBodyDto } from 'src/auth/dto/sign-in-body.dto';
 import { Request } from 'express';
 import { CookieService } from 'src/cookie/cookie.service';
+import { Public } from 'src/lib/decorators';
 
 @Controller('api/auth')
 export class AuthController {
@@ -19,12 +20,14 @@ export class AuthController {
     private readonly cookieService: CookieService,
   ) {}
 
+  @Public()
   @Post('signup')
   @HttpCode(HttpStatus.CREATED)
   public async signUp(@Body() signUpBodyDto: SignUpBodyDto) {
     return this.authService.signUp(signUpBodyDto);
   }
 
+  @Public()
   @Post('signin')
   @HttpCode(HttpStatus.OK)
   public async signIn(

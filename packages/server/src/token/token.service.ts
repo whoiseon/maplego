@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import { TokenPayload, Tokens } from 'src/auth/types';
+import { TokenPayload, Tokens } from 'src/token/types';
 import { Token, User } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 
@@ -11,7 +11,7 @@ export class TokenService {
     this.configService.get<string>('JWT_TOKEN_SECRET');
 
   private readonly tokenDuration = {
-    access_token: '1h',
+    access_token: '5s',
     refresh_token: '7d',
   };
 
@@ -22,16 +22,16 @@ export class TokenService {
   ) {}
 
   public async generateToken(payload: TokenPayload) {
-    return this.jwtService.sign(payload, {
+    return this.jwtService.signAsync(payload, {
       secret: this.JWT_TOKEN_SECRET,
       expiresIn: this.tokenDuration[payload.type],
     });
   }
 
   public async validateToken<T>(token: string): Promise<T> {
-    return this.jwtService.verify(token, {
+    return (await this.jwtService.verifyAsync(token, {
       secret: this.JWT_TOKEN_SECRET,
-    }) as T;
+    })) as T;
   }
 
   public async generateTokens(user: User, tokenItem?: Token): Promise<Tokens> {
@@ -45,6 +45,7 @@ export class TokenService {
         userId,
         tokenId,
         username,
+        displayName: user.displayName,
       }),
       this.generateToken({
         type: 'refresh_token',

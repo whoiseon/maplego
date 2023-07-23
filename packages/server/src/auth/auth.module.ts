@@ -10,5 +10,6 @@ import { CookieService } from 'src/cookie/cookie.service';
   imports: [JwtModule.register({})],
   controllers: [AuthController],
   providers: [AuthService, PrismaService, TokenService, CookieService],
+  exports: [AuthService],
 })
 export class AuthModule {}

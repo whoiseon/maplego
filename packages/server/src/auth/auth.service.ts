@@ -3,16 +3,13 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { SignUpBodyDto } from 'src/auth/dto/sign-up-body.dto';
 import bcrypt from 'bcrypt';
 import { User } from '@prisma/client';
-import { AppError, isAppError } from 'src/lib/error/app-error';
-import {
-  RefreshTokenPayload,
-  SignInResponseType,
-  SignUpResponseType,
-} from 'src/auth/types';
+import { AppError, isAppError } from 'src/lib/error';
+import { SignInResponseType, SignUpResponseType } from 'src/auth/types';
 import { SignInBodyDto } from 'src/auth/dto/sign-in-body.dto';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { TokenService } from 'src/token/token.service';
+import { RefreshTokenPayload } from 'src/token/types';
 
 @Injectable()
 export class AuthService {
@@ -153,7 +150,12 @@ export class AuthService {
         },
       });
 
-      return this.tokenService.generateTokens(tokenItem.user, tokenItem);
+      const tokens = await this.tokenService.generateTokens(
+        tokenItem.user,
+        tokenItem,
+      );
+
+      return tokens;
     } catch (e) {
       throw new AppError('RefreshFailure');
     }

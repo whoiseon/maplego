@@ -11,7 +11,7 @@ const errors = {
   },
   Unauthorized: {
     statusCode: 401,
-    message: 'Unauthorized',
+    message: 'Access token is missing or invalid',
   },
   BadRequest: {
     statusCode: 400,
@@ -62,13 +62,11 @@ export class AppError extends HttpException {
 
   constructor(
     public name: ErrorName,
-    public payload?: ErrorPayloadWithDefault[ErrorName],
+    public payload: ErrorPayloadWithDefault[ErrorName] = {},
   ) {
     const errorInfo = errors[name];
-    super(payload?.message ?? errorInfo.message, errorInfo.statusCode);
-    if (payload?.message) {
-      delete payload.message;
-    }
+    super(errorInfo.message, errorInfo.statusCode);
+
     this.statusCode = errorInfo.statusCode;
   }
 }
