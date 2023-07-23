@@ -1,14 +1,6 @@
 import { HttpException } from '@nestjs/common';
 
 const errors = {
-  UsernameExists: {
-    statusCode: 409,
-    message: 'Username already exists',
-  },
-  DisplayNameExists: {
-    statusCode: 409,
-    message: 'Display name already exists',
-  },
   WrongCredentials: {
     statusCode: 401,
     message: 'Invalid username or password',
@@ -53,6 +45,9 @@ interface ErrorPayload {
   Unauthorized: {
     isExpiredToken: boolean;
   };
+  AlreadyExists: {
+    field: string;
+  };
   BadRequest: any;
 }
 
@@ -66,7 +61,7 @@ export class AppError extends HttpException {
   public statusCode: number;
 
   constructor(
-    public name: string,
+    public name: ErrorName,
     public payload?: ErrorPayloadWithDefault[ErrorName],
   ) {
     const errorInfo = errors[name];
