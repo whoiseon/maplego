@@ -1,11 +1,12 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    './src/**/*.{js,ts,jsx,tsx,mdx}',
-  ],
-  darkMode: "class",
+  content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
+  darkMode: 'class',
   theme: {
     extend: {
+      colors: {
+        bg_page1: 'var(--bg_page1)',
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
@@ -13,8 +14,8 @@ module.exports = {
       },
       fontFamily: {
         pretendard: ['Pretendard', 'ui-sans-serif', 'sans-serif', 'system-ui'],
-      }
+      },
     },
   },
   plugins: [],
-}
+};
