@@ -12,6 +12,10 @@ function ThemeButton({}: Props) {
 
   useEffect(() => {
     setMounted(true);
+    const cookies = parseCookies();
+    if (!cookies.theme) {
+      setCookie(null, 'theme', systemTheme || 'light');
+    }
   }, []);
 
   const onClick = (mode: string) => () => {
