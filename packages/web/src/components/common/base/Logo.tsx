@@ -4,7 +4,6 @@ import MsInLogo from '@/assets/images/vectors/msin-logo.svg';
 import MsInLogoDark from '@/assets/images/vectors/msin-logo-dark.svg';
 import { useTheme } from 'next-themes';
 import { memo, useEffect, useState } from 'react';
-import storage from '@/lib/storage';
 
 interface Props {
   theme?: string;
