@@ -1,11 +1,16 @@
 'use client';
 
+import Logo from '@/components/common/base/Logo';
 import ThemeButton from '@/components/common/system/ThemeButton';
 
-function Header() {
+interface Props {
+  theme?: string;
+}
+
+function Header({ theme }: Props) {
   return (
-    <header className="bg-bg_page1 flex justify-between">
-      헤더
+    <header className="bg-bg_element1 flex justify-between">
+      <Logo theme={theme} />
       <ThemeButton />
     </header>
   );

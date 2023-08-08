@@ -6,8 +6,13 @@
 
 :root {
   --bg_page1: #f8f9fa;
+  --bg_page2: #FFFFFF;
+  --bg_element1: #FFFFFF;
+
 }
 
 :root.dark {
   --bg_page1: #121212;
+  --bg_page2: #121212;
+  --bg_element1: #1E1E1E;
 }

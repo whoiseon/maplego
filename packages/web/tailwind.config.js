@@ -6,6 +6,8 @@ module.exports = {
     extend: {
       colors: {
         bg_page1: 'var(--bg_page1)',
+        bg_page2: 'var(--bg_page2)',
+        bg_element1: 'var(--bg_element1)',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
