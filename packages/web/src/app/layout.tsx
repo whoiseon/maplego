@@ -1,7 +1,6 @@
 import Providers from '@/components/common/system/Providers';
 import Footer from '@/components/desktop/base/Footer';
 import Header from '@/components/desktop/base/Header';
-import useDarkMode from '@/modules/darkMode';
 import '@/styles/globals.css';
 import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
@@ -29,7 +28,7 @@ export default function RootLayout({
       style={{
         colorScheme: currentTheme,
       }}>
-      <body className="bg-bg_page1">
+      <body className="bg-bg_page1 ease-in transition-all duration-100 font-pretendard">
         <Providers>
           <Header theme={currentTheme} />
           <main>{children}</main>
