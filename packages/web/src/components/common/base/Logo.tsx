@@ -1,22 +1,25 @@
-'use client';
+"use client";
 
-import MsInLogo from '@/assets/images/vectors/msin-logo.svg';
-import MsInLogoDark from '@/assets/images/vectors/msin-logo-dark.svg';
-import { useTheme } from 'next-themes';
-import { memo, useEffect, useState } from 'react';
-import Link from 'next/link';
+import MsInLogo from "@/assets/images/vectors/msin-logo.svg";
+import MsInLogoDark from "@/assets/images/vectors/msin-logo-dark.svg";
+import MsInLogoIcon from "@/assets/images/vectors/msin-logo-icon.svg";
+import MsInLogoIconDark from "@/assets/images/vectors/msin-logo-icon-dark.svg";
+import { useTheme } from "next-themes";
+import { memo, useEffect, useState } from "react";
+import Link from "next/link";
 
 interface Props {
   theme?: string;
+  type?: "text" | "icon";
 }
 
-function Logo({ theme }: Props) {
+function Logo({ theme, type = "text" }: Props) {
   const [firstMounted, setFirstMounted] = useState(true);
-  const loadedTheme = theme || 'light';
+  const loadedTheme = theme || "light";
   const { theme: currentTheme } = useTheme();
 
   const onReloadWindow = () => {
-    window.location.reload();
+    window.location.href = "/";
   };
 
   useEffect(() => {
@@ -24,12 +27,32 @@ function Logo({ theme }: Props) {
   }, []);
 
   if (firstMounted) {
-    return loadedTheme === 'dark' ? <MsInLogoDark /> : <MsInLogo />;
+    return type === "text" ? (
+      loadedTheme === "dark" ? (
+        <MsInLogoDark />
+      ) : (
+        <MsInLogo />
+      )
+    ) : loadedTheme === "dark" ? (
+      <MsInLogoIconDark />
+    ) : (
+      <MsInLogoIcon />
+    );
   }
 
   return (
     <Link href="/" onClick={onReloadWindow}>
-      {currentTheme === 'dark' ? <MsInLogoDark /> : <MsInLogo />}
+      {type === "text" ? (
+        loadedTheme === "dark" ? (
+          <MsInLogoDark />
+        ) : (
+          <MsInLogo />
+        )
+      ) : loadedTheme === "dark" ? (
+        <MsInLogoIconDark />
+      ) : (
+        <MsInLogoIcon />
+      )}
     </Link>
   );
 }

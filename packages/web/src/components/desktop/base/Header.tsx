@@ -4,6 +4,8 @@ import Logo from "@/components/common/base/Logo";
 import Button from "@/components/common/system/Button";
 import ThemeButton from "@/components/common/system/ThemeButton";
 import HeaderNavList from "./HeaderNavList";
+import tw, { styled } from "twin.macro";
+import { css } from "@emotion/react";
 
 interface Props {
   theme?: string;
@@ -11,7 +13,7 @@ interface Props {
 
 function Header({ theme }: Props) {
   return (
-    <header className="bg-bg_page2 sticky top-0 flex justify-between min-w-[1280px] h-[72px] border-b-border4 border-b-[1px] shadow-shadow1">
+    <StyledHeader>
       <div className="flex items-center justify-between h-full w-[1280px] min-w-[1280px] mx-auto my-0">
         <div className="left-box flex items-center gap-10">
           <Logo theme={theme} />
@@ -27,8 +29,15 @@ function Header({ theme }: Props) {
           </div>
         </div>
       </div>
-    </header>
+    </StyledHeader>
   );
 }
+
+const StyledHeader = styled.header(() => [
+  tw`
+    bg-bg_page2 sticky top-0 flex justify-between min-w-[1280px] h-[72px] border-b-border4 border-b-[1px] shadow-shadow1
+  `,
+  css``,
+]);
 
 export default Header;
