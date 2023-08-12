@@ -21,11 +21,11 @@ function Header({ theme }: Props) {
         </div>
         <div className="right-box flex items-center gap-1">
           <ThemeButton />
-          <div className="flex items-center gap-1">
-            <Button variant="text" href="/session/new">
+          <div className="flex items-center gap-2">
+            <Button variant="text" href="/auth/signin">
               로그인
             </Button>
-            <Button href="/signup/new">가입하기</Button>
+            <Button href="/auth/signup">가입하기</Button>
           </div>
         </div>
       </div>

@@ -12,16 +12,16 @@ interface Props {
 
 function DesktopLayout({ children, theme }: Props) {
   const pathname = usePathname();
-  const isAuthPage = pathname === "/session/new" || pathname === "/signup/new";
+  const isAuthPage = pathname === "/auth/signin" || pathname === "/auth/signup";
 
   return isAuthPage ? (
-    children
+    <>{children}</>
   ) : (
-    <>
+    <div className="msin-root">
       <Header theme={theme} />
       <main>{children}</main>
       <Footer />
-    </>
+    </div>
   );
 }
 

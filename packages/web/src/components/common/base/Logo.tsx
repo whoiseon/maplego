@@ -43,12 +43,12 @@ function Logo({ theme, type = "text" }: Props) {
   return (
     <Link href="/" onClick={onReloadWindow}>
       {type === "text" ? (
-        loadedTheme === "dark" ? (
+        currentTheme === "dark" ? (
           <MsInLogoDark />
         ) : (
           <MsInLogo />
         )
-      ) : loadedTheme === "dark" ? (
+      ) : currentTheme === "dark" ? (
         <MsInLogoIconDark />
       ) : (
         <MsInLogoIcon />

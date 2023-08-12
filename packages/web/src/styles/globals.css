@@ -21,8 +21,10 @@
   --shadow1: 0px 4px 16px 0px rgba(0, 0, 0, 0.02);
   --primary1: #ff7417;
   --primary2: #ff8537;
+  --primary3: #EB6D19;
   --danger1: #fb4e4e;
   --danger2: #fc7171;
+  --danger3: #E94646;
 }
 
 :root.dark {
@@ -42,6 +44,8 @@
   --shadow1: 0px 4px 16px 0px rgba(0, 0, 0, 0.02);
   --primary1: #f7863e;
   --primary2: #d67e45;
+  --primary3: #BE662E;
   --danger1: #ed6d5f;
   --danger2: #be574c;
+  --danger3: #98443B;
 }

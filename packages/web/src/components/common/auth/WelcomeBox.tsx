@@ -41,7 +41,7 @@ const Block = styled.div(() => [
 
 const StyledText = styled.h2(() => [
   tw`
-    font-normal
+    font-normal text-text1
   `,
 ]);
 
