@@ -1,65 +1,135 @@
-"use client";
-
+import React from "react";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
 import Link from "next/link";
-import { ReactNode } from "react";
-import tw, { styled } from "twin.macro";
+import { themedPalette } from "@/styles/palette";
 
-interface Props {
-  children: ReactNode;
-  href?: string;
-  layout?: "full" | "inline";
+interface ButtonProps {
+  layout?: "inline" | "fullWidth";
+  size?: "small" | "medium";
   variant?: "primary" | "danger" | "text";
-  size?: "small" | "medium" | "large";
+  icon?: React.ReactNode;
 }
 
-const baseClass =
-  "flex items-center justify-center rounded font-semibold cursor-pointer uppercase leading-none transition";
-
-const sizeMap = {
-  small: "px-3 h-[36px] text-sm",
-  medium: "px-4 h-[42px] text-base",
-  large: "px-6 h-[48px] text-base",
-};
-
-const layoutMap = {
-  full: "w-full",
-  inline: "inline-block",
-};
-
-const styleMap = {
-  primary: "bg-primary1 text-buttonText hover:bg-primary2 active:bg-primary3",
-  danger: "bg-danger1 text-buttonText hover:bg-danger2 active:bg-danger3",
-  text: "bg-transparent text-text1 hover:bg-bg_element2 active:bg-bg_element3",
-};
+interface Props
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    ButtonProps {
+  to?: string;
+  href?: string;
+}
 
 function Button({
-  children,
   layout = "inline",
-  variant = "primary",
   size = "medium",
+  variant = "primary",
   href,
-  ...props
+  icon,
+  ...rest
 }: Props) {
   if (href) {
     return (
-      <Link
+      <StyledLink
+        layout={layout}
+        variant={variant}
+        size={size}
         href={href}
-        className={`${baseClass} ${styleMap[variant]} ${layoutMap[layout]} ${sizeMap[size]}`}
+        style={rest.style}
       >
-        {children}
-      </Link>
+        {icon}
+        {rest.children}
+      </StyledLink>
     );
   }
-
   return (
-    <button
-      type="button"
-      className={`${baseClass} ${styleMap[variant]} ${layoutMap[layout]} ${sizeMap[size]}`}
-      {...props}
-    >
-      {children}
-    </button>
+    <StyledButton layout={layout} variant={variant} size={size} {...rest} />
   );
 }
+
+const variantStyles = {
+  primary: css`
+    background: ${themedPalette.primary2};
+    color: ${themedPalette.button_text1};
+    font-weight: 700;
+    &:hover {
+      opacity: 0.875;
+    }
+    &:active {
+      background: ${themedPalette.primary3};
+    }
+  `,
+  danger: css`
+    background: ${themedPalette.danger1};
+    color: ${themedPalette.button_text1};
+    font-weight: 700;
+    &:hover {
+      opacity: 0.875;
+    }
+    &:active {
+      background: ${themedPalette.danger2};
+    }
+  `,
+  text: css`
+    background-color: transparent;
+    color: ${themedPalette.button_text2};
+    text-decoration: none;
+    font-weight: 600;
+    &:hover {
+      background-color: ${themedPalette.bg_element2};
+      color: ${themedPalette.text1};
+    }
+  `,
+};
+
+const sizeStyles = {
+  small: css`
+    height: 36px;
+    font-size: 14px;
+    padding-left: 12px;
+    padding-right: 12px;
+  `,
+  medium: css`
+    height: 42px;
+    font-size: 14px;
+    padding-left: 16px;
+    padding-right: 16px;
+  `,
+};
+
+const sharedStyles = (props: ButtonProps) => css`
+  display: flex;
+  ${sizeStyles[props.size!]};
+  ${variantStyles[props.variant!]!};
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all 0.16s ease-in-out;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+
+  svg {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+  }
+
+  &:disabled {
+    filter: grayscale(0.6);
+    opacity: 0.3;
+  }
+
+  ${props.layout === "fullWidth" &&
+  css`
+    width: 100%;
+  `}
+`;
+
+const StyledButton = styled.button<ButtonProps>`
+  ${(props) => sharedStyles(props)}
+`;
+
+const StyledLink = styled(Link)<ButtonProps>`
+  ${(props) => sharedStyles(props)}
+`;
 
 export default Button;

@@ -6,8 +6,9 @@ import { useEffect, useState } from "react";
 import { useTransition, animated } from "react-spring";
 import MoonIcon from "@/assets/images/vectors/icon-moon.svg";
 import SunIcon from "@/assets/images/vectors/icon-sun.svg";
-import tw, { styled } from "twin.macro";
-import { css } from "@emotion/react";
+import { themedPalette } from "@/styles/palette";
+import styled from "@emotion/styled";
+import transitions from "@/lib/transitions";
 
 interface Props {}
 
@@ -56,26 +57,57 @@ function ThemeButton({}: Props) {
   if (!mounted) return null;
 
   return (
-    <StyledButton onClick={onClick}>
-      {transitions((style, item) => (
-        <StyledIcon>
-          <animated.div style={style} className="text-text1 w-[24px] h-[24px]">
-            {item ? <MoonIcon /> : <SunIcon />}
-          </animated.div>
-        </StyledIcon>
-      ))}
-    </StyledButton>
+    <IconButton onClick={onClick}>
+      {transitions((style, item) =>
+        item ? (
+          <Positioner>
+            <AnimatedSVGWrapper style={style}>
+              <MoonIcon />
+            </AnimatedSVGWrapper>
+          </Positioner>
+        ) : (
+          <Positioner>
+            <AnimatedSVGWrapper style={style}>
+              <SunIcon />
+            </AnimatedSVGWrapper>
+          </Positioner>
+        )
+      )}
+    </IconButton>
   );
 }
 
-const StyledButton = styled.div(() => [
-  tw`
-    bg-none rounded border-none cursor-pointer w-[34px] h-[34px] text-white relative animate-iconSpin hover:bg-bg_element2
-  `,
-]);
+const IconButton = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+  width: 36px;
+  height: 36px;
+  margin-right: 0.25rem;
+  color: white;
+  position: relative;
+  animation: ${transitions.iconSpin} 0.3s ease-in-out;
 
-const StyledIcon = tw.div`
-  absolute top-[50%] left-[50%] transform -translate-x-[50%] -translate-y-[50%]
+  &:hover {
+    background: ${themedPalette.bg_element2};
+  }
 `;
+
+const Positioner = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+
+const SVGWrapper = styled.div`
+  color: ${themedPalette.text1};
+  svg {
+    display: block;
+  }
+`;
+
+const AnimatedSVGWrapper = animated(SVGWrapper);
 
 export default ThemeButton;

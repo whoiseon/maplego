@@ -7,6 +7,7 @@ import MsInLogoIconDark from "@/assets/images/vectors/msin-logo-icon-dark.svg";
 import { useTheme } from "next-themes";
 import { memo, useEffect, useState } from "react";
 import Link from "next/link";
+import styled from "@emotion/styled";
 
 interface Props {
   theme?: string;
@@ -27,6 +28,7 @@ function Logo({ theme, type = "text" }: Props) {
   }, []);
 
   if (firstMounted) {
+    console.log(loadedTheme);
     return type === "text" ? (
       loadedTheme === "dark" ? (
         <MsInLogoDark />
@@ -41,7 +43,7 @@ function Logo({ theme, type = "text" }: Props) {
   }
 
   return (
-    <Link href="/" onClick={onReloadWindow}>
+    <StyledLink href="/" onClick={onReloadWindow}>
       {type === "text" ? (
         currentTheme === "dark" ? (
           <MsInLogoDark />
@@ -53,8 +55,13 @@ function Logo({ theme, type = "text" }: Props) {
       ) : (
         <MsInLogoIcon />
       )}
-    </Link>
+    </StyledLink>
   );
 }
+
+const StyledLink = styled(Link)`
+  display: flex;
+  align-items: center;
+`;
 
 export default memo(Logo);

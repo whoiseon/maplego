@@ -1,7 +1,6 @@
-import tw, { styled } from "twin.macro";
 import Link from "next/link";
-import { css } from "@emotion/react";
 import { themedPalette } from "@/styles/palette";
+import styled from "@emotion/styled";
 
 interface Props {
   question?: string;
@@ -18,18 +17,19 @@ function QuestionLink({ question, name, to, className }: Props) {
   );
 }
 
-const Block = styled.div(() => [
-  tw`
-    text-text2
-  `,
-  css`
-    a {
-      color: ${themedPalette.primary1};
-      &:hover {
-        text-decoration: underline;
-      }
+const Block = styled.div`
+  color: ${themedPalette.text2};
+
+  a {
+    color: ${themedPalette.primary1};
+    &:hover {
+      text-decoration: underline;
     }
-  `,
-]);
+  }
+
+  &.text-center {
+    text-align: center;
+  }
+`;
 
 export default QuestionLink;

@@ -4,8 +4,8 @@ import Logo from "@/components/common/base/Logo";
 import Button from "@/components/common/system/Button";
 import ThemeButton from "@/components/common/system/ThemeButton";
 import HeaderNavList from "./HeaderNavList";
-import tw, { styled } from "twin.macro";
-import { css } from "@emotion/react";
+import { themedPalette } from "@/styles/palette";
+import styled from "@emotion/styled";
 
 interface Props {
   theme?: string;
@@ -14,30 +14,64 @@ interface Props {
 function Header({ theme }: Props) {
   return (
     <StyledHeader>
-      <div className="flex items-center justify-between h-full w-[1280px] min-w-[1280px] mx-auto my-0">
-        <div className="left-box flex items-center gap-10">
+      <Container>
+        <LeftBox>
           <Logo theme={theme} />
           <HeaderNavList />
-        </div>
-        <div className="right-box flex items-center gap-1">
+        </LeftBox>
+        <RightBox>
           <ThemeButton />
-          <div className="flex items-center gap-2">
-            <Button variant="text" href="/auth/signin">
+          <ActionsBox>
+            <Button size="small" variant="text" href="/auth/signin">
               로그인
             </Button>
-            <Button href="/auth/signup">가입하기</Button>
-          </div>
-        </div>
-      </div>
+            <Button size="small" href="/auth/signup">
+              가입하기
+            </Button>
+          </ActionsBox>
+        </RightBox>
+      </Container>
     </StyledHeader>
   );
 }
 
-const StyledHeader = styled.header(() => [
-  tw`
-    bg-bg_page2 sticky top-0 flex justify-between min-w-[1280px] h-[72px] border-b-border4 border-b-[1px] shadow-shadow1
-  `,
-  css``,
-]);
+const StyledHeader = styled.header`
+  display: flex;
+  align-items: center;
+  background-color: ${themedPalette.bg_page2};
+  position: sticky;
+  top: 0;
+  border-bottom: 1px solid ${themedPalette.border4};
+  box-shadow: 0 4px 16px 0 ${themedPalette.shadow1};
+  z-index: 99;
+  height: 72px;
+`;
+
+const Container = styled.div`
+  display: flex;
+  align-content: center;
+  justify-content: space-between;
+  min-width: 1280px;
+  height: 100%;
+  margin: 0 auto;
+`;
+
+const LeftBox = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 40px;
+`;
+
+const RightBox = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+`;
+
+const ActionsBox = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
 
 export default Header;

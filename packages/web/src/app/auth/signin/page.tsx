@@ -1,12 +1,20 @@
+"use client";
+
 import AuthForm from "@/components/desktop/auth/AuthForm";
-import tw, { styled } from "twin.macro";
+import styled from "@emotion/styled";
 
 function SignInPage() {
   return (
-    <div className="flex justify-center w-screen">
+    <Block>
       <AuthForm />
-    </div>
+    </Block>
   );
 }
+
+const Block = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+`;
 
 export default SignInPage;

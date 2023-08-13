@@ -1,5 +1,4 @@
 import Providers from "@/components/common/system/Providers";
-import "@/styles/globals.css";
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { ReactNode } from "react";

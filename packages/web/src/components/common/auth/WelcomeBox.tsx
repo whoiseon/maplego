@@ -1,8 +1,9 @@
 "use client";
 
-import tw, { styled } from "twin.macro";
 import Logo from "@/components/common/base/Logo";
 import { useMemo } from "react";
+import { themedPalette } from "@/styles/palette";
+import styled from "@emotion/styled";
 
 interface Props {
   type?: "signIn" | "signUp";
@@ -33,16 +34,18 @@ function WelcomeBox({ type = "signIn" }: Props) {
   );
 }
 
-const Block = styled.div(() => [
-  tw`
-    flex flex-col items-center w-full gap-4
-  `,
-]);
+const Block = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 16px;
+`;
 
-const StyledText = styled.h2(() => [
-  tw`
-    font-normal text-text1
-  `,
-]);
+const StyledText = styled.h2`
+  font-weight: 500;
+  font-size: 16px;
+  color: ${themedPalette.text1};
+`;
 
 export default WelcomeBox;
