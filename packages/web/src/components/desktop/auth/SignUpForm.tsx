@@ -105,7 +105,7 @@ const AgreementBox = styled.div`
     background: none;
     border: none;
     cursor: pointer;
-    font-weight: 700;
+    text-decoration: underline;
     color: ${themedPalette.primary1};
   }
 `;
