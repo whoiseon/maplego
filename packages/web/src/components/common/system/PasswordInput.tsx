@@ -4,6 +4,7 @@ import { themedPalette } from '@/styles/palette';
 import styled from '@emotion/styled';
 import { InputProps, StyledInput } from './Input';
 import PasswordEyeIcon from '@/assets/images/vectors/password-eye-icon.svg';
+import PasswordEyeCloseIcon from '@/assets/images/vectors/password-eye-close-icon.svg';
 import { memo, useCallback, useState } from 'react';
 
 interface Props extends InputProps {}
@@ -34,7 +35,7 @@ function PasswordInput({ type, ...rest }: InputProps) {
       <StyledInput type={inputType} {...rest} />
       {(isHover || isClicked) && (
         <button type="button" onClick={onToggleInputType}>
-          <PasswordEyeIcon />
+          {isClicked ? <PasswordEyeCloseIcon /> : <PasswordEyeIcon />}
         </button>
       )}
     </PasswordBlock>

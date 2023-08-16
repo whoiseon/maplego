@@ -1,15 +1,21 @@
 'use client';
 
+import AuthServiceTermModal from '@/components/common/auth/AuthServiceTermModal';
 import QuestionLink from '@/components/common/auth/QuestionLink';
 import WelcomeBox from '@/components/common/auth/WelcomeBox';
 import Button from '@/components/common/system/Button';
 import LabelInput from '@/components/common/system/LabelInput';
+import Modal from '@/components/common/system/Modal';
+import useToggle from '@/lib/hooks/useToggle';
 import { themedPalette } from '@/styles/palette';
 import styled from '@emotion/styled';
 
 interface Props {}
 
 function SignUpForm({}: Props) {
+  const [isOpenServiceAgree, onToggleServiceAgree] = useToggle(false);
+  const [isOpenPrivacyAgree, onTogglePrivacyAgree] = useToggle(false);
+
   return (
     <Block>
       <WelcomeBox type="signUp" />
@@ -39,9 +45,14 @@ function SignUpForm({}: Props) {
             <span>
               가입과 동시에 <b>MS인</b> 가입 시 필수 약관인
               <br />
-              <button type="button">서비스 이용 약관</button> 과{' '}
-              <button type="button">개인정보 보호 정책</button> 약관에 동의하게
-              됩니다.
+              <button type="button" onClick={onToggleServiceAgree}>
+                서비스 이용 약관
+              </button>{' '}
+              과{' '}
+              <button type="button" onClick={onTogglePrivacyAgree}>
+                개인정보 보호 정책
+              </button>{' '}
+              약관에 동의하게 됩니다.
             </span>
           </AgreementBox>
           <Button layout="fullWidth">가입하기</Button>
@@ -53,6 +64,12 @@ function SignUpForm({}: Props) {
           to="/auth/signin"
         />
       </StyledForm>
+      {isOpenServiceAgree && (
+        <AuthServiceTermModal type="service" onToggle={onToggleServiceAgree} />
+      )}
+      {isOpenPrivacyAgree && (
+        <AuthServiceTermModal type="privacy" onToggle={onTogglePrivacyAgree} />
+      )}
     </Block>
   );
 }

@@ -1,26 +1,27 @@
-"use client";
+'use client';
 
-import MsInLogo from "@/assets/images/vectors/msin-logo.svg";
-import MsInLogoDark from "@/assets/images/vectors/msin-logo-dark.svg";
-import MsInLogoIcon from "@/assets/images/vectors/msin-logo-icon.svg";
-import MsInLogoIconDark from "@/assets/images/vectors/msin-logo-icon-dark.svg";
-import { useTheme } from "next-themes";
-import { memo, useEffect, useState } from "react";
-import Link from "next/link";
-import styled from "@emotion/styled";
+import MsInLogo from '@/assets/images/vectors/msin-logo.svg';
+import MsInLogoDark from '@/assets/images/vectors/msin-logo-dark.svg';
+import MsInLogoIcon from '@/assets/images/vectors/msin-logo-icon.svg';
+import MsInLogoIconDark from '@/assets/images/vectors/msin-logo-icon-dark.svg';
+import { useTheme } from 'next-themes';
+import { CSSProperties, memo, useEffect, useState } from 'react';
+import Link from 'next/link';
+import styled from '@emotion/styled';
 
 interface Props {
   theme?: string;
-  type?: "text" | "icon";
+  type?: 'text' | 'icon';
+  style?: CSSProperties;
 }
 
-function Logo({ theme, type = "text" }: Props) {
+function Logo({ theme, style, type = 'text' }: Props) {
   const [firstMounted, setFirstMounted] = useState(true);
-  const loadedTheme = theme || "light";
+  const loadedTheme = theme || 'light';
   const { theme: currentTheme } = useTheme();
 
   const onReloadWindow = () => {
-    window.location.href = "/";
+    window.location.href = '/';
   };
 
   useEffect(() => {
@@ -28,14 +29,13 @@ function Logo({ theme, type = "text" }: Props) {
   }, []);
 
   if (firstMounted) {
-    console.log(loadedTheme);
-    return type === "text" ? (
-      loadedTheme === "dark" ? (
+    return type === 'text' ? (
+      loadedTheme === 'dark' ? (
         <MsInLogoDark />
       ) : (
         <MsInLogo />
       )
-    ) : loadedTheme === "dark" ? (
+    ) : loadedTheme === 'dark' ? (
       <MsInLogoIconDark />
     ) : (
       <MsInLogoIcon />
@@ -43,14 +43,14 @@ function Logo({ theme, type = "text" }: Props) {
   }
 
   return (
-    <StyledLink href="/" onClick={onReloadWindow}>
-      {type === "text" ? (
-        currentTheme === "dark" ? (
+    <StyledLink href="/" onClick={onReloadWindow} style={style}>
+      {type === 'text' ? (
+        currentTheme === 'dark' ? (
           <MsInLogoDark />
         ) : (
           <MsInLogo />
         )
-      ) : currentTheme === "dark" ? (
+      ) : currentTheme === 'dark' ? (
         <MsInLogoIconDark />
       ) : (
         <MsInLogoIcon />
