@@ -105,8 +105,11 @@ const AgreementBox = styled.div`
     background: none;
     border: none;
     cursor: pointer;
-    text-decoration: underline;
     color: ${themedPalette.primary1};
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 `;
 
