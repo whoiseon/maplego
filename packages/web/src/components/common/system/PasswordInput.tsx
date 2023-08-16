@@ -64,7 +64,7 @@ const PasswordBlock = styled.div<{ isClicked: boolean }>`
       ${({ isClicked }) => (isClicked ? `color: ${themedPalette.text1};` : '')}
 
       &:hover {
-        color: ${themedPalette.text1};
+        color: ${themedPalette.text2};
       }
     }
   }

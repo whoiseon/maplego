@@ -105,6 +105,7 @@ const AgreementBox = styled.div`
     background: none;
     border: none;
     cursor: pointer;
+    font-weight: 600;
     color: ${themedPalette.primary1};
 
     &:hover {
