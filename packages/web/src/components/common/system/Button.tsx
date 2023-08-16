@@ -1,13 +1,13 @@
-import React from "react";
-import { css } from "@emotion/react";
-import styled from "@emotion/styled";
-import Link from "next/link";
-import { themedPalette } from "@/styles/palette";
+import React from 'react';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import Link from 'next/link';
+import { themedPalette } from '@/styles/palette';
 
 interface ButtonProps {
-  layout?: "inline" | "fullWidth";
-  size?: "small" | "medium";
-  variant?: "primary" | "danger" | "text";
+  layout?: 'inline' | 'fullWidth';
+  size?: 'small' | 'medium';
+  variant?: 'primary' | 'danger' | 'text';
   icon?: React.ReactNode;
 }
 
@@ -19,9 +19,9 @@ interface Props
 }
 
 function Button({
-  layout = "inline",
-  size = "medium",
-  variant = "primary",
+  layout = 'inline',
+  size = 'medium',
+  variant = 'primary',
   href,
   icon,
   ...rest
@@ -33,8 +33,7 @@ function Button({
         variant={variant}
         size={size}
         href={href}
-        style={rest.style}
-      >
+        style={rest.style}>
         {icon}
         {rest.children}
       </StyledLink>
@@ -89,7 +88,7 @@ const sizeStyles = {
   `,
   medium: css`
     height: 42px;
-    font-size: 14px;
+    font-size: 16px;
     padding-left: 16px;
     padding-right: 16px;
   `,
@@ -104,7 +103,6 @@ const sharedStyles = (props: ButtonProps) => css`
   border-radius: 6px;
   transition: all 0.16s ease-in-out;
   border: none;
-  font-size: 16px;
   cursor: pointer;
 
   svg {
@@ -118,7 +116,7 @@ const sharedStyles = (props: ButtonProps) => css`
     opacity: 0.3;
   }
 
-  ${props.layout === "fullWidth" &&
+  ${props.layout === 'fullWidth' &&
   css`
     width: 100%;
   `}

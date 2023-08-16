@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import AuthForm from "@/components/desktop/auth/AuthForm";
-import styled from "@emotion/styled";
+import SignInForm from '@/components/desktop/auth/SignInForm';
+import styled from '@emotion/styled';
 
 function SignInPage() {
   return (
     <Block>
-      <AuthForm />
+      <SignInForm />
     </Block>
   );
 }

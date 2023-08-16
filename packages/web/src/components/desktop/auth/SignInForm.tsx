@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import WelcomeBox from "@/components/common/auth/WelcomeBox";
-import Input from "@/components/common/system/Input";
-import Button from "@/components/common/system/Button";
-import QuestionLink from "@/components/common/auth/QuestionLink";
-import styled from "@emotion/styled";
-import { themedPalette } from "@/styles/palette";
+import WelcomeBox from '@/components/common/auth/WelcomeBox';
+import Input from '@/components/common/system/Input';
+import Button from '@/components/common/system/Button';
+import QuestionLink from '@/components/common/auth/QuestionLink';
+import styled from '@emotion/styled';
+import { themedPalette } from '@/styles/palette';
 
 interface Props {}
 
-function AuthForm() {
+function SignInForm() {
   return (
     <Block>
       <WelcomeBox />
@@ -49,7 +49,9 @@ const StyledForm = styled.form`
 `;
 
 const InputGroupTitle = styled.p`
+  font-size: 14px;
   color: ${themedPalette.text2};
+  font-weight: 700;
 `;
 
 const InputGroup = styled.div`
@@ -64,4 +66,4 @@ const ActionsBox = styled.div`
   gap: 8px;
 `;
 
-export default AuthForm;
+export default SignInForm;

@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import Logo from "@/components/common/base/Logo";
-import Button from "@/components/common/system/Button";
-import ThemeButton from "@/components/common/system/ThemeButton";
-import HeaderNavList from "./HeaderNavList";
-import { themedPalette } from "@/styles/palette";
-import styled from "@emotion/styled";
+import Logo from '@/components/common/base/Logo';
+import Button from '@/components/common/system/Button';
+import ThemeButton from '@/components/common/system/ThemeButton';
+import HeaderNavList from './HeaderNavList';
+import { themedPalette } from '@/styles/palette';
+import styled from '@emotion/styled';
 
 interface Props {
   theme?: string;
@@ -25,7 +25,7 @@ function Header({ theme }: Props) {
             <Button size="small" variant="text" href="/auth/signin">
               로그인
             </Button>
-            <Button size="small" href="/auth/signup">
+            <Button size="small" variant="primary" href="/auth/signup">
               가입하기
             </Button>
           </ActionsBox>

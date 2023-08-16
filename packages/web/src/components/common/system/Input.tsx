@@ -1,16 +1,24 @@
-import React from "react";
-import { themedPalette } from "@/styles/palette";
-import styled from "@emotion/styled";
+'use client';
+
+import React from 'react';
+import { themedPalette } from '@/styles/palette';
+import styled from '@emotion/styled';
+import PasswordInput from './PasswordInput';
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {}
 
 function Input(props: InputProps) {
+  if (props.type === 'password') {
+    return <PasswordInput {...props} />;
+  }
+
   return <StyledInput {...props} />;
 }
 
-const StyledInput = styled.input`
+export const StyledInput = styled.input`
   background-color: ${themedPalette.bg_element1};
+  width: 100%;
   height: 42px;
   border-radius: 6px;
   transition: all 0.125s ease-in-out;

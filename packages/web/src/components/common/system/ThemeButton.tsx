@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { useTheme } from "next-themes";
-import { setCookie, parseCookies } from "nookies";
-import { useEffect, useState } from "react";
-import { useTransition, animated } from "react-spring";
-import MoonIcon from "@/assets/images/vectors/icon-moon.svg";
-import SunIcon from "@/assets/images/vectors/icon-sun.svg";
-import { themedPalette } from "@/styles/palette";
-import styled from "@emotion/styled";
-import transitions from "@/lib/transitions";
+import { useTheme } from 'next-themes';
+import { setCookie, parseCookies } from 'nookies';
+import { useEffect, useState } from 'react';
+import { useTransition, animated } from 'react-spring';
+import MoonIcon from '@/assets/images/vectors/icon-moon.svg';
+import SunIcon from '@/assets/images/vectors/icon-sun.svg';
+import { themedPalette } from '@/styles/palette';
+import styled from '@emotion/styled';
+import transitions from '@/lib/transitions';
 
 interface Props {}
 
@@ -20,34 +20,34 @@ function ThemeButton({}: Props) {
     setMounted(true);
     const cookies = parseCookies();
     if (!cookies.theme) {
-      setCookie(null, "theme", systemTheme || "light");
+      setCookie(null, 'theme', systemTheme || 'light');
     }
   }, []);
 
   const onClick = () => {
-    const mode = theme === "dark" ? "light" : "dark";
+    const mode = theme === 'dark' ? 'light' : 'dark';
     setTheme(mode);
-    setCookie(null, "theme", mode);
+    setCookie(null, 'theme', mode);
   };
 
-  const currentTheme = theme === "system" ? systemTheme : theme;
-  const isDark = currentTheme === "dark";
+  const currentTheme = theme === 'system' ? systemTheme : theme;
+  const isDark = currentTheme === 'dark';
 
   const transitions = useTransition(isDark, {
     initial: {
-      transform: "scale(1) rotate(0deg)",
+      transform: 'scale(1) rotate(0deg)',
       opacity: 1,
     },
     from: {
-      transform: "scale(0) rotate(-180deg)",
+      transform: 'scale(0) rotate(-180deg)',
       opacity: 0,
     },
     enter: {
-      transform: "scale(1) rotate(0deg)",
+      transform: 'scale(1) rotate(0deg)',
       opacity: 1,
     },
     leave: {
-      transform: "scale(0) rotate(180deg)",
+      transform: 'scale(0) rotate(180deg)',
       opacity: 0,
     },
 
@@ -88,6 +88,7 @@ const IconButton = styled.button`
   color: white;
   position: relative;
   animation: ${transitions.iconSpin} 0.3s ease-in-out;
+  transition: background 0.125s ease-in-out;
 
   &:hover {
     background: ${themedPalette.bg_element2};

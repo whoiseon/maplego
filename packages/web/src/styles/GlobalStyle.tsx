@@ -1,8 +1,8 @@
-import { css, Global } from "@emotion/react";
-import { themedPalette, themes } from "@/styles/palette";
+import { css, Global } from '@emotion/react';
+import { themedPalette, themes } from '@/styles/palette';
 
 const styles = css`
-  @import url("https://webfontworld.github.io/pretendard/Pretendard.css");
+  @import url('https://webfontworld.github.io/pretendard/Pretendard.css');
 
   * {
     box-sizing: inherit;
@@ -11,7 +11,7 @@ const styles = css`
   body {
     margin: 0;
     padding: 0;
-    font-family: "Pretendard", sans-serif;
+    font-family: 'Pretendard', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-weight: 500;
@@ -65,7 +65,6 @@ const styles = css`
 
   a,
   a:link {
-    color: inherit;
     text-decoration: none;
   }
 `;

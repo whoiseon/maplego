@@ -1,5 +1,20 @@
+'use client';
+
+import SignUpForm from '@/components/desktop/auth/SignUpForm';
+import styled from '@emotion/styled';
+
 function SignUpPage() {
-  return <div>회원가입 페이지</div>;
+  return (
+    <Block>
+      <SignUpForm />
+    </Block>
+  );
 }
+
+const Block = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+`;
 
 export default SignUpPage;

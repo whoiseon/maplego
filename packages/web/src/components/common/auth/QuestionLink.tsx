@@ -1,6 +1,6 @@
-import Link from "next/link";
-import { themedPalette } from "@/styles/palette";
-import styled from "@emotion/styled";
+import Link from 'next/link';
+import { themedPalette } from '@/styles/palette';
+import styled from '@emotion/styled';
 
 interface Props {
   question?: string;
@@ -19,6 +19,7 @@ function QuestionLink({ question, name, to, className }: Props) {
 
 const Block = styled.div`
   color: ${themedPalette.text2};
+  font-size: 14px;
 
   a {
     color: ${themedPalette.primary1};

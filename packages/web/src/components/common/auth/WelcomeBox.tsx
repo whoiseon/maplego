@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import Logo from "@/components/common/base/Logo";
-import { useMemo } from "react";
-import { themedPalette } from "@/styles/palette";
-import styled from "@emotion/styled";
+import Logo from '@/components/common/base/Logo';
+import { useMemo } from 'react';
+import { themedPalette } from '@/styles/palette';
+import styled from '@emotion/styled';
 
 interface Props {
-  type?: "signIn" | "signUp";
+  type?: 'signIn' | 'signUp';
 }
 
-function WelcomeBox({ type = "signIn" }: Props) {
+function WelcomeBox({ type = 'signIn' }: Props) {
   const textMap = useMemo(
     () => ({
       signIn: (
@@ -19,7 +19,7 @@ function WelcomeBox({ type = "signIn" }: Props) {
       ),
       signUp: (
         <StyledText>
-          "처음 뵐게요! 이곳은 <b>MS인</b> 입니다"
+          처음 뵐게요! 이곳은 <b>MS인</b> 입니다
         </StyledText>
       ),
     }),
