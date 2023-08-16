@@ -48,7 +48,7 @@ function Modal({
     setModalClosing(true);
     setTimeout(() => {
       onToggle();
-    }, 500);
+    }, 300);
   }, []);
 
   const onCloseModal = useCallback(
