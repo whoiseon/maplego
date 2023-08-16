@@ -125,11 +125,13 @@ const ModalBlock = styled.div`
     resize: none;
     border: 1px solid ${themedPalette.border3};
     background: ${themedPalette.bg_page1};
-    border-radius: 6px;
+    border-radius: 4px;
     padding: 0.75rem;
     font-size: 0.875rem;
     width: 100%;
+    height: 84vh;
     outline: none;
+    overflow-y: auto;
 
     ${media.mobile} {
       width: 380px;
