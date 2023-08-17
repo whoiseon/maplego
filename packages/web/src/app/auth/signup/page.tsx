@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import SignUpForm from '@/components/desktop/auth/SignUpForm';
-import styled from '@emotion/styled';
+import SignUpForm from "@/components/desktop/auth/SignUpForm";
+import styled from "@emotion/styled";
 
 function SignUpPage() {
   return (
