@@ -1,14 +1,13 @@
-'use client';
+"use client";
 
-import AuthServiceTermModal from '@/components/common/auth/AuthServiceTermModal';
-import QuestionLink from '@/components/common/auth/QuestionLink';
-import WelcomeBox from '@/components/common/auth/WelcomeBox';
-import Button from '@/components/common/system/Button';
-import LabelInput from '@/components/common/system/LabelInput';
-import Modal from '@/components/common/system/Modal';
-import useToggle from '@/lib/hooks/useToggle';
-import { themedPalette } from '@/styles/palette';
-import styled from '@emotion/styled';
+import AuthServiceTermModal from "@/components/common/auth/AuthServiceTermModal";
+import QuestionLink from "@/components/common/auth/QuestionLink";
+import WelcomeBox from "@/components/common/auth/WelcomeBox";
+import Button from "@/components/common/system/Button";
+import LabelInput from "@/components/common/system/LabelInput";
+import useToggle from "@/lib/hooks/useToggle";
+import { themedPalette } from "@/styles/palette";
+import styled from "@emotion/styled";
 
 interface Props {}
 
@@ -47,11 +46,11 @@ function SignUpForm({}: Props) {
               <br />
               <button type="button" onClick={onToggleServiceAgree}>
                 서비스 이용 약관
-              </button>{' '}
-              과{' '}
+              </button>{" "}
+              과{" "}
               <button type="button" onClick={onTogglePrivacyAgree}>
                 개인정보 보호 정책
-              </button>{' '}
+              </button>{" "}
               약관에 동의하게 됩니다.
             </span>
           </AgreementBox>

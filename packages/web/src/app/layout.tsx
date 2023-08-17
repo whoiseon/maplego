@@ -25,7 +25,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         colorScheme: currentTheme,
       }}
     >
-      <body className="bg-bg_page1 ease-in transition-all duration-100 font-pretendard">
+      <body>
         <Providers>
           <DesktopLayout theme={currentTheme}>{children}</DesktopLayout>
         </Providers>
