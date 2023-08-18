@@ -8,13 +8,9 @@ export const signUpFormErrors = {
       value: 16,
       message: '별명은 16자 이하로 입력해주세요!',
     },
-    minLength: {
-      value: 2,
-      message: '별명은 2글자 이상으로 입력해주세요!',
-    },
     pattern: {
       value: /^[a-zA-Z가-힣0-9]+$/,
-      message: '영문, 한글, 숫자만 입력 가능합니다!',
+      message: '특수문자 또는 한글 자음은 입력할 수 없어요!',
     },
   },
   username: {
@@ -31,8 +27,8 @@ export const signUpFormErrors = {
       message: '아이디는 4글자 이상으로 입력해주세요!',
     },
     pattern: {
-      value: /^[a-zA-Z가-힣0-9]+$/,
-      message: '영문, 한글, 숫자만 입력 가능합니다!',
+      value: /^[a-zA-Z0-9]+$/,
+      message: '특수문자 또는 한글은 입력할 수 없어요!',
     },
   },
   password: {

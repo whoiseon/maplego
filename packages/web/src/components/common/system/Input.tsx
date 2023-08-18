@@ -74,7 +74,7 @@ export const StyledInput = styled.input`
 
 export const InputError = styled.p`
   position: absolute;
-  top: 2px;
+  top: 3px;
   right: 0;
   font-size: 0.875rem;
   color: ${themedPalette.danger1};
