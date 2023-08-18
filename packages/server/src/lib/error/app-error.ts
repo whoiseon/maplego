@@ -41,7 +41,8 @@ const errors = {
 
 type ErrorName = keyof typeof errors;
 
-interface ErrorPayload {
+interface ErrorPayload
+{
   Unauthorized: {
     isExpiredToken: boolean;
   };
@@ -49,6 +50,12 @@ interface ErrorPayload {
     field: string;
   };
   BadRequest: any;
+  NotFound: any;
+  Forbidden: any;
+  InvalidURL: any;
+  Unknown: any;
+  WrongCredentials: any;
+  RefreshFailure: any;
 }
 
 type ErrorPayloadWithDefault = Omit<
@@ -57,13 +64,15 @@ type ErrorPayloadWithDefault = Omit<
 > &
   ErrorPayload;
 
-export class AppError extends HttpException {
+export class AppError extends HttpException
+{
   public statusCode: number;
 
   constructor(
     public name: ErrorName,
     public payload: ErrorPayloadWithDefault[ErrorName] = {},
-  ) {
+  )
+  {
     const errorInfo = errors[name];
     super(errorInfo.message, errorInfo.statusCode);
 
@@ -71,6 +80,7 @@ export class AppError extends HttpException {
   }
 }
 
-export function isAppError(error: any): error is AppError {
+export function isAppError(error: any): error is AppError
+{
   return error instanceof AppError;
 }

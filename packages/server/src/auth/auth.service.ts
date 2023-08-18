@@ -12,7 +12,8 @@ import { TokenService } from 'src/token/token.service';
 import { RefreshTokenPayload } from 'src/token/types';
 
 @Injectable()
-export class AuthService {
+export class AuthService
+{
   private readonly SALT_ROUNDS: number = 10;
   private readonly JWT_SECRET: string = this.configService.get<string>(
     'JWT_ACCESS_TOKEN_SECRET',
@@ -23,11 +24,12 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
     private readonly tokenService: TokenService,
-  ) {}
+  ) { }
 
   public async signUp(
     signUpBodyDto: SignUpBodyDto,
-  ): Promise<SignUpResponseType> {
+  ): Promise<SignUpResponseType>
+  {
     const { username, password, displayName } = signUpBodyDto;
 
     const existingUser: User = await this.db.user.findFirst({
@@ -36,7 +38,8 @@ export class AuthService {
       },
     });
 
-    if (existingUser) {
+    if (existingUser)
+    {
       const isExistingUsername = username === existingUser.username;
 
       throw new AppError('AlreadyExists', {
@@ -58,15 +61,17 @@ export class AuthService {
     });
 
     return {
-      statusCode: HttpStatus.CREATED,
-      message: 'Successfully signed up',
+      name: 'sign up success payload',
+      statusCode: 0,
+      message: '',
       payload: null,
     };
   }
 
   public async signIn(
     signInBodyDto: SignInBodyDto,
-  ): Promise<SignInResponseType> {
+  ): Promise<SignInResponseType>
+  {
     const { username, password } = signInBodyDto;
 
     const user: User = await this.db.user.findUnique({
@@ -75,19 +80,23 @@ export class AuthService {
       },
     });
 
-    if (!user) {
+    if (!user)
+    {
       throw new AppError('WrongCredentials');
     }
 
-    try {
+    try
+    {
       const isPasswordValid: boolean = await bcrypt.compare(
         password,
         user.passwordHash,
       );
 
       if (!isPasswordValid) throw new AppError('WrongCredentials');
-    } catch (e) {
-      if (isAppError(e)) {
+    } catch (e)
+    {
+      if (isAppError(e))
+      {
         throw e;
       }
 
@@ -97,8 +106,9 @@ export class AuthService {
     const tokens = await this.tokenService.generateTokens(user);
 
     return {
-      statusCode: HttpStatus.OK,
-      message: 'Successfully signed in',
+      name: 'sign in success payload',
+      statusCode: 0,
+      message: '',
       payload: {
         user,
         tokens,
@@ -106,8 +116,10 @@ export class AuthService {
     };
   }
 
-  public async refreshToken(token: string) {
-    try {
+  public async refreshToken(token: string)
+  {
+    try
+    {
       const { tokenId, rotationCounter } =
         await this.tokenService.validateToken<RefreshTokenPayload>(token);
       const tokenItem = await this.db.token.findUnique({
@@ -119,15 +131,18 @@ export class AuthService {
         },
       });
 
-      if (!tokenItem) {
+      if (!tokenItem)
+      {
         throw new Error('Token not found');
       }
 
-      if (tokenItem.blocked) {
+      if (tokenItem.blocked)
+      {
         throw new Error('Token is blocked');
       }
 
-      if (tokenItem.rotationCounter !== rotationCounter) {
+      if (tokenItem.rotationCounter !== rotationCounter)
+      {
         await this.db.token.update({
           where: {
             id: tokenId,
@@ -156,7 +171,8 @@ export class AuthService {
       );
 
       return tokens;
-    } catch (e) {
+    } catch (e)
+    {
       throw new AppError('RefreshFailure');
     }
   }

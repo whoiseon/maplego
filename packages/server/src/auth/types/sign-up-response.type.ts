@@ -1,5 +1,6 @@
 import { ApiBaseResponseType } from 'src/types';
 
-export interface SignUpResponseType extends ApiBaseResponseType {
+export interface SignUpResponseType extends ApiBaseResponseType
+{
   payload: null;
 }

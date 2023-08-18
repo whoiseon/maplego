@@ -14,10 +14,13 @@ import { fetchSignUp } from '@/lib/api/auth';
 import React, { useCallback, useState } from 'react';
 import SignUpedBox from '@/components/common/auth/SignUpedBox';
 import { server } from '@reduxjs/toolkit/src/query/tests/mocks/server';
+import { appError } from '@/lib/error';
+import { SignUpResponseType } from '@/lib/models/auth';
 
-interface Props {}
+interface Props { }
 
-function SignUpForm({}: Props) {
+function SignUpForm({ }: Props)
+{
   // signuped state
   const [isSignUped, setIsSignUped] = useState(false);
 
@@ -36,37 +39,46 @@ function SignUpForm({}: Props) {
   // signup mutation
   const { isLoading, mutate } = useMutation({
     mutationFn: fetchSignUp,
-    onMutate: () => {
+    onMutate: () =>
+    {
       setServerError(null);
     },
-    onSuccess: (data) => {
-      if (data.statusCode === 201) {
+    onSuccess: (data: SignUpResponseType) =>
+    {
+      if (data.statusCode === 201)
+      {
         setIsSignUped(true);
-      } else {
-        setServerError(data.name);
+      } else
+      {
+        setServerError(appError(data.name, data.payload));
       }
     },
-    onError: (error: any) => {
+    onError: (error: any) =>
+    {
       console.log(error);
     },
   });
 
   // signup submit handler
   const onSubmit = useCallback(
-    (e: React.FormEvent<HTMLFormElement>) => {
+    (e: React.FormEvent<HTMLFormElement>) =>
+    {
       e.preventDefault();
 
-      if (!displayName) {
+      if (!displayName)
+      {
         setServerError('별명을 입력해주세요.');
         return;
       }
 
-      if (!username) {
+      if (!username)
+      {
         setServerError('아이디를 입력해주세요.');
         return;
       }
 
-      if (!password) {
+      if (!password)
+      {
         setServerError('비밀번호를 입력해주세요.');
         return;
       }
@@ -76,7 +88,8 @@ function SignUpForm({}: Props) {
     [displayName, username, password, mutate],
   );
 
-  if (isSignUped) {
+  if (isSignUped)
+  {
     return <SignUpedBox />;
   }
 
@@ -110,8 +123,7 @@ function SignUpForm({}: Props) {
             onChange={onChangePassword}
           />
         </InputGroup>
-        // TODO: server error message
-        {serverError && <span className="text-error">{serverError}</span>}
+        {serverError && <ErrorMessage>{serverError}</ErrorMessage>}
         <ActionsBox>
           <AgreementBox>
             <span>
@@ -186,6 +198,11 @@ const AgreementBox = styled.div`
       text-decoration: underline;
     }
   }
+`;
+
+const ErrorMessage = styled.p`
+  font-size: 16px;
+  color: ${themedPalette.danger1};
 `;
 
 const ActionsBox = styled.div`
