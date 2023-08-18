@@ -8,119 +8,76 @@ import LabelInput from '@/components/common/system/LabelInput';
 import useToggle from '@/lib/hooks/useToggle';
 import { themedPalette } from '@/styles/palette';
 import styled from '@emotion/styled';
-import { useInput } from '@/lib/hooks/useInput';
-import { useMutation } from '@tanstack/react-query';
-import { fetchSignUp } from '@/lib/api/auth';
-import React, { useCallback, useState } from 'react';
-import SignUpedBox from '@/components/common/auth/SignUpedBox';
-import { server } from '@reduxjs/toolkit/src/query/tests/mocks/server';
-import { appError } from '@/lib/error';
-import { SignUpResponseType } from '@/lib/models/auth';
+import { SignUpParams } from '@/lib/api/auth';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { signUpFormErrors } from '@/lib/formErrors';
 
-interface Props { }
+interface Props {
+  onSubmit: (params: SignUpParams) => void;
+  serverError?: string;
+  isLoading?: boolean;
+}
 
-function SignUpForm({ }: Props)
-{
-  // signuped state
-  const [isSignUped, setIsSignUped] = useState(false);
-
-  // signup input state
-  const [displayName, onChangeDisplayName] = useInput('');
-  const [username, onChangeUsername] = useInput('');
-  const [password, onChangePassword] = useInput('');
-
-  // api request error state
-  const [serverError, setServerError] = useState<string | null>(null);
-
+function SignUpForm({ onSubmit, isLoading, serverError }: Props) {
   // modals of agreement
   const [isOpenServiceAgree, onToggleServiceAgree] = useToggle(false);
   const [isOpenPrivacyAgree, onTogglePrivacyAgree] = useToggle(false);
 
-  // signup mutation
-  const { isLoading, mutate } = useMutation({
-    mutationFn: fetchSignUp,
-    onMutate: () =>
-    {
-      setServerError(null);
-    },
-    onSuccess: (data: SignUpResponseType) =>
-    {
-      if (data.statusCode === 201)
-      {
-        setIsSignUped(true);
-      } else
-      {
-        setServerError(appError(data.name, data.payload));
-      }
-    },
-    onError: (error: any) =>
-    {
-      console.log(error);
+  // react hook form error options
+  const {
+    displayName: displayNameOption,
+    username: usernameOption,
+    password: passwordOption,
+  } = signUpFormErrors;
+
+  // react hook form
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignUpParams>({
+    defaultValues: {
+      displayName: '',
+      username: '',
+      password: '',
     },
   });
-
-  // signup submit handler
-  const onSubmit = useCallback(
-    (e: React.FormEvent<HTMLFormElement>) =>
-    {
-      e.preventDefault();
-
-      if (!displayName)
-      {
-        setServerError('별명을 입력해주세요.');
-        return;
-      }
-
-      if (!username)
-      {
-        setServerError('아이디를 입력해주세요.');
-        return;
-      }
-
-      if (!password)
-      {
-        setServerError('비밀번호를 입력해주세요.');
-        return;
-      }
-
-      mutate({ displayName, username, password });
-    },
-    [displayName, username, password, mutate],
-  );
-
-  if (isSignUped)
-  {
-    return <SignUpedBox />;
-  }
 
   return (
     <Block>
       <WelcomeBox type="signUp" />
-      <StyledForm onSubmit={onSubmit}>
+      <StyledForm onSubmit={handleSubmit(onSubmit)}>
         <InputGroup>
           <LabelInput
             label="별명"
             type="text"
+            name="displayName"
             placeholder="다른 분들이 뭐라고 부를까요?"
             description="포인트를 이용해 언제든 변경할 수 있어요!"
-            value={displayName}
-            onChange={onChangeDisplayName}
+            errors={errors.displayName}
+            register={register}
+            options={displayNameOption}
           />
           <LabelInput
             label="아이디"
             type="text"
+            name="username"
             placeholder="아이디를 입력해주세요"
             description="4~20자 영문과 숫자로만 가능해요!"
-            value={username}
-            onChange={onChangeUsername}
+            errors={errors.username}
+            register={register}
+            options={usernameOption}
           />
           <LabelInput
             label="비밀번호"
             type="password"
+            name="password"
             placeholder="비밀번호를 입력해주세요"
             description="비밀번호는 최소 8글자 이상이어야 해요!"
-            value={password}
-            onChange={onChangePassword}
+            errors={errors.password}
+            register={register}
+            options={passwordOption}
           />
         </InputGroup>
         {serverError && <ErrorMessage>{serverError}</ErrorMessage>}

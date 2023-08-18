@@ -54,12 +54,31 @@ const iconSpin = keyframes`
   }
 `;
 
+const errorBounce = keyframes`
+    0% {
+        transform: translateY(0)
+    }
+    20% {
+        transform: translateY(-3px);
+    }
+    40% {
+        transform: translateY(0)
+    }
+    80% {
+        transform: translateY(-5px);
+    }
+    100% {
+        transform: translateY(0)
+    }
+`;
+
 const transitions = {
   modalOpen,
   modalClose,
   fadeIn,
   fadeOut,
   iconSpin,
+  errorBounce,
 };
 
 export default transitions;

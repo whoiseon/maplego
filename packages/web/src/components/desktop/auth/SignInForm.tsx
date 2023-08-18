@@ -6,19 +6,64 @@ import Button from '@/components/common/system/Button';
 import QuestionLink from '@/components/common/auth/QuestionLink';
 import styled from '@emotion/styled';
 import { themedPalette } from '@/styles/palette';
+import { SignInParams } from '@/lib/api/auth';
+import { signInFormErrors } from '@/lib/formErrors';
+import { useForm } from 'react-hook-form';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 
-interface Props {}
+interface Props {
+  onSubmit: (params: SignInParams) => void;
+  serverError: string;
+  setServerError: Dispatch<SetStateAction<string>>;
+  isLoading?: boolean;
+}
 
-function SignInForm() {
+function SignInForm({
+  onSubmit,
+  serverError,
+  setServerError,
+  isLoading,
+}: Props) {
+  // react hook form error options
+  const { username: usernameOption, password: passwordOption } =
+    signInFormErrors;
+
+  // react hook form
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignInParams>({
+    defaultValues: {
+      username: '',
+      password: '',
+    },
+  });
+
   return (
     <Block>
       <WelcomeBox />
-      <StyledForm>
+      <StyledForm onSubmit={handleSubmit(onSubmit)}>
         <InputGroup>
           <InputGroupTitle>계정 정보</InputGroupTitle>
-          <Input type="text" placeholder="아이디" />
-          <Input type="password" placeholder="비밀번호" />
+          <Input
+            type="text"
+            placeholder="아이디"
+            name="username"
+            register={register}
+            errors={errors}
+            options={usernameOption}
+          />
+          <Input
+            type="password"
+            placeholder="비밀번호"
+            name="password"
+            register={register}
+            errors={errors}
+            options={passwordOption}
+          />
         </InputGroup>
+        {serverError && <ErrorMessage>{serverError}</ErrorMessage>}
         <ActionsBox>
           <QuestionLink name="비밀번호를 잊으셨나요?" to="/auth/forgot" />
           <Button layout="fullWidth">로그인</Button>
@@ -58,6 +103,11 @@ const InputGroup = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
+`;
+
+const ErrorMessage = styled.p`
+  font-size: 16px;
+  color: ${themedPalette.danger1};
 `;
 
 const ActionsBox = styled.div`

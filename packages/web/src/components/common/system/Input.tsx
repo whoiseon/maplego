@@ -1,19 +1,41 @@
 'use client';
 
-import React from 'react';
+import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import { themedPalette } from '@/styles/palette';
 import styled from '@emotion/styled';
 import PasswordInput from './PasswordInput';
+import { RegisterOptions } from 'react-hook-form/dist/types';
+import transitions from '@/lib/transitions';
 
 export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {}
+  extends React.InputHTMLAttributes<HTMLInputElement> {
+  register?: any;
+  options?: RegisterOptions;
+  errors?: any;
+}
 
-function Input(props: InputProps) {
-  if (props.type === 'password') {
-    return <PasswordInput {...props} />;
+function Input({ errors, register, options, ...rest }: InputProps) {
+  if (rest.type === 'password') {
+    return (
+      <PasswordInput
+        register={register}
+        errors={errors}
+        options={options}
+        {...rest}
+      />
+    );
   }
 
-  return <StyledInput {...props} />;
+  if (register) {
+    return (
+      <>
+        <StyledInput {...register(rest.name, options)} {...rest} />
+        {errors && <InputError>{errors.message}</InputError>}
+      </>
+    );
+  }
+
+  return <StyledInput {...rest} />;
 }
 
 export const StyledInput = styled.input`
@@ -48,6 +70,15 @@ export const StyledInput = styled.input`
       box-shadow: none;
     }
   }
+`;
+
+export const InputError = styled.p`
+  position: absolute;
+  top: 2px;
+  right: 0;
+  font-size: 0.875rem;
+  color: ${themedPalette.danger1};
+  animation: ${transitions.errorBounce} 0.4s ease-in-out;
 `;
 
 export default Input;

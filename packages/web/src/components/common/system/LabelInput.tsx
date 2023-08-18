@@ -18,6 +18,7 @@ function LabelInput({ label, description, ...rest }: Props) {
 }
 
 const Block = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   label {

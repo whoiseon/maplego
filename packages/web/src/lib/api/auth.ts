@@ -6,6 +6,11 @@ export interface SignUpParams {
   password: string;
 }
 
+export interface SignInParams {
+  username: string;
+  password: string;
+}
+
 export async function fetchSignUp(params: SignUpParams) {
   const response = await fetch(endpoint.auth.signup, {
     method: 'POST',
