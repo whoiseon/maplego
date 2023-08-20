@@ -11,6 +11,7 @@ export class MeController {
   @Get()
   @UseGuards(AuthGuard)
   public async getMe(@GetUser() user: User) {
+    console.log(user);
     return user;
   }
 }

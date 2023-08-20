@@ -6,12 +6,14 @@ import ThemeButton from '@/components/common/system/ThemeButton';
 import HeaderNavList from './HeaderNavList';
 import { themedPalette } from '@/styles/palette';
 import styled from '@emotion/styled';
+import { useUser } from '@/states/user';
 
 interface Props {
   theme?: string;
 }
 
 function Header({ theme }: Props) {
+  const { displayName } = useUser();
   return (
     <StyledHeader>
       <Container>
@@ -22,6 +24,7 @@ function Header({ theme }: Props) {
         <RightBox>
           <ThemeButton />
           <ActionsBox>
+            {displayName && displayName}
             <Button size="small" variant="text" href="/auth/signin">
               로그인
             </Button>

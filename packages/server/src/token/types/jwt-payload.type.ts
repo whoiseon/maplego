@@ -4,6 +4,7 @@ export type AccessTokenPayload = {
   tokenId: number;
   username: string;
   displayName: string;
+  level: number;
 };
 
 export type RefreshTokenPayload = {

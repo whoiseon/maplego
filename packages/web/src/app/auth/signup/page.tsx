@@ -4,10 +4,10 @@ import SignUpedBox from '@/components/common/auth/SignUpedBox';
 import SignUpForm from '@/components/desktop/auth/SignUpForm';
 import { SignUpParams, fetchSignUp } from '@/lib/api/auth';
 import { appError } from '@/lib/error';
-import { SignUpResponseType } from '@/lib/models/auth';
 import styled from '@emotion/styled';
 import { useMutation } from '@tanstack/react-query';
 import { useCallback, useState } from 'react';
+import { SignUpResponse } from '@/lib/api/types';
 
 function SignUpPage() {
   // signuped state
@@ -21,7 +21,7 @@ function SignUpPage() {
     onMutate: () => {
       setServerError('');
     },
-    onSuccess: (data: SignUpResponseType) => {
+    onSuccess: (data: SignUpResponse) => {
       if (data.statusCode === 0) {
         console.log(data);
         setIsSignUped(true);

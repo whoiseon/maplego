@@ -24,7 +24,7 @@ const modalOpen = keyframes`
         transform: scale(0);
     }
     70% {
-        transform: scale(1.06);
+        transform: scale(1.03);
     }
     100% {
         opacity: 1;

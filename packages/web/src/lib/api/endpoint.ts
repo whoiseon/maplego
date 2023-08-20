@@ -10,6 +10,12 @@ export const endpoint = {
       signin: `${this.base}/auth/signin`,
       signout: `${this.base}/auth/signout`,
       signup: `${this.base}/auth/signup`,
+      refresh: `${this.base}/auth/refresh`,
     };
+  },
+
+  // me
+  get me() {
+    return `${this.base}/me`;
   },
 };

@@ -5,6 +5,7 @@ import {
   HttpStatus,
   Post,
   Req,
+  UseGuards,
 } from '@nestjs/common';
 import { AuthService } from 'src/auth/auth.service';
 import { SignUpBodyDto } from 'src/auth/dto/sign-up-body.dto';
@@ -13,6 +14,7 @@ import { Request } from 'express';
 import { CookieService } from 'src/cookie/cookie.service';
 import { Public } from 'src/lib/decorators';
 import { SignInResponseType, SignUpResponseType } from 'src/auth/types';
+import { AuthGuard } from 'src/lib/guards';
 
 @Controller('api/auth')
 export class AuthController {
@@ -41,5 +43,16 @@ export class AuthController {
     this.cookieService.setTokenCookie(req, response.payload.tokens);
 
     return response;
+  }
+
+  @Public()
+  @UseGuards(AuthGuard)
+  @Post('refresh')
+  @HttpCode(HttpStatus.OK)
+  public async refreshToken(@Req() req: Request, @Body() body) {
+    const refreshToken = body.refreshToken;
+    const tokens = await this.authService.refreshToken(refreshToken);
+    this.cookieService.setTokenCookie(req, tokens);
+    return tokens;
   }
 }

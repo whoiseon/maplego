@@ -20,7 +20,6 @@ export class AuthGuard implements CanActivate {
     private tokenService: TokenService,
     private authService: AuthService,
     private reflector: Reflector,
-    private cookieService: CookieService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -51,6 +50,7 @@ export class AuthGuard implements CanActivate {
         id: payload.userId,
         username: payload.username,
         displayName: payload.displayName,
+        level: payload.level,
       };
     } catch (e: any) {
       if (e.name === 'TokenExpiredError') {

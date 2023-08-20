@@ -46,6 +46,7 @@ export class TokenService {
         tokenId,
         username,
         displayName: user.displayName,
+        level: user.level,
       }),
       this.generateToken({
         type: 'refresh_token',
