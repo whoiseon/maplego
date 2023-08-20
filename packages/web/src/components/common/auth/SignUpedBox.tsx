@@ -1,13 +1,15 @@
 import styled from '@emotion/styled';
-import MsInWallPaper from '@/assets/images/vectors/msin-wallpaper-01.svg';
+import WallPaper from '@/assets/images/vectors/wallpaper-01.svg';
 import Button from '@/components/common/system/Button';
 
 function SignUpedBox() {
   return (
     <Block>
       <ImageBox>
-        <MsInWallPaper />
-        <h2>MS인에 합류하신 것을 환영해요!</h2>
+        <WallPaper />
+        <h2>
+          <b>메이플고</b>에 합류하신 것을 환영해요!
+        </h2>
       </ImageBox>
       <Button layout="inline" href="/auth/signin">
         로그인 할게요!

@@ -1,9 +1,8 @@
 'use client';
 
-import MsInLogo from '@/assets/images/vectors/msin-logo.svg';
-import MsInLogoDark from '@/assets/images/vectors/msin-logo-dark.svg';
-import MsInLogoIcon from '@/assets/images/vectors/msin-logo-icon.svg';
-import MsInLogoIconDark from '@/assets/images/vectors/msin-logo-icon-dark.svg';
+import LogoText from '@/assets/images/vectors/logo-text.svg';
+import LogoTextDark from '@/assets/images/vectors/logo-text-dark.svg';
+import LogoIconDark from '@/assets/images/vectors/logo-icon-dark.svg';
 import { useTheme } from 'next-themes';
 import { CSSProperties, memo, useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -31,14 +30,12 @@ function Logo({ theme, style, type = 'text' }: Props) {
   if (firstMounted) {
     return type === 'text' ? (
       loadedTheme === 'dark' ? (
-        <MsInLogoDark />
+        <LogoTextDark />
       ) : (
-        <MsInLogo />
+        <LogoText />
       )
-    ) : loadedTheme === 'dark' ? (
-      <MsInLogoIconDark />
     ) : (
-      <MsInLogoIcon />
+      <LogoIconDark />
     );
   }
 
@@ -46,14 +43,12 @@ function Logo({ theme, style, type = 'text' }: Props) {
     <StyledLink href="/" onClick={onReloadWindow} style={style}>
       {type === 'text' ? (
         currentTheme === 'dark' ? (
-          <MsInLogoDark />
+          <LogoTextDark />
         ) : (
-          <MsInLogo />
+          <LogoText />
         )
-      ) : currentTheme === 'dark' ? (
-        <MsInLogoIconDark />
       ) : (
-        <MsInLogoIcon />
+        <LogoIconDark />
       )}
     </StyledLink>
   );

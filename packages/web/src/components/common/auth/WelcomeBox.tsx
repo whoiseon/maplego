@@ -14,16 +14,16 @@ function WelcomeBox({ type = 'signIn' }: Props) {
     () => ({
       signIn: (
         <StyledText>
-          오늘도 <b>MS인</b>에 오신 것을 환영해요!
+          오늘도 <b>메이플고</b>에 오신 것을 환영해요!
         </StyledText>
       ),
       signUp: (
         <StyledText>
-          처음 뵐게요! 이곳은 <b>MS인</b> 입니다
+          처음 뵐게요! 이곳은 <b>메이플고</b> 입니다
         </StyledText>
       ),
     }),
-    []
+    [],
   );
 
   return (

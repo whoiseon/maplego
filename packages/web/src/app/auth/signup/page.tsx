@@ -22,9 +22,11 @@ function SignUpPage() {
       setServerError('');
     },
     onSuccess: (data: SignUpResponseType) => {
-      if (data.statusCode === 201) {
+      if (data.statusCode === 0) {
+        console.log(data);
         setIsSignUped(true);
       } else {
+        console.log(data);
         setServerError(appError(data.name, data.payload));
       }
     },

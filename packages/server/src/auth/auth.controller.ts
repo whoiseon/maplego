@@ -12,6 +12,7 @@ import { SignInBodyDto } from 'src/auth/dto/sign-in-body.dto';
 import { Request } from 'express';
 import { CookieService } from 'src/cookie/cookie.service';
 import { Public } from 'src/lib/decorators';
+import { SignInResponseType, SignUpResponseType } from 'src/auth/types';
 
 @Controller('api/auth')
 export class AuthController {
@@ -23,7 +24,9 @@ export class AuthController {
   @Public()
   @Post('signup')
   @HttpCode(HttpStatus.CREATED)
-  public async signUp(@Body() signUpBodyDto: SignUpBodyDto) {
+  public async signUp(
+    @Body() signUpBodyDto: SignUpBodyDto,
+  ): Promise<SignUpResponseType> {
     return this.authService.signUp(signUpBodyDto);
   }
 
@@ -33,7 +36,7 @@ export class AuthController {
   public async signIn(
     @Body() signInBodyDto: SignInBodyDto,
     @Req() req: Request,
-  ) {
+  ): Promise<SignInResponseType> {
     const response = await this.authService.signIn(signInBodyDto);
     this.cookieService.setTokenCookie(req, response.payload.tokens);
 

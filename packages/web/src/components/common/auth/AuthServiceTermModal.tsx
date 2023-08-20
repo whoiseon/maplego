@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import Modal from '../system/Modal';
 import { themedPalette } from '@/styles/palette';
 import { media } from '@/lib/media';
-import MsInWallPaper from '@/assets/images/vectors/msin-wallpaper-01.svg';
+import WallPaper from '@/assets/images/vectors/wallpaper-01.svg';
 
 interface Props {
   type: 'service' | 'privacy';
@@ -109,7 +109,7 @@ function AuthServiceTermModal({ type, onToggle }: Props) {
       <ModalBlock>
         <textarea readOnly>{content}</textarea>
         <div>
-          <MsInWallPaper />
+          <WallPaper />
           <p>MS인 {title}</p>
         </div>
       </ModalBlock>
