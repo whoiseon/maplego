@@ -1,18 +1,21 @@
 import { endpoint } from '@/lib/api/endpoint';
+import { User } from './types';
 
-export async function fetchGetMe(token?: string) {
+export async function fetchGetMe(token?: string): Promise<User> {
   try {
     const response = await fetch(endpoint.me, {
       method: 'GET',
-      cache: 'no-cache',
+      cache: 'no-store',
       credentials: 'include',
       headers: {
         authorization: `Bearer ${token}`,
       },
     });
 
-    const data = await response.json();
+    const data = (await response.json()) as User;
 
     return data;
-  } catch (e) {}
+  } catch (e) {
+    throw e;
+  }
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { useGetMe } from '@/lib/hooks/useGetMe';
+import { useGetMe } from '@/lib/hooks/useGetMyAccount';
 import { redirect, useParams } from 'next/navigation';
 import { useEffect } from 'react';
 
