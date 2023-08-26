@@ -52,7 +52,6 @@ export async function fetchRefresh(token?: string): Promise<Tokens> {
     }),
     headers: {
       'Content-Type': 'application/json',
-      authorization: `Bearer ${token}`,
     },
   });
 

@@ -15,6 +15,7 @@ import { CookieService } from 'src/cookie/cookie.service';
 import { Public } from 'src/lib/decorators';
 import { SignInResponseType, SignUpResponseType } from 'src/auth/types';
 import { AuthGuard } from 'src/lib/guards';
+import { Tokens } from 'src/token/types';
 
 @Controller('api/auth')
 export class AuthController {
@@ -49,10 +50,15 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
-  public async refreshToken(@Req() req: Request, @Body() body) {
-    const refreshToken = body.refreshToken;
+  public async refreshToken(
+    @Req() req: Request,
+    @Body() body,
+  ): Promise<Tokens> {
+    const refreshToken = body.refreshToken || req.cookies.refresh_token;
     const tokens = await this.authService.refreshToken(refreshToken);
     this.cookieService.setTokenCookie(req, tokens);
+    req.res.header('123', '123');
+
     return tokens;
   }
 }

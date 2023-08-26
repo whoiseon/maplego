@@ -126,7 +126,9 @@ export class AuthService {
       }
 
       if (tokenItem.blocked) {
-        throw new Error('Token is blocked');
+        throw new AppError('Unauthorized', {
+          isExpiredToken: false,
+        });
       }
 
       if (tokenItem.rotationCounter !== rotationCounter) {

@@ -7,13 +7,16 @@ import HeaderNavList from './HeaderNavList';
 import { themedPalette } from '@/styles/palette';
 import styled from '@emotion/styled';
 import { useUser } from '@/states/user';
+import { useGetMyAccount } from '@/lib/hooks/useGetMyAccount';
 
 interface Props {
   theme?: string;
 }
 
 function Header({ theme }: Props) {
+  const { data: meData } = useGetMyAccount();
   const { displayName } = useUser();
+
   return (
     <StyledHeader>
       <Container>
@@ -24,7 +27,7 @@ function Header({ theme }: Props) {
         <RightBox>
           <ThemeButton />
           <ActionsBox>
-            {displayName && displayName}
+            {meData && meData.displayName}
             <Button size="small" variant="text" href="/auth/signin">
               로그인
             </Button>

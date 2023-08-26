@@ -11,6 +11,7 @@ export type RefreshTokenPayload = {
   type: 'refresh_token';
   tokenId: number;
   rotationCounter: number;
+  blocked: boolean;
 };
 
 export type TokenPayload = AccessTokenPayload | RefreshTokenPayload;

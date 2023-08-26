@@ -11,7 +11,7 @@ interface Props {
 }
 
 function Providers({ children }: Props) {
-  const [queryClient] = useState(() => new QueryClient());
+  const [queryClient] = useState(() => new QueryClient({}));
   return (
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools />

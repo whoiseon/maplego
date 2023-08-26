@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { ReactNode } from "react";
-import Header from "@/components/desktop/base/Header";
-import Footer from "@/components/desktop/base/Footer";
-import { usePathname } from "next/navigation";
+import { ReactNode } from 'react';
+import Header from '@/components/desktop/base/Header';
+import Footer from '@/components/desktop/base/Footer';
+import { usePathname } from 'next/navigation';
 
 interface Props {
   children: ReactNode;
@@ -12,7 +12,7 @@ interface Props {
 
 function DesktopLayout({ children, theme }: Props) {
   const pathname = usePathname();
-  const isAuthPage = pathname === "/auth/signin" || pathname === "/auth/signup";
+  const isAuthPage = pathname === '/auth/signin' || pathname === '/auth/signup';
 
   return isAuthPage ? (
     <>{children}</>

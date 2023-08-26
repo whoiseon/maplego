@@ -16,14 +16,14 @@ export interface SignInResponse extends ApiBaseResponse {
   };
 }
 
-export interface User {
+export interface User extends ApiBaseResponse {
   id: number;
   username: string;
   displayName: string;
   level: number;
 }
 
-export interface Tokens {
+export interface Tokens extends ApiBaseResponse {
   accessToken: string;
   refreshToken: string;
 }

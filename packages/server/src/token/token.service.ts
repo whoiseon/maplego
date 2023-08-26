@@ -52,6 +52,7 @@ export class TokenService {
         type: 'refresh_token',
         tokenId: tokenId,
         rotationCounter: token.rotationCounter,
+        blocked: token.blocked,
       }),
     ]);
 

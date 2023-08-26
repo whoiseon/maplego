@@ -3,9 +3,7 @@ import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
 import { ReactNode } from 'react';
 import DesktopLayout from '@/components/desktop/layout/DesktopLayout';
-import { fetchGetMe } from '@/lib/api/me';
-import { fetchRefresh } from '@/lib/api/auth';
-import Core from '@/components/common/base/Core';
+import HydrateRoot from '@/components/common/hydrate/HydrateRoot';
 
 export const metadata: Metadata = {
   title: '메이플고 - 메이플스토리 커뮤니티',
@@ -17,34 +15,11 @@ function getThemeInCookie() {
   return nextCookies.get('theme')?.value;
 }
 
-async function getMyAccountWithRefresh() {
-  const cookieStore = cookies();
-  const refreshToken = cookieStore.get('refresh_token')?.value;
-  const currentAccessToken = cookieStore.get('access_token')?.value;
-
-  if (!currentAccessToken || !refreshToken) {
-    return null;
-  }
-
-  const me = await fetchGetMe(currentAccessToken);
-  // console.log(me);
-  if (me?.payload?.isExpiredToken) {
-    const { accessToken } = await fetchRefresh(refreshToken);
-    // console.log(accessToken);
-    // const me = await fetchGetMe(accessToken);
-    // console.log(me);
-    // return me;
-  }
-
-  return me;
-}
-
 export default async function RootLayout({
   children,
 }: {
   children: ReactNode;
 }) {
-  const myAccount = await getMyAccountWithRefresh();
   const currentTheme = getThemeInCookie();
   return (
     <html
@@ -56,7 +31,9 @@ export default async function RootLayout({
     >
       <body>
         <Providers>
-          <DesktopLayout theme={currentTheme}>{children}</DesktopLayout>
+          <HydrateRoot>
+            <DesktopLayout theme={currentTheme}>{children}</DesktopLayout>
+          </HydrateRoot>
         </Providers>
       </body>
     </html>
