@@ -1,4 +1,4 @@
-# MS-IN
+# Maplego
 
 
-Ms-in is a community website for sharing and communicating information about MapleStory
+Maplego is a community website for sharing and communicating information about MapleStory
