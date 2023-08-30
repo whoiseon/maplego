@@ -25,6 +25,7 @@ type ThemeVariables = {
   button_text1: string;
   button_text2: string;
   shadow1: string;
+  shadow2: string;
 };
 
 type Theme = 'light' | 'dark';
@@ -58,7 +59,9 @@ const themeVariableSets: Record<Theme, ThemeVariables> = {
     danger1: '#fb4e4e',
     danger2: '#fc7171',
     danger3: '#E94646',
-    shadow1: 'rgba(0, 0, 0, 0.02)',
+    shadow1:
+      '0 0 2px 0 rgba(145, 158, 171, 0.15), 0 12px 24px -4px rgba(145, 158, 171, 0.06)',
+    shadow2: '0 1px 3px 0 rgba(0, 0, 0, 0.08)',
   },
   dark: {
     bg_page1: '#121212',
@@ -86,7 +89,9 @@ const themeVariableSets: Record<Theme, ThemeVariables> = {
     danger1: '#ed6d5f',
     danger2: '#be574c',
     danger3: '#98443B',
-    shadow1: 'rgba(0, 0, 0, 0.02)',
+    shadow1:
+      '0 0 2px 0 rgba(0, 0, 0, 0.15), 0 12px 24px -4px rgba(0, 0, 0, 0.06)',
+    shadow2: '0 1px 3px 0 rgba(0, 0, 0, 0.3)',
   },
 };
 
@@ -95,7 +100,7 @@ const buildCssVariables = (variables: ThemeVariables) => {
   return keys.reduce(
     (acc, key) =>
       acc.concat(`--${key.replace(/_/g, '-')}: ${variables[key]};`, '\n'),
-    ''
+    '',
   );
 };
 
@@ -113,5 +118,5 @@ export const themedPalette: Record<VariableKey, string> = variableKeys.reduce(
     acc[current] = cssVar(current);
     return acc;
   },
-  {} as ThemedPalette
+  {} as ThemedPalette,
 );

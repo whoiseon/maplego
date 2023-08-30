@@ -4,6 +4,8 @@ import { ReactNode } from 'react';
 import Header from '@/components/desktop/base/Header';
 import Footer from '@/components/desktop/base/Footer';
 import { usePathname } from 'next/navigation';
+import styled from '@emotion/styled';
+import Aside from '@/components/desktop/base/Aside';
 
 interface Props {
   children: ReactNode;
@@ -17,12 +19,46 @@ function DesktopLayout({ children, theme }: Props) {
   return isAuthPage ? (
     <>{children}</>
   ) : (
-    <div className="msin-root">
+    <RootBlock>
       <Header theme={theme} />
-      <main>{children}</main>
+      <AppBlock>
+        <Container>
+          <Aside />
+          <RightBox>{children}</RightBox>
+        </Container>
+      </AppBlock>
       <Footer />
-    </div>
+    </RootBlock>
   );
 }
+
+const RootBlock = styled.div`
+  height: auto;
+`;
+
+const AppBlock = styled.main`
+  height: auto;
+  min-height: 0;
+  padding-top: 20px;
+  padding-bottom: 60px;
+`;
+
+const Container = styled.div`
+  display: flex;
+  align-content: flex-start;
+  gap: 0 20px;
+  min-width: 1320px;
+  width: 1320px;
+  height: 100%;
+  padding: 0 1.25rem;
+  margin: 0 auto;
+`;
+
+const RightBox = styled.main`
+  display: flex;
+  flex-direction: column;
+  flex: 1 1;
+  gap: 20px 0;
+`;
 
 export default DesktopLayout;

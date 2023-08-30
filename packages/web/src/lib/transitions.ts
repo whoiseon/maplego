@@ -32,6 +32,20 @@ const modalOpen = keyframes`
     }
 `;
 
+const modalOpenFromTop = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(-100%) scale(0);
+  }
+  70% {
+    transform: translateY(3%) scale(1.03);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+`;
+
 const modalClose = keyframes`
     0% {
         opacity: 1;
@@ -41,6 +55,17 @@ const modalClose = keyframes`
         opacity: 0;
         transform: scale(0);
     }
+`;
+
+const modalCloseToTop = keyframes`
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-50%) scale(0);
+  }
 `;
 
 const iconSpin = keyframes`
@@ -75,6 +100,8 @@ const errorBounce = keyframes`
 const transitions = {
   modalOpen,
   modalClose,
+  modalOpenFromTop,
+  modalCloseToTop,
   fadeIn,
   fadeOut,
   iconSpin,

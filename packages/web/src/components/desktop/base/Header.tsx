@@ -48,8 +48,9 @@ const StyledHeader = styled.header`
   position: sticky;
   top: 0;
   border-bottom: 1px solid ${themedPalette.border4};
-  box-shadow: 0 4px 16px 0 ${themedPalette.shadow1};
+  box-shadow: ${themedPalette.shadow1};
   z-index: 99;
+  min-width: 1320px;
   height: 72px;
 `;
 
@@ -57,8 +58,10 @@ const Container = styled.div`
   display: flex;
   align-content: center;
   justify-content: space-between;
-  min-width: 1280px;
+  min-width: 1320px;
+  width: 1320px;
   height: 100%;
+  padding: 0 1.25rem;
   margin: 0 auto;
 `;
 

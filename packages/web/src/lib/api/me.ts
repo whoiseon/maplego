@@ -27,7 +27,7 @@ export async function fetchGetMe(): Promise<User | null> {
 
     return data;
   } catch (e) {
-    throw e;
+    return null;
   }
 }
 
