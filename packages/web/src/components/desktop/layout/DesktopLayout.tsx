@@ -22,12 +22,12 @@ function DesktopLayout({ children, theme }: Props) {
   ) : (
     <RootBlock>
       <Header theme={theme} />
-      <AppBlock>
+      <AppMain>
         <Container>
           <Aside />
           <RightBox>{children}</RightBox>
         </Container>
-      </AppBlock>
+      </AppMain>
       <Footer />
     </RootBlock>
   );
@@ -37,9 +37,9 @@ const RootBlock = styled.div`
   height: auto;
 `;
 
-const AppBlock = styled.main`
+const AppMain = styled.main`
+  min-width: 1320px;
   height: auto;
-  min-height: 0;
   padding-top: 20px;
   padding-bottom: 60px;
   font-size: 14px;

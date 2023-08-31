@@ -8,6 +8,8 @@ import styled from '@emotion/styled';
 import { useMutation } from '@tanstack/react-query';
 import { useCallback, useState } from 'react';
 import { SignUpResponse } from '@/lib/api/types';
+import { themedPalette } from '@/styles/palette';
+import FullHeightPage from '@/components/common/system/FullHeightPage';
 
 function SignUpPage() {
   // signuped state
@@ -44,17 +46,19 @@ function SignUpPage() {
   );
 
   return (
-    <Block>
-      {isSignUped ? (
-        <SignUpedBox />
-      ) : (
-        <SignUpForm
-          onSubmit={onSubmit}
-          serverError={serverError}
-          isLoading={isLoading}
-        />
-      )}
-    </Block>
+    <FullHeightPage>
+      <Block>
+        {isSignUped ? (
+          <SignUpedBox />
+        ) : (
+          <SignUpForm
+            onSubmit={onSubmit}
+            serverError={serverError}
+            isLoading={isLoading}
+          />
+        )}
+      </Block>
+    </FullHeightPage>
   );
 }
 
@@ -62,6 +66,8 @@ const Block = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
+  height: 100%;
+  background-color: ${themedPalette.bg_page1};
 `;
 
 export default SignUpPage;

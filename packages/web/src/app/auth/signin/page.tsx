@@ -9,6 +9,8 @@ import { appError } from '@/lib/error';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/states/user';
 import { SignInResponse } from '@/lib/api/types';
+import { themedPalette } from '@/styles/palette';
+import FullHeightPage from '@/components/common/system/FullHeightPage';
 
 function SignInPage() {
   const { setUser, displayName } = useUser();
@@ -26,12 +28,12 @@ function SignInPage() {
     onSuccess: (data: SignInResponse) => {
       if (data.statusCode === 0) {
         router.push('/');
-        setUser({
-          displayName: data.payload.user.displayName,
-          username: data.payload.user.username,
-          id: data.payload.user.id,
-          level: data.payload.user.level,
-        });
+        // setUser({
+        //   displayName: data.payload.user.displayName,
+        //   username: data.payload.user.username,
+        //   id: data.payload.user.id,
+        //   level: data.payload.user.level,
+        // });
       } else {
         setServerError(appError(data.name, data.payload));
       }
@@ -50,13 +52,15 @@ function SignInPage() {
   );
 
   return (
-    <Block>
-      <SignInForm
-        onSubmit={onSubmit}
-        serverError={serverError}
-        setServerError={setServerError}
-      />
-    </Block>
+    <FullHeightPage>
+      <Block>
+        <SignInForm
+          onSubmit={onSubmit}
+          serverError={serverError}
+          setServerError={setServerError}
+        />
+      </Block>
+    </FullHeightPage>
   );
 }
 
@@ -64,6 +68,8 @@ const Block = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
+  height: 100%;
+  background-color: ${themedPalette.bg_page1};
 `;
 
 export default SignInPage;

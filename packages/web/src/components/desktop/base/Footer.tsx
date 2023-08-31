@@ -43,6 +43,8 @@ function Footer() {
 }
 
 const StyledFooter = styled.footer`
+  min-width: 1320px;
+  height: auto;
   background-color: ${themedPalette.bg_page3};
   border-top: 1px solid ${themedPalette.border4};
 `;
