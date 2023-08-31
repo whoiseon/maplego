@@ -29,11 +29,10 @@ function Footer() {
           <ContentWrapper>
             <LogoTextGray />
             <ContentComment>
-              메이플고의 모든 컨텐츠 저작권은 메이플고에 있으며, 무단 도용 시
-              법적 불이익을 받습니다.
+              메이플고(maplego)는 넥슨 코리아(NEXON korea)와 관련이 없습니다.
               <br />
-              메이플고 불법적인 정보를제공하거나 불법적인 사이트를 알선하지
-              않습니다.
+              메이플고(maplego)는 불법적인 정보를 제공하거나 불법적인 사이트를
+              알선하지 않습니다.
             </ContentComment>
             <CopyrightText>© MAPLEGO. All rights reserved.</CopyrightText>
           </ContentWrapper>
@@ -101,6 +100,7 @@ const ContentWrapper = styled.div`
 
 const ContentComment = styled.p`
   font-size: 14px;
+  line-height: 1.5;
   color: ${themedPalette.text3};
 `;
 

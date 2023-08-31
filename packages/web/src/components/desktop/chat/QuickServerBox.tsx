@@ -32,19 +32,15 @@ function QuickServerBox() {
 }
 
 const Block = styled.div`
-  display: none;
-
-  ${media.xwide} {
-    display: flex;
-    flex-direction: column;
-    gap: 10px 0;
-    position: absolute;
-    top: 0;
-    left: -50px;
-    z-index: 99;
-    width: 40px;
-    max-width: 40px;
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 10px 0;
+  position: absolute;
+  top: 0;
+  left: -50px;
+  z-index: 99;
+  width: 40px;
+  max-width: 40px;
 `;
 
 export default QuickServerBox;
