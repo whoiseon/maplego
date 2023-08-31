@@ -33,7 +33,8 @@ function Button({
         variant={variant}
         size={size}
         href={href}
-        style={rest.style}>
+        style={rest.style}
+      >
         {icon}
         {rest.children}
       </StyledLink>
@@ -49,6 +50,9 @@ const variantStyles = {
     background: ${themedPalette.primary2};
     color: ${themedPalette.button_text1};
     font-weight: 700;
+    box-shadow: ${themedPalette.shadow2};
+    border: 1.6px solid ${themedPalette.button_border1};
+
     &:hover {
       opacity: 0.875;
     }
@@ -60,6 +64,9 @@ const variantStyles = {
     background: ${themedPalette.danger1};
     color: ${themedPalette.button_text1};
     font-weight: 700;
+    box-shadow: ${themedPalette.shadow2};
+    border: 1.6px solid ${themedPalette.button_border1};
+
     &:hover {
       opacity: 0.875;
     }
@@ -102,7 +109,6 @@ const sharedStyles = (props: ButtonProps) => css`
   justify-content: center;
   border-radius: 6px;
   transition: all 0.16s ease-in-out;
-  border: none;
   cursor: pointer;
 
   svg {

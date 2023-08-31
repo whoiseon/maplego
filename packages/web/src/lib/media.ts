@@ -3,8 +3,8 @@ const breakpoints = {
   mobile: 580, // 모바일 화면
   tablet: 768, // 태블릿 화면
   desktop: 1024, // 데스크탑 화면
-  wide: 1200, // 큰 데스크탑 화면
-  xwide: 1440, // 매우 큰 데스크탑 화면
+  wide: 1320, // 큰 데스크탑 화면
+  xwide: 1400, // 매우 큰 데스크탑 화면
 } as const;
 
 // breakpoint 이름을 나타내는 타입 정의
@@ -28,5 +28,5 @@ export const media = Object.entries(breakpoints).reduce(
     acc[name as BreakpointName] = mediaQuery(width);
     return acc;
   },
-  {} as Media
+  {} as Media,
 );

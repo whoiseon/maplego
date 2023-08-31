@@ -51,6 +51,7 @@ export const StyledInput = styled.input`
   padding-right: 16px;
   color: ${themedPalette.text1};
   border: 1px solid ${themedPalette.border3};
+  box-shadow: ${themedPalette.shadow2};
 
   &:focus {
     border: 1px solid ${themedPalette.primary1};
@@ -62,13 +63,7 @@ export const StyledInput = styled.input`
   }
 
   &:disabled {
-    opacity: 0.3;
-    &:hover,
-    :focus {
-      background-color: ${themedPalette.bg_element2};
-      border: none;
-      box-shadow: none;
-    }
+    background: ${themedPalette.bg_page1};
   }
 `;
 

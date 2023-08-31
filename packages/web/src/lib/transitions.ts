@@ -68,6 +68,32 @@ const modalCloseToTop = keyframes`
   }
 `;
 
+const rightToLeftScaleSlide = keyframes`
+  0% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(100%) scale(0);
+  }
+`;
+
+const leftToRightScaleSlide = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateX(100%) scale(0);
+  }
+  70% {
+    opacity: 1;
+    transform: translateX(-10%) scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+`;
+
 const iconSpin = keyframes`
   0% {
     transform: scale(0) rotate(180deg);
@@ -102,6 +128,8 @@ const transitions = {
   modalClose,
   modalOpenFromTop,
   modalCloseToTop,
+  rightToLeftScaleSlide,
+  leftToRightScaleSlide,
   fadeIn,
   fadeOut,
   iconSpin,

@@ -16,7 +16,7 @@ const styles = css`
     -moz-osx-font-smoothing: grayscale;
     font-weight: 500;
     color: ${themedPalette.text1};
-    background-color: ${themedPalette.bg_page1};
+    background-color: ${themedPalette.bg_page2};
     transition: 0.125s all ease-in;
     box-sizing: border-box;
     overflow-y: initial;

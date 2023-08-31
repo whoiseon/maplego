@@ -6,6 +6,7 @@ import useToggle from '@/lib/hooks/useToggle';
 import Portal from '@/components/common/system/Portal';
 import ServerListBox from '@/components/common/chat/ServerListBox';
 import { useCallback, useState } from 'react';
+import ServerIcon from '@/components/common/maple/ServerIcon';
 
 function ServerSelectBox() {
   const [clicked, setClicked] = useState<boolean>(false);
@@ -34,12 +35,7 @@ function ServerSelectBox() {
     <StyledSelectBox>
       <SelectBox onClick={onToggle} isOpen={clicked}>
         <ServerBox>
-          <Image
-            src="/images/server-icon-0.png"
-            width={14}
-            height={14}
-            alt="전체월드"
-          />
+          <ServerIcon code={1} />
           <ServerName>전체월드</ServerName>
         </ServerBox>
         <BottomArrowIcon />

@@ -45,10 +45,8 @@ const StyledHeader = styled.header`
   display: flex;
   align-items: center;
   background-color: ${themedPalette.bg_page2};
-  position: sticky;
-  top: 0;
   border-bottom: 1px solid ${themedPalette.border4};
-  box-shadow: ${themedPalette.shadow1};
+  box-shadow: ${themedPalette.shadow3};
   z-index: 99;
   min-width: 1320px;
   height: 72px;

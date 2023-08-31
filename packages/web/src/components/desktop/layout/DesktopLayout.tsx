@@ -6,6 +6,7 @@ import Footer from '@/components/desktop/base/Footer';
 import { usePathname } from 'next/navigation';
 import styled from '@emotion/styled';
 import Aside from '@/components/desktop/base/Aside';
+import { themedPalette } from '@/styles/palette';
 
 interface Props {
   children: ReactNode;
@@ -41,6 +42,8 @@ const AppBlock = styled.main`
   min-height: 0;
   padding-top: 20px;
   padding-bottom: 60px;
+  font-size: 14px;
+  background-color: ${themedPalette.bg_page1};
 `;
 
 const Container = styled.div`

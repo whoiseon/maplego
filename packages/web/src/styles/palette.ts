@@ -1,6 +1,7 @@
 type ThemeVariables = {
   bg_page1: string;
   bg_page2: string;
+  bg_page3: string;
   bg_element1: string;
   bg_element2: string;
   bg_element3: string;
@@ -12,6 +13,7 @@ type ThemeVariables = {
   text3: string;
   text4: string;
   text5: string;
+  text6: string;
   border1: string;
   border2: string;
   border3: string;
@@ -24,8 +26,10 @@ type ThemeVariables = {
   danger3: string;
   button_text1: string;
   button_text2: string;
+  button_border1: string;
   shadow1: string;
   shadow2: string;
+  shadow3: string;
 };
 
 type Theme = 'light' | 'dark';
@@ -36,6 +40,7 @@ const themeVariableSets: Record<Theme, ThemeVariables> = {
   light: {
     bg_page1: '#f8f9fa',
     bg_page2: '#ffffff',
+    bg_page3: '#ffffff',
     bg_element1: '#ffffff',
     bg_element2: '#f8f9fa',
     bg_element3: '#E9ECEF',
@@ -47,8 +52,10 @@ const themeVariableSets: Record<Theme, ThemeVariables> = {
     text3: '#868e96',
     text4: '#ACACAC',
     text5: '#ffdfc9',
+    text6: '#ececec',
     button_text1: '#FFFFFF',
     button_text2: '#121212',
+    button_border1: 'rgba(0, 0, 0, 0.05)',
     border1: '#343a40',
     border2: '#adb5bd',
     border3: '#dee2e6',
@@ -60,12 +67,15 @@ const themeVariableSets: Record<Theme, ThemeVariables> = {
     danger2: '#fc7171',
     danger3: '#E94646',
     shadow1:
-      '0 0 2px 0 rgba(145, 158, 171, 0.15), 0 12px 24px -4px rgba(145, 158, 171, 0.06)',
-    shadow2: '0 1px 3px 0 rgba(0, 0, 0, 0.08)',
+      '0 0 2px 0 rgba(145, 158, 171, 0.2), 0 12px 24px -4px rgba(145, 158, 171, 0.12)',
+    shadow2: '0 1px 2px 0 rgba(0, 0, 0, 0.08)',
+    shadow3:
+      '0 0 2px 0 rgba(145, 158, 171, 0.1), 0 12px 24px -4px rgba(145, 158, 171, 0.06)',
   },
   dark: {
     bg_page1: '#121212',
     bg_page2: '#121212',
+    bg_page3: '#0E0E0E',
     bg_element1: '#1e1e1e',
     bg_element2: '#1e1e1e',
     bg_element3: '#282828',
@@ -77,8 +87,10 @@ const themeVariableSets: Record<Theme, ThemeVariables> = {
     text3: '#acacac',
     text4: '#999999',
     text5: '#666666',
+    text6: '#212529',
     button_text1: '#121212',
     button_text2: '#FFFFFF',
+    button_border1: 'rgba(255, 255, 255, 0.2)',
     border1: '#e0e0e0',
     border2: '#a0a0a0',
     border3: '#4d4d4d',
@@ -90,8 +102,10 @@ const themeVariableSets: Record<Theme, ThemeVariables> = {
     danger2: '#be574c',
     danger3: '#98443B',
     shadow1:
-      '0 0 2px 0 rgba(0, 0, 0, 0.15), 0 12px 24px -4px rgba(0, 0, 0, 0.06)',
-    shadow2: '0 1px 3px 0 rgba(0, 0, 0, 0.3)',
+      '0 0 2px 0 rgba(0, 0, 0, 0.2), 0 12px 24px -4px rgba(0, 0, 0, 0.12)',
+    shadow2: '0 1px 3px 0 rgba(0, 0, 0, 0.4)',
+    shadow3:
+      '0 0 2px 0 rgba(0, 0, 0, 0.2), 0 12px 24px -4px rgba(0, 0, 0, 0.12)',
   },
 };
 

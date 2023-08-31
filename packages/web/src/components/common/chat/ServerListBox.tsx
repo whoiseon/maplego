@@ -45,6 +45,8 @@ const StyledListBox = styled.ul`
   width: 340px;
   border: 1px solid ${themedPalette.border4};
   border-radius: 4px;
+  box-shadow: ${themedPalette.shadow1};
+  z-index: 999;
 
   & > div {
     display: flex;
@@ -72,7 +74,9 @@ const ServerBox = styled.li`
   border-radius: 4px;
   border: 1px solid ${themedPalette.border3};
   background: ${themedPalette.bg_page1};
-  font-size: 0.875rem;
+  font-size: 12px;
+  font-weight: 600;
+  box-shadow: ${themedPalette.shadow2};
 `;
 
 export default ServerListBox;
