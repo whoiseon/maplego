@@ -4,15 +4,17 @@ import SignInForm from '@/components/desktop/auth/SignInForm';
 import { fetchSignIn, SignInParams } from '@/lib/api/auth';
 import styled from '@emotion/styled';
 import { useCallback, useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { appError } from '@/lib/error';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/states/user';
-import { SignInResponse } from '@/lib/api/types';
+import { SignInResponse, User } from '@/lib/api/types';
 import { themedPalette } from '@/styles/palette';
 import FullHeightPage from '@/components/common/system/FullHeightPage';
+import { queryKey } from '@/lib/query/queryKey';
 
 function SignInPage() {
+  const queryClient = useQueryClient();
   const { setUser, displayName } = useUser();
   const router = useRouter();
 
@@ -25,17 +27,20 @@ function SignInPage() {
     onMutate: () => {
       setServerError('');
     },
-    onSuccess: (data: SignInResponse) => {
+    onSuccess: async (data: SignInResponse) => {
       if (data.statusCode === 0) {
         router.push('/');
-        // setUser({
-        //   displayName: data.payload.user.displayName,
-        //   username: data.payload.user.username,
-        //   id: data.payload.user.id,
-        //   level: data.payload.user.level,
-        // });
+        await queryClient.invalidateQueries(queryKey.GET_ME);
+        // queryClient.setQueryData(queryKey.IS_SIGNED_IN, true);
+
+        setUser({
+          displayName: data.payload.user.displayName,
+          level: data.payload.user.level,
+          id: data.payload.user.id,
+          username: data.payload.user.username,
+        } as User);
       } else {
-        setServerError(appError(data.name, data.payload));
+        setServerError(appError(data.name as string, data.payload));
       }
     },
     onError: (error: any) => {

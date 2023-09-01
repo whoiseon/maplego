@@ -9,12 +9,15 @@ import SunIcon from '@/assets/images/vectors/icon-sun.svg';
 import { themedPalette } from '@/styles/palette';
 import styled from '@emotion/styled';
 import transitions from '@/lib/transitions';
+import { useQueryClient } from '@tanstack/react-query';
+import { queryKey } from '@/lib/query/queryKey';
 
 interface Props {}
 
 function ThemeButton({}: Props) {
   const [mounted, setMounted] = useState(false);
   const { systemTheme, theme, setTheme } = useTheme();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     setMounted(true);
@@ -28,6 +31,7 @@ function ThemeButton({}: Props) {
     const mode = theme === 'dark' ? 'light' : 'dark';
     setTheme(mode);
     setCookie(null, 'theme', mode);
+    queryClient.setQueryData(queryKey.THEME, mode);
   };
 
   const currentTheme = theme === 'system' ? systemTheme : theme;
@@ -71,7 +75,7 @@ function ThemeButton({}: Props) {
               <SunIcon />
             </AnimatedSVGWrapper>
           </Positioner>
-        )
+        ),
       )}
     </IconButton>
   );

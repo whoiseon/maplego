@@ -45,7 +45,6 @@ export async function fetchGetMeOnServer(
     },
   });
 
-  const data = (await response.json()) as User;
   // if (!response.ok) {
   //   if (data?.payload?.isExpiredToken) {
   //     const { accessToken } = await fetchRefresh(refreshToken);
@@ -61,5 +60,5 @@ export async function fetchGetMeOnServer(
   //   }
   // }
 
-  return data;
+  return (await response.json()) as User;
 }

@@ -7,15 +7,19 @@ import { useTheme } from 'next-themes';
 import { CSSProperties, memo, useEffect, useState } from 'react';
 import Link from 'next/link';
 import styled from '@emotion/styled';
+import { useQueryClient } from '@tanstack/react-query';
+import { queryKey } from '@/lib/query/queryKey';
 
 interface Props {
-  theme?: string;
   type?: 'text' | 'icon';
   style?: CSSProperties;
 }
 
-function Logo({ theme, style, type = 'text' }: Props) {
+function Logo({ style, type = 'text' }: Props) {
+  const queryClient = useQueryClient();
   const [firstMounted, setFirstMounted] = useState(true);
+  const theme = queryClient.getQueryData(queryKey.THEME);
+
   const loadedTheme = theme || 'light';
   const { theme: currentTheme } = useTheme();
 

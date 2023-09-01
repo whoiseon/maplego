@@ -8,20 +8,18 @@ import { themedPalette } from '@/styles/palette';
 import styled from '@emotion/styled';
 import { useUser } from '@/states/user';
 import { useGetMyAccount } from '@/lib/hooks/useGetMyAccount';
+import { useQueryClient } from '@tanstack/react-query';
 
-interface Props {
-  theme?: string;
-}
+interface Props {}
 
-function Header({ theme }: Props) {
+function Header() {
   const { data: meData } = useGetMyAccount();
-  const { displayName } = useUser();
 
   return (
     <StyledHeader>
       <Container>
         <LeftBox>
-          <Logo theme={theme} />
+          <Logo />
           <HeaderNavList />
         </LeftBox>
         <RightBox>

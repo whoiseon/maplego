@@ -1,9 +1,6 @@
 'use client';
 
 import styled from '@emotion/styled';
-import ServerIcon from '@/components/common/maple/ServerIcon';
-import { themedPalette } from '@/styles/palette';
-import { media } from '@/lib/media';
 import { useMemo, useState } from 'react';
 import QuickServerButton from '@/components/desktop/chat/QuickServerButton';
 

@@ -4,6 +4,7 @@ import { cookies } from 'next/headers';
 import { ReactNode } from 'react';
 import DesktopLayout from '@/components/desktop/layout/DesktopLayout';
 import HydrateRoot from '@/components/common/hydrate/HydrateRoot';
+import getQueryClient from '@/lib/query/getQueryClient';
 
 export const metadata: Metadata = {
   title: '메이플고 - 메이플스토리 커뮤니티',
@@ -21,6 +22,11 @@ export default async function RootLayout({
   children: ReactNode;
 }) {
   const currentTheme = getThemeInCookie();
+  const queryClient = getQueryClient();
+
+  // prefetch theme
+  await queryClient.setQueryData<string>(['theme'], currentTheme);
+
   return (
     <html
       lang="ko"
@@ -32,7 +38,7 @@ export default async function RootLayout({
       <body>
         <Providers>
           <HydrateRoot>
-            <DesktopLayout theme={currentTheme}>{children}</DesktopLayout>
+            <DesktopLayout>{children}</DesktopLayout>
           </HydrateRoot>
         </Providers>
       </body>

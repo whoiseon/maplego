@@ -1,15 +1,16 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { queryKey } from '../query/queryKey';
 import { fetchGetMe } from '../api/me';
-import { User } from '@/lib/api/types';
 
 export function useGetMyAccount() {
-  const myAccount = useQuery({
+  const queryClient = useQueryClient();
+  const isSignedIn = queryClient.getQueryData<boolean>(queryKey.IS_SIGNED_IN);
+
+  return useQuery({
     queryKey: queryKey.GET_ME,
-    queryFn: () => fetchGetMe(),
+    queryFn: fetchGetMe,
     refetchOnWindowFocus: true,
+    enabled: isSignedIn,
     retry: false,
   });
-
-  return myAccount;
 }

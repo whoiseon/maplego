@@ -10,10 +10,9 @@ import { themedPalette } from '@/styles/palette';
 
 interface Props {
   children: ReactNode;
-  theme?: string;
 }
 
-function DesktopLayout({ children, theme }: Props) {
+function DesktopLayout({ children }: Props) {
   const pathname = usePathname();
   const isAuthPage = pathname === '/auth/signin' || pathname === '/auth/signup';
 
@@ -21,7 +20,7 @@ function DesktopLayout({ children, theme }: Props) {
     <>{children}</>
   ) : (
     <RootBlock>
-      <Header theme={theme} />
+      <Header />
       <AppMain>
         <Container>
           <Aside />
