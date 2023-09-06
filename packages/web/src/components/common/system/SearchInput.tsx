@@ -59,13 +59,13 @@ const StyledForm = styled.form`
   select {
     border: 1px solid ${themedPalette.border3};
     border-radius: 6px 0 0 6px;
-    background: ${themedPalette.bg_page1};
+    background: ${themedPalette.selectArrowBg};
     margin-right: -1px;
     min-width: 108px;
     height: 36px;
     font-size: 14px;
     font-weight: 500;
-    color: ${themedPalette.text3};
+    color: ${themedPalette.text2};
     padding: 0 16px;
     outline: none;
   }

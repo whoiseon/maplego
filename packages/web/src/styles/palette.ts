@@ -30,6 +30,7 @@ type ThemeVariables = {
   shadow1: string;
   shadow2: string;
   shadow3: string;
+  selectArrowBg: string;
 };
 
 type Theme = 'light' | 'dark';
@@ -71,6 +72,8 @@ const themeVariableSets: Record<Theme, ThemeVariables> = {
     shadow2: '0 1px 2px 0 rgba(0, 0, 0, 0.08)',
     shadow3:
       '0 0 2px 0 rgba(145, 158, 171, 0.1), 0 12px 24px -4px rgba(145, 158, 171, 0.06)',
+    selectArrowBg:
+      '#f8f9fa url(/images/media/select-arrow-light.svg) no-repeat right 16px center',
   },
   dark: {
     bg_page1: '#121212',
@@ -106,6 +109,8 @@ const themeVariableSets: Record<Theme, ThemeVariables> = {
     shadow2: '0 1px 3px 0 rgba(0, 0, 0, 0.4)',
     shadow3:
       '0 0 2px 0 rgba(0, 0, 0, 0.2), 0 12px 24px -4px rgba(0, 0, 0, 0.12)',
+    selectArrowBg:
+      '#121212 url(/images/media/select-arrow-dark.svg) no-repeat right 16px center',
   },
 };
 
