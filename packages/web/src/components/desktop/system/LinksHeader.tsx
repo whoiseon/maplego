@@ -142,7 +142,7 @@ const BoardToolBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 20px;
+  padding: 10px 20px;
   border-top: 1px solid ${themedPalette.border4};
 `;
 

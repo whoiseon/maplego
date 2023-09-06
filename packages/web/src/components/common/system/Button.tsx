@@ -98,7 +98,7 @@ const variantStyles = {
     font-weight: 600;
     border: 1px solid transparent;
     &:hover {
-      background-color: ${themedPalette.bg_element2};
+      background-color: ${themedPalette.bg_page1};
       color: ${themedPalette.text1};
     }
   `,
