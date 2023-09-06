@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 function getThemeInCookie() {
   const nextCookies = cookies();
-  return nextCookies.get('theme')?.value;
+  return nextCookies.get('maplego-color-schema')?.value;
 }
 
 export default async function RootLayout({
@@ -26,6 +26,7 @@ export default async function RootLayout({
 
   // prefetch theme
   await queryClient.setQueryData<string>(['theme'], currentTheme);
+  console.log(currentTheme);
 
   return (
     <html

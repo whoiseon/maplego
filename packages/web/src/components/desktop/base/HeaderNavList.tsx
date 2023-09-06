@@ -1,8 +1,7 @@
-import Link from 'next/link';
 import { useMemo } from 'react';
 import styled from '@emotion/styled';
-import { themedPalette } from '@/styles/palette';
 import Button from '@/components/common/system/Button';
+import { usePathname } from 'next/navigation';
 
 interface Props {}
 
@@ -15,20 +14,24 @@ const menuMaps = [
 ];
 
 function HeaderNavList({}: Props) {
+  const pathname = usePathname();
   const renderMenuItem = useMemo(
     () =>
-      menuMaps.map((menu) => (
-        <Button
-          key={menu.title}
-          size="small"
-          variant="text"
-          href={menu.href}
-          style={{ fontSize: '16px' }}
-        >
-          {menu.title}
-        </Button>
-      )),
-    [menuMaps],
+      menuMaps.map((menu) => {
+        const isActive = pathname.includes(menu.href);
+        return (
+          <Button
+            key={menu.title}
+            size="small"
+            variant={isActive ? 'primary' : 'text'}
+            href={menu.href}
+            style={{ fontSize: '16px' }}
+          >
+            {menu.title}
+          </Button>
+        );
+      }),
+    [menuMaps, pathname],
   );
 
   return (

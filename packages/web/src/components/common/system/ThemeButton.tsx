@@ -23,14 +23,14 @@ function ThemeButton({}: Props) {
     setMounted(true);
     const cookies = parseCookies();
     if (!cookies.theme) {
-      setCookie(null, 'theme', systemTheme || 'light');
+      setCookie(null, 'maplego-color-schema', systemTheme || 'light');
     }
   }, []);
 
   const onClick = () => {
     const mode = theme === 'dark' ? 'light' : 'dark';
     setTheme(mode);
-    setCookie(null, 'theme', mode);
+    setCookie(null, 'maplego-color-schema', mode);
     queryClient.setQueryData(queryKey.THEME, mode);
   };
 

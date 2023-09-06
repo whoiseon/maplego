@@ -3,17 +3,57 @@
 import styled from '@emotion/styled';
 import LinksHeader from '@/components/desktop/system/LinksHeader';
 
-export const dummyTalkBoardList: { name: string; href: string }[] = [
-  { name: '공지사항', href: 'notice' },
-  { name: '자유', href: 'free' },
-  { name: '유머', href: 'humor' },
-  { name: '코디', href: 'coordi' },
-  { name: '팁과 노하우', href: 'tips' },
-  { name: '사건 사고', href: 'issues' },
-  { name: '서버', href: 'server/all' },
-  { name: '직업', href: 'job/all' },
-  { name: '질문', href: 'question' },
-  { name: '신고', href: 'report' },
+export const dummyTalkBoardList: {
+  name: string;
+  href: string;
+  description?: string;
+}[] = [
+  {
+    name: '공지사항',
+    href: 'notice',
+    description: '메이플고 공지사항을 확인하세요!',
+  },
+  {
+    name: '자유',
+    href: 'free',
+    description: '자유롭고 다양한 주제로 대화를 나누어 보세요!',
+  },
+  { name: '유머', href: 'humor', description: '재미있는 것들은 함께 봐요!' },
+  {
+    name: '코디',
+    href: 'coordi',
+    description: '나만의 메이플 코디를 공유해보세요!',
+  },
+  {
+    name: '팁과 노하우',
+    href: 'tips',
+    description: '메이플스토리의 다양한 팁과 노하우를 공유해보세요!',
+  },
+  {
+    name: '사건 사고',
+    href: 'issues',
+    description: '오늘은 어떤 사건이 있었나요?',
+  },
+  {
+    name: '서버',
+    href: 'server/all',
+    description: '각 서버에서는 무슨 일이 일어날까요!?',
+  },
+  {
+    name: '직업',
+    href: 'job/all',
+    description: '직업별로 어떤 이야기가 있는지 확인해보세요!',
+  },
+  {
+    name: '질문',
+    href: 'question',
+    description: '궁금한 모든 것을 물어보세요!',
+  },
+  {
+    name: '신고',
+    href: 'report',
+    description: '신고할 내용을 자세히 알려주세요!',
+  },
 ];
 
 function TalkHome() {

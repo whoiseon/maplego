@@ -29,6 +29,7 @@ function Button({
   if (href) {
     return (
       <StyledLink
+        className={rest.className}
         layout={layout}
         variant={variant}
         size={size}
@@ -95,6 +96,7 @@ const variantStyles = {
     color: ${themedPalette.button_text2};
     text-decoration: none;
     font-weight: 600;
+    border: 1px solid transparent;
     &:hover {
       background-color: ${themedPalette.bg_element2};
       color: ${themedPalette.text1};
@@ -104,7 +106,7 @@ const variantStyles = {
 
 const sizeStyles = {
   small: css`
-    height: 36px;
+    height: 34px;
     font-size: 14px;
     padding-left: 12px;
     padding-right: 12px;
