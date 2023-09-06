@@ -43,7 +43,7 @@ function ChatListBox() {
 }
 
 const Block = styled.div`
-  padding: 0 1.25rem;
+  padding: 0.5rem 1.25rem 0;
   width: calc(100% - 8px);
   height: 400px;
   overflow-y: auto;

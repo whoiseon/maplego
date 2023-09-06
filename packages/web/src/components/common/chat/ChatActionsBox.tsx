@@ -1,13 +1,14 @@
+'use client';
+
 import styled from '@emotion/styled';
 import Input from '@/components/common/system/Input';
 import { useGetMyAccount } from '@/lib/hooks/useGetMyAccount';
 
 function ChatActionsBox() {
   const { data: meData } = useGetMyAccount();
-
   return (
     <Block>
-      <Input placeholder="로그인 후 참여할 수 있어요!" disabled={!!meData} />
+      <Input placeholder="로그인 후 참여할 수 있어요!" disabled={!meData} />
     </Block>
   );
 }

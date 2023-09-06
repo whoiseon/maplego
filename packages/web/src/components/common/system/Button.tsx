@@ -7,7 +7,7 @@ import { themedPalette } from '@/styles/palette';
 interface ButtonProps {
   layout?: 'inline' | 'fullWidth';
   size?: 'small' | 'medium';
-  variant?: 'primary' | 'danger' | 'text';
+  variant?: 'primary' | 'danger' | 'gray' | 'text';
   icon?: React.ReactNode;
 }
 
@@ -72,6 +72,22 @@ const variantStyles = {
     }
     &:active {
       background: ${themedPalette.danger2};
+    }
+  `,
+  gray: css`
+    background: ${themedPalette.bg_page1};
+    color: ${themedPalette.button_text2};
+    border: 1px solid ${themedPalette.border3};
+    box-shadow: ${themedPalette.shadow2};
+    text-decoration: none;
+    font-weight: 600;
+
+    &:hover {
+      border: 1px solid ${themedPalette.border2};
+    }
+
+    &:active {
+      background: ${themedPalette.bg_element3};
     }
   `,
   text: css`

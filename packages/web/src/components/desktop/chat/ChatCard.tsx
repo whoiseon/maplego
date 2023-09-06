@@ -28,7 +28,7 @@ function ChatCard() {
   );
 }
 
-const Block = styled.div`
+const Block = styled.section`
   position: relative;
 `;
 

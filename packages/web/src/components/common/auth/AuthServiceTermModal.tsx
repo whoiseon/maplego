@@ -107,7 +107,7 @@ function AuthServiceTermModal({ type, onToggle }: Props) {
   return (
     <Modal title={title} onToggle={onToggle} hasCancel={false}>
       <ModalBlock>
-        <textarea readOnly>{content}</textarea>
+        <textarea value={content} readOnly />
         <div>
           <WallPaper />
           <p>메이플고 {title}</p>
