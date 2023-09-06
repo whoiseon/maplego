@@ -56,6 +56,12 @@ const styles = css`
     font-family: inherit;
   }
 
+  input,
+  select {
+    appearance: none;
+    font-family: inherit;
+  }
+
   ul,
   li {
     margin: 0;

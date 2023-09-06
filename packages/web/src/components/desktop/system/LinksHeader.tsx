@@ -4,14 +4,25 @@ import styled from '@emotion/styled';
 import Card from '@/components/common/system/Card';
 import { themedPalette } from '@/styles/palette';
 import Button from '@/components/common/system/Button';
-import { useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
-import Input from '@/components/common/system/Input';
+import TimerIcon from '@/assets/images/vectors/timer-icon.svg';
+import HotIcon from '@/assets/images/vectors/hot-icon.svg';
+import TenIcon from '@/assets/images/vectors/10-icon.svg';
+import SearchInput from '@/components/common/system/SearchInput';
+import { useInput } from '@/lib/hooks/useInput';
 
 const dummySubLinks = [
-  { name: '최신', query: '0' },
-  { name: '인기', query: 'popular' },
-  { name: '10추', query: '10' },
+  { name: '최신', query: '0', icon: <TimerIcon /> },
+  { name: '인기', query: 'popular', icon: <HotIcon /> },
+  { name: '10추', query: '10', icon: <TenIcon /> },
+];
+
+const dummySearchTargets: { value: string; label: string }[] = [
+  { value: 'title', label: '제목' },
+  { value: 'content', label: '내용' },
+  { value: 'title_content', label: '제목+내용' },
+  { value: 'display_name', label: '작성자' },
 ];
 
 interface Props {
@@ -27,6 +38,10 @@ interface Props {
 function LinksHeader({ title, description, links }: Props) {
   const [boardDescription, setBoardDescription] = useState(description);
   const [boardName, setBoardName] = useState(title);
+
+  const [searchQuery, onChangeSearchQuery] = useInput('');
+  const [searchTarget, onChangeSearchTarget] = useInput('title');
+
   const pathname = usePathname();
   const queryString = useSearchParams().get('sort');
 
@@ -73,6 +88,7 @@ function LinksHeader({ title, description, links }: Props) {
               variant="text"
               size="small"
             >
+              {link.icon}
               {link.name}
             </Button>
           </li>
@@ -80,6 +96,11 @@ function LinksHeader({ title, description, links }: Props) {
       }),
     [pathname, queryString],
   );
+
+  const onSubmitSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(searchQuery, searchTarget);
+  };
 
   return (
     <Card>
@@ -94,7 +115,15 @@ function LinksHeader({ title, description, links }: Props) {
         <BoardToolBox>
           <SubLinksBox>{renderSubLinks}</SubLinksBox>
           <SearchBox>
-            <Input placeholder="검색어를 입력해주세요" />
+            <SearchInput
+              selectOptions={dummySearchTargets}
+              onSubmitSearch={onSubmitSearch}
+              value={searchQuery}
+              onChange={onChangeSearchQuery}
+              selectValue={searchTarget}
+              onChangeSelectValue={onChangeSearchTarget}
+              placeholder="검색어를 입력해주세요"
+            />
           </SearchBox>
         </BoardToolBox>
       )}
@@ -113,7 +142,7 @@ const BoardToolBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
+  padding: 8px 20px;
   border-top: 1px solid ${themedPalette.border4};
 `;
 
@@ -147,12 +176,21 @@ const LinksBox = styled.ul`
 const SubLinksBox = styled.ul`
   display: flex;
   align-items: center;
-  gap: 0 8px;
+  gap: 0 2px;
 
   a {
-    height: 46px;
+    display: flex;
+    align-items: center;
+    gap: 0 4px;
     color: ${themedPalette.text3};
-    border-radius: 0;
+
+    svg {
+      margin: 0;
+    }
+
+    &:hover {
+      color: ${themedPalette.primary1};
+    }
 
     &.active {
       color: ${themedPalette.primary2};
@@ -164,11 +202,6 @@ const SubLinksBox = styled.ul`
 const SearchBox = styled.div`
   display: flex;
   align-items: center;
-
-  input {
-    font-size: 14px;
-    height: 36px;
-  }
 `;
 
 export default LinksHeader;
