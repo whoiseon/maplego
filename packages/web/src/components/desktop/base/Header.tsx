@@ -6,9 +6,7 @@ import ThemeButton from '@/components/common/system/ThemeButton';
 import HeaderNavList from './HeaderNavList';
 import { themedPalette } from '@/styles/palette';
 import styled from '@emotion/styled';
-import { useUser } from '@/states/user';
 import { useGetMyAccount } from '@/lib/hooks/useGetMyAccount';
-import { useQueryClient } from '@tanstack/react-query';
 
 interface Props {}
 
