@@ -23,7 +23,7 @@ async function bootstrap(): Promise<void> {
     }),
   );
 
-  await app.listen(3065);
+  await app.listen(8080);
 }
 
 bootstrap();
