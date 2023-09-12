@@ -1,0 +1,28 @@
+version: '3.1'
+
+services:
+  nginx:
+    image: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - /data/nginx-docker/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - web
+      - server
+
+  web:
+    build:
+      context: /data/maplego/packages/web
+    ports:
+      - "3000:3000"
+    volumes:
+      - /data/maplego/packages/web:/usr/src/app
+
+  server:
+    build:
+      context: /data/maplego/packages/server
+    ports:
+      - "8080:8080"
+    volumes:
+      - /data/maplego/packages/server:/usr/src/app
