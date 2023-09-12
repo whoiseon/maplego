@@ -5,6 +5,7 @@ import { ReactNode } from 'react';
 import DesktopLayout from '@/components/desktop/layout/DesktopLayout';
 import HydrateRoot from '@/components/common/hydrate/HydrateRoot';
 import getQueryClient from '@/lib/query/getQueryClient';
+import { queryKey } from '@/lib/query/queryKey';
 
 export const metadata: Metadata = {
   title: '메이플고 - 메이플스토리 커뮤니티',
@@ -25,8 +26,8 @@ export default async function RootLayout({
   const queryClient = getQueryClient();
 
   // prefetch theme
-  await queryClient.setQueryData<string>(['theme'], currentTheme);
-  console.log(currentTheme);
+  await queryClient.setQueryData<string>(queryKey.THEME, currentTheme);
+  const theme = queryClient.getQueryData<string>(queryKey.THEME);
 
   return (
     <html

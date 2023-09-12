@@ -1,7 +1,7 @@
 export const endpoint = {
   // base
   get base() {
-    return 'http://localhost:3065/api';
+    return 'http://maplego.me/api';
   },
 
   // auth
