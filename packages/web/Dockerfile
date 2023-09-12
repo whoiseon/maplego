@@ -14,6 +14,7 @@ RUN rm -rf ./.next/cache
 FROM base AS builder
 WORKDIR /usr/src/web
 COPY --from=deps /usr/src/web/node_modules ./node_modules
+COPY --from=deps /usr/src/web/next.config.js ./next.config.js
 COPY . .
 RUN yarn build
 
