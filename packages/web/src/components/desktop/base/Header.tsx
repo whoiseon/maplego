@@ -62,7 +62,7 @@ const Container = styled.div`
 const LeftBox = styled.div`
   display: flex;
   align-items: center;
-  gap: 40px;
+  gap: 30px;
 `;
 
 const RightBox = styled.div`

@@ -13,7 +13,7 @@ export interface SignInParams {
 }
 
 export async function fetchSignUp(params: SignUpParams) {
-  const response = await fetch(endpoint.auth.signup, {
+  const response = await fetch(endpoint.auth.signUp, {
     method: 'POST',
     cache: 'no-cache',
     credentials: 'include',

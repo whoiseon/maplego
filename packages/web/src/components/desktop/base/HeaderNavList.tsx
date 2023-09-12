@@ -45,6 +45,11 @@ const StyledNavList = styled.div`
   display: flex;
   align-items: center;
   gap: 2px;
+
+  a {
+    padding: 0 10px;
+    height: 32px;
+  }
 `;
 
 export default HeaderNavList;

@@ -1,7 +1,7 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { TalkSlug } from '@/app/talk/[...talkSlug]/page';
 import styled from '@emotion/styled';
 import Card from '@/components/common/system/Card';
@@ -96,14 +96,22 @@ interface Props {
 function BoardList({ slug }: Props) {
   const { board, category } = slug;
   const sort = useSearchParams().get('sort');
-  const pageNumber = Number(useSearchParams().get('page')) || 1;
+  const pageNumber = Number(useSearchParams().get('page'));
 
-  const [page, setPage] = useState<number>(pageNumber);
+  const [page, setPage] = useState<number>(pageNumber || 1);
 
   const postData = dummyPost;
   const totalPage =
     postData.payload.totalCount &&
     Math.ceil(postData.payload.totalCount / postData.payload.showCount);
+
+  useEffect(() => {
+    if (pageNumber) {
+      setPage(Number(pageNumber));
+    } else {
+      setPage(1);
+    }
+  }, [pageNumber]);
 
   const renderPostList = useMemo(() => {
     return postData.payload.postList.map((post) => {
@@ -137,7 +145,7 @@ function BoardList({ slug }: Props) {
         </Thead>
         <Tbody>{renderPostList}</Tbody>
       </StyledTable>
-      <Pagination page={page} limit={2} totalPage={totalPage} />
+      <Pagination page={page} limit={10} totalPage={totalPage} />
     </Card>
   );
 }
@@ -172,11 +180,11 @@ const Thead = styled.thead`
     }
 
     &:nth-of-type(5) {
-      width: 80px;
+      width: 74px;
     }
 
     &:nth-of-type(6) {
-      width: 80px;
+      width: 74px;
     }
   }
 `;

@@ -9,7 +9,7 @@ export const endpoint = {
     return {
       signIn: `${this.base}/auth/signin`,
       signOut: `${this.base}/auth/signout`,
-      signup: `${this.base}/auth/signup`,
+      signUp: `${this.base}/auth/signup`,
       refresh: `${this.base}/auth/refresh`,
     };
   },

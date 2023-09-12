@@ -6,12 +6,11 @@ import { usePathname, useRouter } from 'next/navigation';
 
 interface Props {
   totalPage?: number;
-  limit?: number;
+  limit: number;
   page: number;
 }
 
 function Pagination({ totalPage, limit, page }: Props) {
-  const router = useRouter();
   const pathname = usePathname();
 
   const [currentPageArray, setCurrentPageArray] = useState<
@@ -37,7 +36,6 @@ function Pagination({ totalPage, limit, page }: Props) {
   );
 
   useEffect(() => {
-    if (!limit) return;
     if (totalPageArray) {
       if (page % limit === 1) {
         setCurrentPageArray(totalPageArray[Math.floor(page / limit)]);
@@ -48,7 +46,6 @@ function Pagination({ totalPage, limit, page }: Props) {
   }, [page, limit]);
 
   useEffect(() => {
-    if (!limit) return;
     const slicedPageArray = sliceArrayByLimit(totalPage, limit);
 
     if (slicedPageArray) {
@@ -57,11 +54,10 @@ function Pagination({ totalPage, limit, page }: Props) {
     }
   }, [totalPage, limit]);
 
-  const asPath = pathname.split('?')[0];
   return (
     <StyledPagination>
       {!(page === 1) && (
-        <StyledLink className="prev" href={`${asPath}?page=${page - 1}`}>
+        <StyledLink className="prev" href={`${pathname}?page=${page - 1}`}>
           이전
         </StyledLink>
       )}
@@ -69,12 +65,12 @@ function Pagination({ totalPage, limit, page }: Props) {
         return (
           <StyledLink
             key={i}
-            href={`${asPath}?page=${i + 1}`}
+            href={`${pathname}?page=${i + 1}`}
             style={
               page === i + 1
                 ? {
-                    backgroundColor: themedPalette.bg_element3,
-                    color: themedPalette.primary2,
+                    backgroundColor: themedPalette.primary2,
+                    color: themedPalette.button_text1,
                     fontWeight: 700,
                   }
                 : {}
@@ -85,7 +81,7 @@ function Pagination({ totalPage, limit, page }: Props) {
         );
       })}
       {!(page === totalPage) && (
-        <StyledLink className="next" href={`${asPath}?page=${page + 1}`}>
+        <StyledLink className="next" href={`${pathname}?page=${page + 1}`}>
           다음
         </StyledLink>
       )}
@@ -104,17 +100,22 @@ const StyledLink = styled(Link)<{ current?: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0 8px;
   border-radius: 6px;
   padding: 8px;
   min-width: 36px;
   height: 36px;
-  font-size: 18px;
+  font-size: 16px;
   white-space: nowrap;
-  border: 1px solid ${themedPalette.border4};
+  color: ${themedPalette.text2};
+
   &:hover {
-    background-color: ${themedPalette.bg_element3};
-    text-decoration: underline;
+    background-color: ${themedPalette.bg_element2};
+  }
+
+  &.next,
+  &.prev {
+    border: 1px solid ${themedPalette.border4};
+    padding: 0 12px;
   }
 `;
 
