@@ -14,7 +14,6 @@ RUN rm -rf ./.next/cache
 FROM base AS builder
 WORKDIR /usr/src/web
 COPY --from=deps /usr/src/web/node_modules ./node_modules
-COPY --from=deps /usr/src/web/next.config.js ./next.config.js
 COPY . .
 RUN yarn build
 
@@ -27,14 +26,16 @@ ENV NODE_ENV=production
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
+COPY --from=builder /usr/src/web/public ./public
+
 # Set the correct permission for prerender cache
 RUN mkdir .next
 RUN chown nextjs:nodejs .next
 
-COPY --from=builder /usr/src/web/package.json ./package.json
-COPY --from=builder /usr/src/web/node_modules ./node_modules
-COPY --from=builder /usr/src/web/public ./public
-COPY --from=builder /usr/src/web/next.config.js ./next.config.js
+# Automatically leverage output traces to reduce image size
+# https://nextjs.org/docs/advanced-features/output-file-tracing
+COPY --from=builder --chown=nextjs:nodejs /usr/src/web/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /usr/src/web/.next/static ./.next/static
 
 USER nextjs
 
