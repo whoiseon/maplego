@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import Card from '@/components/common/system/Card';
 import ChatCard from '@/components/desktop/chat/ChatCard';
 import { memo } from 'react';
 
