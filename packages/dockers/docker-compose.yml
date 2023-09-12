@@ -1,9 +1,8 @@
-version: '3.1'
+version: '3.8'
 
 services:
   nginx:
-    build:
-      context: /home/ubuntu/data/nginx-docker
+    image: nginx
     ports:
       - "80:80"
     volumes:
@@ -11,6 +10,8 @@ services:
     depends_on:
       - web
       - server
+    stdin_open: true
+    tty: true
 
   web:
     build:
@@ -19,6 +20,8 @@ services:
       - "3000:3000"
     volumes:
       - /home/ubuntu/data/maplego/packages/web:/usr/src/web
+    stdin_open: true
+    tty: true
 
   server:
     build:
@@ -27,3 +30,5 @@ services:
       - "8080:8080"
     volumes:
       - /home/ubuntu/data/maplego/packages/server:/usr/src/server
+    stdin_open: true
+    tty: true
