@@ -12,7 +12,7 @@ RUN rm -rf ./.next/cache
 
 # Rebuild the source code only when needed
 FROM base AS builder
-WORKDIR /usr/src/app
+WORKDIR /usr/src/web
 COPY --from=deps /usr/src/web/node_modules ./node_modules
 COPY . .
 RUN yarn build
