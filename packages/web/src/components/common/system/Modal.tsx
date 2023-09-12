@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Children, MouseEvent, useEffect, useRef } from 'react';
+import React, { Children, memo, MouseEvent, useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
 import Portal from './Portal';
 import transitions from '@/lib/transitions';
@@ -66,14 +66,15 @@ function Modal({
 
       onClose();
     },
-    [onClose]
+    [onClose],
   );
 
   return (
     <Portal>
       <Overlay
         className={modalClosing ? 'close' : 'open'}
-        onClick={onCloseModal}>
+        onClick={onCloseModal}
+      >
         <Container className={modalClosing ? 'close' : 'open'}>
           <Header>
             <Title>
@@ -96,7 +97,8 @@ function Modal({
                 <Button
                   size="small"
                   variant="primary"
-                  onClick={hasOkAction.onClick}>
+                  onClick={hasOkAction.onClick}
+                >
                   {hasOkAction.text}
                 </Button>
               )}
@@ -207,4 +209,4 @@ const ActionsBox = styled.div`
   }
 `;
 
-export default Modal;
+export default memo(Modal);

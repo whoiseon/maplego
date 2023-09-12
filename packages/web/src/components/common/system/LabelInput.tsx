@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import Input, { InputProps } from './Input';
 import { themedPalette } from '@/styles/palette';
+import { memo } from 'react';
 
 interface Props extends InputProps {
   label: string;
@@ -37,4 +38,4 @@ const Description = styled.p`
   margin-top: 4px;
 `;
 
-export default LabelInput;
+export default memo(LabelInput);

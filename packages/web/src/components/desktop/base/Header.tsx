@@ -7,6 +7,7 @@ import HeaderNavList from './HeaderNavList';
 import { themedPalette } from '@/styles/palette';
 import styled from '@emotion/styled';
 import { useGetMyAccount } from '@/lib/hooks/useGetMyAccount';
+import { memo } from 'react';
 
 interface Props {}
 
@@ -77,4 +78,4 @@ const ActionsBox = styled.div`
   gap: 8px;
 `;
 
-export default Header;
+export default memo(Header);

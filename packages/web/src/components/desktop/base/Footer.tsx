@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import { themedPalette } from '@/styles/palette';
 import LogoTextGray from '@/assets/images/vectors/logo-text-gray.svg';
 import ScrollTopArrowIcon from '@/assets/images/vectors/scroll-top-arrow.svg';
+import { memo } from 'react';
 
 function Footer() {
   const onClickScrollTop = () => {
@@ -139,4 +140,4 @@ const ScrollTopButton = styled.button`
   }
 `;
 
-export default Footer;
+export default memo(Footer);

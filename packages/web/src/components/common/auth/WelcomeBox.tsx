@@ -1,7 +1,7 @@
 'use client';
 
 import Logo from '@/components/common/base/Logo';
-import { useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import { themedPalette } from '@/styles/palette';
 import styled from '@emotion/styled';
 
@@ -48,4 +48,4 @@ const StyledText = styled.h2`
   color: ${themedPalette.text1};
 `;
 
-export default WelcomeBox;
+export default memo(WelcomeBox);

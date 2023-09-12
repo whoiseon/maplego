@@ -77,6 +77,7 @@ function LinksHeader({ title, description, links }: Props) {
       dummySubLinks.map((link) => {
         const isActive =
           queryString === link.query || (!queryString && link.query === '0');
+
         const href =
           link.query !== '0' ? `${pathname}?sort=${link.query}` : pathname;
 
@@ -170,6 +171,10 @@ const LinksBox = styled.ul`
 
   a {
     height: 32px;
+
+    &:hover {
+      transform: translateY(-1px);
+    }
   }
 `;
 

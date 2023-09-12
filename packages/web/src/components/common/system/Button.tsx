@@ -4,10 +4,12 @@ import styled from '@emotion/styled';
 import Link from 'next/link';
 import { themedPalette } from '@/styles/palette';
 
+type Variant = 'primary' | 'danger' | 'gray' | 'dark' | 'text';
+
 interface ButtonProps {
   layout?: 'inline' | 'fullWidth';
   size?: 'small' | 'medium';
-  variant?: 'primary' | 'danger' | 'gray' | 'text';
+  variant?: Variant;
   icon?: React.ReactNode;
 }
 
@@ -87,6 +89,21 @@ const variantStyles = {
       border: 1px solid ${themedPalette.border2};
     }
 
+    &:active {
+      background: ${themedPalette.bg_element3};
+    }
+  `,
+  dark: css`
+    background: ${themedPalette.bg_element6};
+    color: ${themedPalette.button_text1};
+    border: 1px solid ${themedPalette.border1};
+    box-shadow: ${themedPalette.shadow2};
+    text-decoration: none;
+    font-weight: 600;
+
+    &:hover {
+      border: 1px solid ${themedPalette.border1};
+    }
     &:active {
       background: ${themedPalette.bg_element3};
     }

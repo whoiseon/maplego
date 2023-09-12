@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import Card from '@/components/common/system/Card';
 import ChatCard from '@/components/desktop/chat/ChatCard';
+import { memo } from 'react';
 
 function Aside() {
   return (
@@ -20,4 +21,4 @@ const StyledAside = styled.aside`
   min-width: 380px;
 `;
 
-export default Aside;
+export default memo(Aside);
