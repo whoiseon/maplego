@@ -30,13 +30,7 @@ export default async function RootLayout({
   const theme = queryClient.getQueryData<string>(queryKey.THEME);
 
   return (
-    <html
-      lang="ko"
-      className={currentTheme}
-      style={{
-        colorScheme: currentTheme,
-      }}
-    >
+    <html lang="ko" className={currentTheme} suppressHydrationWarning>
       <body>
         <Providers>
           <HydrateRoot>

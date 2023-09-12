@@ -23,12 +23,11 @@ export async function fetchSignUp(params: SignUpParams) {
     },
   });
 
-  const data = await response.json();
-  return data;
+  return await response.json();
 }
 
 export async function fetchSignIn(params: SignInParams) {
-  const response = await fetch(endpoint.auth.signin, {
+  const response = await fetch(endpoint.auth.signIn, {
     method: 'POST',
     cache: 'no-cache',
     credentials: 'include',
@@ -38,8 +37,7 @@ export async function fetchSignIn(params: SignInParams) {
     },
   });
 
-  const data = await response.json();
-  return data;
+  return await response.json();
 }
 
 export async function fetchRefresh(token?: string): Promise<Tokens> {
@@ -55,6 +53,5 @@ export async function fetchRefresh(token?: string): Promise<Tokens> {
     },
   });
 
-  const tokens = await response.json();
-  return tokens;
+  return await response.json();
 }

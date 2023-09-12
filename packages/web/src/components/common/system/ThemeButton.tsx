@@ -22,9 +22,11 @@ function ThemeButton({}: Props) {
   const currentTheme = theme === 'system' ? systemTheme : theme;
   const isDark = currentTheme === 'dark';
 
-  console.log('currentTheme', currentTheme);
-
   useEffect(() => {
+    if (theme === 'system') {
+      setTheme('light');
+    }
+
     setMounted(true);
     const cookies = parseCookies();
     if (!cookies.theme) {

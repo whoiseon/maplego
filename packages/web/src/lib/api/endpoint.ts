@@ -7,8 +7,8 @@ export const endpoint = {
   // auth
   get auth() {
     return {
-      signin: `${this.base}/auth/signin`,
-      signout: `${this.base}/auth/signout`,
+      signIn: `${this.base}/auth/signin`,
+      signOut: `${this.base}/auth/signout`,
       signup: `${this.base}/auth/signup`,
       refresh: `${this.base}/auth/refresh`,
     };
