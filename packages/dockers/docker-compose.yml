@@ -2,7 +2,8 @@ version: '3.1'
 
 services:
   nginx:
-    image: nginx
+    build:
+      context: /home/ubuntu/data/nginx-docker
     ports:
       - "80:80"
     volumes:
