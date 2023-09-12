@@ -17,7 +17,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - /home/ubuntu/data/maplego/packages/web:/usr/src/app
+      - /home/ubuntu/data/maplego/packages/web:/usr/src/web
 
   server:
     build:
@@ -25,4 +25,4 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - /home/ubuntu/data/maplego/packages/server:/usr/src/app
+      - /home/ubuntu/data/maplego/packages/server:/usr/src/server
