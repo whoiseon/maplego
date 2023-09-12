@@ -19,6 +19,11 @@ function ThemeButton({}: Props) {
   const { systemTheme, theme, setTheme } = useTheme();
   const queryClient = useQueryClient();
 
+  const currentTheme = theme === 'system' ? systemTheme : theme;
+  const isDark = currentTheme === 'dark';
+
+  console.log('currentTheme', currentTheme);
+
   useEffect(() => {
     setMounted(true);
     const cookies = parseCookies();
@@ -33,9 +38,6 @@ function ThemeButton({}: Props) {
     setCookie(null, 'maplego-color-schema', mode);
     queryClient.setQueryData(queryKey.THEME, mode);
   };
-
-  const currentTheme = theme === 'system' ? systemTheme : theme;
-  const isDark = currentTheme === 'dark';
 
   const transitions = useTransition(isDark, {
     initial: {

@@ -9,6 +9,7 @@ import Link from 'next/link';
 import styled from '@emotion/styled';
 import { useQueryClient } from '@tanstack/react-query';
 import { queryKey } from '@/lib/query/queryKey';
+import { useIsMediaDark } from '@/lib/hooks/useIsMediaDark';
 
 interface Props {
   type?: 'text' | 'icon';
@@ -16,44 +17,13 @@ interface Props {
 }
 
 function Logo({ style, type = 'text' }: Props) {
-  const queryClient = useQueryClient();
-  const [firstMounted, setFirstMounted] = useState(true);
-  const theme = queryClient.getQueryData(queryKey.THEME);
-
-  const loadedTheme = theme || 'light';
-  const { theme: currentTheme } = useTheme();
-
   const onReloadWindow = () => {
     window.location.href = '/';
   };
 
-  useEffect(() => {
-    setFirstMounted(false);
-  }, []);
-
-  if (firstMounted) {
-    return type === 'text' ? (
-      loadedTheme === 'dark' ? (
-        <LogoTextDark />
-      ) : (
-        <LogoText />
-      )
-    ) : (
-      <LogoIconDark />
-    );
-  }
-
   return (
     <StyledLink href="/" onClick={onReloadWindow} style={style}>
-      {type === 'text' ? (
-        currentTheme === 'dark' ? (
-          <LogoTextDark />
-        ) : (
-          <LogoText />
-        )
-      ) : (
-        <LogoIconDark />
-      )}
+      {type === 'text' ? <LogoText /> : <LogoIconDark />}
     </StyledLink>
   );
 }
