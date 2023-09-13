@@ -1,7 +1,6 @@
 'use client';
 
 import { useTheme } from 'next-themes';
-import { setCookie, parseCookies } from 'nookies';
 import { useEffect, useState } from 'react';
 import { useTransition, animated } from 'react-spring';
 import MoonIcon from '@/assets/images/vectors/icon-moon.svg';
@@ -9,36 +8,23 @@ import SunIcon from '@/assets/images/vectors/icon-sun.svg';
 import { themedPalette } from '@/styles/palette';
 import styled from '@emotion/styled';
 import transitions from '@/lib/transitions';
-import { useQueryClient } from '@tanstack/react-query';
-import { queryKey } from '@/lib/query/queryKey';
 
 interface Props {}
 
 function ThemeButton({}: Props) {
   const [mounted, setMounted] = useState(false);
   const { systemTheme, theme, setTheme } = useTheme();
-  const queryClient = useQueryClient();
 
   const currentTheme = theme === 'system' ? systemTheme : theme;
   const isDark = currentTheme === 'dark';
 
   useEffect(() => {
-    if (theme === 'system') {
-      setTheme('light');
-    }
-
     setMounted(true);
-    const cookies = parseCookies();
-    if (!cookies.theme) {
-      setCookie(null, 'maplego-color-schema', systemTheme || 'light');
-    }
   }, []);
 
   const onClick = () => {
     const mode = theme === 'dark' ? 'light' : 'dark';
     setTheme(mode);
-    setCookie(null, 'maplego-color-schema', mode);
-    queryClient.setQueryData(queryKey.THEME, mode);
   };
 
   const transitions = useTransition(isDark, {

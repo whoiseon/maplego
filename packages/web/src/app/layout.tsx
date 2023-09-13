@@ -22,17 +22,11 @@ export default async function RootLayout({
 }: {
   children: ReactNode;
 }) {
-  const currentTheme = getThemeInCookie();
-  const queryClient = getQueryClient();
-
-  // prefetch theme
-  await queryClient.setQueryData<string>(queryKey.THEME, currentTheme);
-  const theme = queryClient.getQueryData<string>(queryKey.THEME);
-
   return (
-    <html lang="ko" className={currentTheme} suppressHydrationWarning>
+    <html lang="ko" suppressHydrationWarning>
       <body>
         <Providers>
+          {/* @ts-expect-error Async Server Component */}
           <HydrateRoot>
             <DesktopLayout>{children}</DesktopLayout>
           </HydrateRoot>

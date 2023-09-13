@@ -16,7 +16,9 @@ function Providers({ children }: Props) {
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools />
       <GlobalStyle />
-      <ThemeProvider attribute="class">{children}</ThemeProvider>
+      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        {children}
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }

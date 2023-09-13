@@ -1,6 +1,10 @@
 export const endpoint = {
   // base
   get base() {
+    const { NODE_ENV } = process.env;
+    if (NODE_ENV === 'development') {
+      return 'http://localhost:8080/api';
+    }
     return 'https://maplego.me/api';
   },
 
