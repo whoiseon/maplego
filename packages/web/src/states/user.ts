@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { User } from '@/lib/api/types';
+import { persist } from 'zustand/middleware';
 
 interface UserStore {
   id: number | null;
@@ -14,7 +15,7 @@ export const useUser = create<UserStore>((set) => ({
   username: null,
   displayName: null,
   level: null,
-  setUser: (user) =>
+  setUser: (user: User) =>
     set((state) => ({
       id: user.id,
       username: user.username,
@@ -22,3 +23,17 @@ export const useUser = create<UserStore>((set) => ({
       level: user.level,
     })),
 }));
+
+// export const useUser = create<UserStore>()(
+//   persist<UserStore>(
+//     (set, get) => ({
+//       id: null,
+//       username: null,
+//       displayName: null,
+//       level: null,
+//     }),
+//     {
+//       name: 'CURRENT_USER',
+//     },
+//   ),
+// );

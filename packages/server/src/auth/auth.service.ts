@@ -30,39 +30,40 @@ export class AuthService {
   ): Promise<SignUpResponseType> {
     const { username, password, displayName } = signUpBodyDto;
 
-    const existingUser: User = await this.db.user.findFirst({
-      where: {
-        OR: [{ username }, { displayName }],
-      },
-    });
-
-    if (existingUser) {
-      const isExistingUsername = username === existingUser.username;
-
-      throw new AppError('AlreadyExists', {
-        field: isExistingUsername ? 'username' : 'displayName',
+    try {
+      const existingUser: User = await this.db.user.findFirst({
+        where: {
+          OR: [{ username }, { displayName }],
+        },
       });
+
+      if (existingUser) {
+        const isExistingUsername = username === existingUser.username;
+
+        throw new AppError('AlreadyExists', {
+          field: isExistingUsername ? 'username' : 'displayName',
+        });
+      }
+
+      const hashedPassword: string = await bcrypt.hash(
+        password,
+        this.SALT_ROUNDS,
+      );
+
+      const user = await this.db.user.create({
+        data: {
+          username,
+          passwordHash: hashedPassword,
+          displayName,
+        },
+      });
+
+      return {
+        registered: !!user,
+      };
+    } catch (e) {
+      throw new AppError('Unknown');
     }
-
-    const hashedPassword: string = await bcrypt.hash(
-      password,
-      this.SALT_ROUNDS,
-    );
-
-    await this.db.user.create({
-      data: {
-        username,
-        passwordHash: hashedPassword,
-        displayName,
-      },
-    });
-
-    return {
-      name: 'sign up success payload',
-      statusCode: 0,
-      message: '',
-      payload: null,
-    };
   }
 
   public async signIn(
@@ -70,98 +71,143 @@ export class AuthService {
   ): Promise<SignInResponseType> {
     const { username, password } = signInBodyDto;
 
-    const user: User = await this.db.user.findUnique({
-      where: {
-        username,
-      },
-    });
-
-    if (!user) {
-      throw new AppError('WrongCredentials');
-    }
-
     try {
-      const isPasswordValid: boolean = await bcrypt.compare(
-        password,
-        user.passwordHash,
-      );
-
-      if (!isPasswordValid) throw new AppError('WrongCredentials');
-    } catch (e) {
-      if (isAppError(e)) {
-        throw e;
-      }
-
-      throw new AppError('Unknown');
-    }
-
-    const tokens = await this.tokenService.generateTokens(user);
-
-    return {
-      name: 'sign in success payload',
-      statusCode: 0,
-      message: '',
-      payload: {
-        user,
-        tokens,
-      },
-    };
-  }
-
-  public async refreshToken(token: string): Promise<Tokens> {
-    try {
-      const { tokenId, rotationCounter } =
-        await this.tokenService.validateToken<RefreshTokenPayload>(token);
-      const tokenItem = await this.db.token.findUnique({
+      const user: User = await this.db.user.findUnique({
         where: {
-          id: tokenId,
-        },
-        include: {
-          user: true,
+          username,
         },
       });
 
-      if (!tokenItem) {
-        throw new Error('Token not found');
+      if (!user) {
+        throw new AppError('WrongCredentials');
       }
 
-      if (tokenItem.blocked) {
+      try {
+        const isPasswordValid: boolean = await bcrypt.compare(
+          password,
+          user.passwordHash,
+        );
+
+        if (!isPasswordValid) throw new AppError('WrongCredentials');
+      } catch (e) {
+        if (isAppError(e)) {
+          throw e;
+        }
+
+        throw new AppError('Unknown');
+      }
+
+      const tokens = await this.tokenService.generateTokens(user);
+
+      return {
+        user,
+        tokens,
+      };
+    } catch (e) {
+      console.error(e);
+      throw new AppError('Unknown');
+    }
+  }
+
+  public async signOut(user: User): Promise<void> {
+    await this.db.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        currentHashedToken: null,
+      },
+    });
+  }
+
+  public async refreshToken(token: string): Promise<{ accessToken: string }> {
+    try {
+      const decodedToken =
+        await this.tokenService.validateToken<RefreshTokenPayload>(token);
+
+      const userId = decodedToken.userId;
+      const user = await this.tokenService.getUserIfRefreshTokenMatches(
+        token,
+        userId,
+      );
+
+      if (!user) {
         throw new AppError('Unauthorized', {
           isExpiredToken: false,
         });
       }
 
-      if (tokenItem.rotationCounter !== rotationCounter) {
-        await this.db.token.update({
-          where: {
-            id: tokenId,
-          },
-          data: {
-            blocked: true,
-          },
-        });
-
-        throw new Error('Rotation counter does not match');
-      }
-
-      tokenItem.rotationCounter += 1;
-      await this.db.token.update({
-        where: {
-          id: tokenId,
-        },
-        data: {
-          rotationCounter: tokenItem.rotationCounter,
-        },
+      const accessToken = await this.tokenService.generateToken({
+        type: 'access_token',
+        userId: user.id,
+        username: user.username,
+        displayName: user.displayName,
+        level: user.level,
+        profileImage: user.profileImage,
       });
 
-      const tokens = await this.tokenService.generateTokens(
-        tokenItem.user,
-        tokenItem,
-      );
-
-      return tokens;
+      return {
+        accessToken,
+      };
     } catch (e) {
       throw new AppError('RefreshFailure');
     }
   }
+
+  // public async refreshToken(token: string): Promise<Tokens> {
+  //   try {
+  //     const { tokenId, rotationCounter } =
+  //       await this.tokenService.validateToken<RefreshTokenPayload>(token);
+  //     const tokenItem = await this.db.token.findUnique({
+  //       where: {
+  //         id: tokenId,
+  //       },
+  //       include: {
+  //         user: true,
+  //       },
+  //     });
+  //
+  //     if (!tokenItem) {
+  //       throw new Error('Token not found');
+  //     }
+  //
+  //     if (tokenItem.blocked) {
+  //       throw new AppError('Unauthorized', {
+  //         isExpiredToken: false,
+  //       });
+  //     }
+  //
+  //     if (tokenItem.rotationCounter !== rotationCounter) {
+  //       await this.db.token.update({
+  //         where: {
+  //           id: tokenId,
+  //         },
+  //         data: {
+  //           blocked: true,
+  //         },
+  //       });
+  //
+  //       throw new Error('Rotation counter does not match');
+  //     }
+  //
+  //     tokenItem.rotationCounter += 1;
+  //     await this.db.token.update({
+  //       where: {
+  //         id: tokenId,
+  //       },
+  //       data: {
+  //         rotationCounter: tokenItem.rotationCounter,
+  //       },
+  //     });
+  //
+  //     const tokens = await this.tokenService.generateTokens(
+  //       tokenItem.user,
+  //       tokenItem,
+  //     );
+  //
+  //     return tokens;
+  //   } catch (e) {
+  //     throw new AppError('RefreshFailure');
+  //   }
+  // }
 }

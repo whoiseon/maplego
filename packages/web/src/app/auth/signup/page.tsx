@@ -10,12 +10,20 @@ import { useCallback, useState } from 'react';
 import { SignUpResponse } from '@/lib/api/types';
 import { themedPalette } from '@/styles/palette';
 import FullHeightPage from '@/components/common/system/FullHeightPage';
+import { useGetMyAccount } from '@/lib/hooks/useGetMyAccount';
+import { redirect } from 'next/navigation';
 
 function SignUpPage() {
   // signuped state
   const [isSignUped, setIsSignUped] = useState(false);
   // api request error state
   const [serverError, setServerError] = useState<string>('');
+
+  const { data: meData } = useGetMyAccount();
+
+  if (meData) {
+    redirect('/');
+  }
 
   // signup mutation
   const { isLoading, mutate } = useMutation({
@@ -24,12 +32,8 @@ function SignUpPage() {
       setServerError('');
     },
     onSuccess: (data: SignUpResponse) => {
-      if (data.statusCode === 0) {
-        console.log(data);
+      if (data.registered) {
         setIsSignUped(true);
-      } else {
-        console.log(data);
-        setServerError(appError(data.name, data.payload));
       }
     },
     onError: (error: any) => {

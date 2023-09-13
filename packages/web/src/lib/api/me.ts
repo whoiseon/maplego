@@ -1,5 +1,5 @@
 import { endpoint } from '@/lib/api/endpoint';
-import { User } from './types';
+import { ErrorResponse, User } from './types';
 import { fetchRefresh } from '@/lib/api/auth';
 
 export async function fetchGetMe(): Promise<User | null> {
@@ -10,22 +10,28 @@ export async function fetchGetMe(): Promise<User | null> {
       credentials: 'include',
     });
 
-    const data = (await response.json()) as User;
+    const data = (await response.json()) as User | ErrorResponse;
 
     if (!response.ok) {
-      if (data?.payload?.isExpiredToken) {
-        const { accessToken } = await fetchRefresh();
-        const me = await fetchGetMe();
+      const error = data as ErrorResponse;
+      if (error?.payload?.isExpiredToken) {
+        try {
+          const { accessToken } = await fetchRefresh();
 
-        if (me?.name === 'Unauthorized' && !me.payload.isExpiredToken) {
+          if (!accessToken) {
+            return null;
+          }
+
+          return await fetchGetMe();
+        } catch (e) {
           return null;
         }
-
-        return me;
+      } else {
+        return null;
       }
     }
 
-    return data;
+    return data as User;
   } catch (e) {
     return null;
   }
@@ -33,7 +39,6 @@ export async function fetchGetMe(): Promise<User | null> {
 
 export async function fetchGetMeOnServer(
   accessToken?: string,
-  refreshToken?: string,
 ): Promise<User | null> {
   const response = await fetch(endpoint.me, {
     method: 'GET',
@@ -45,20 +50,7 @@ export async function fetchGetMeOnServer(
     },
   });
 
-  // if (!response.ok) {
-  //   if (data?.payload?.isExpiredToken) {
-  //     const { accessToken } = await fetchRefresh(refreshToken);
-  //     const me = await fetchGetMeOnServer(accessToken);
-  //
-  //     if (me?.name === 'Unauthorized' && !me.payload.isExpiredToken) {
-  //       return null;
-  //     }
-  //
-  //     return me;
-  //   } else {
-  //     return null;
-  //   }
-  // }
+  const data = (await response.json()) as User | ErrorResponse;
 
-  return (await response.json()) as User;
+  return data as User;
 }

@@ -1,17 +1,15 @@
 export type AccessTokenPayload = {
   type: 'access_token';
   userId: number;
-  tokenId: number;
   username: string;
   displayName: string;
   level: number;
+  profileImage: string;
 };
 
 export type RefreshTokenPayload = {
   type: 'refresh_token';
-  tokenId: number;
-  rotationCounter: number;
-  blocked: boolean;
+  userId: number;
 };
 
 export type TokenPayload = AccessTokenPayload | RefreshTokenPayload;

@@ -1,29 +1,27 @@
-interface ApiBaseResponse {
-  name: string;
-  statusCode: number;
-  message: string;
-  payload: any;
+export interface SignUpResponse {
+  registered: boolean;
 }
 
-export interface SignUpResponse extends ApiBaseResponse {
-  payload: null;
+export interface SignInResponse {
+  user: User;
+  token: Tokens;
 }
 
-export interface SignInResponse extends ApiBaseResponse {
-  payload: {
-    user: User;
-    token: Tokens;
-  };
-}
-
-export interface User extends ApiBaseResponse {
+export interface User {
   id: number;
   username: string;
   displayName: string;
   level: number;
 }
 
-export interface Tokens extends ApiBaseResponse {
+export interface Tokens {
   accessToken: string;
   refreshToken: string;
+}
+
+export interface ErrorResponse {
+  message: string;
+  name: string;
+  statusCode: number;
+  payload?: any;
 }

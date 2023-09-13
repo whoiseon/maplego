@@ -5,17 +5,23 @@ import {
   HttpStatus,
   Post,
   Req,
+  Res,
   UseGuards,
 } from '@nestjs/common';
 import { AuthService } from 'src/auth/auth.service';
 import { SignUpBodyDto } from 'src/auth/dto/sign-up-body.dto';
 import { SignInBodyDto } from 'src/auth/dto/sign-in-body.dto';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { CookieService } from 'src/cookie/cookie.service';
-import { Public } from 'src/lib/decorators';
-import { SignInResponseType, SignUpResponseType } from 'src/auth/types';
+import { GetUser, Public } from 'src/lib/decorators';
+import {
+  RefreshTokenResponse,
+  SignInResponseType,
+  SignUpResponseType,
+} from 'src/auth/types';
 import { AuthGuard } from 'src/lib/guards';
 import { Tokens } from 'src/token/types';
+import { User } from '@prisma/client';
 
 @Controller('api/auth')
 export class AuthController {
@@ -41,9 +47,17 @@ export class AuthController {
     @Req() req: Request,
   ): Promise<SignInResponseType> {
     const response = await this.authService.signIn(signInBodyDto);
-    this.cookieService.setTokenCookie(req, response.payload.tokens);
+    this.cookieService.setTokenCookie(req, response.tokens);
 
     return response;
+  }
+
+  @UseGuards(AuthGuard)
+  @Post('signout')
+  @HttpCode(HttpStatus.OK)
+  public async signOut(@Req() req: Request, @GetUser() user: User) {
+    await this.authService.signOut(user);
+    this.cookieService.clearTokenCookie(req);
   }
 
   @Public()
@@ -52,13 +66,18 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   public async refreshToken(
     @Req() req: Request,
+    @Res() res: Response,
     @Body() body,
-  ): Promise<Tokens> {
+  ) {
     const refreshToken = body.refreshToken || req.cookies.refresh_token;
-    const tokens = await this.authService.refreshToken(refreshToken);
-    this.cookieService.setTokenCookie(req, tokens);
-    req.res.header('123', '123');
+    const { accessToken } = await this.authService.refreshToken(refreshToken);
+    res.setHeader('Authorization', `Bearer ${accessToken}`);
+    res.cookie('access_token', accessToken, {
+      httpOnly: true,
+      path: '/',
+      expires: new Date(Date.now() + 1000 * 60 * 60),
+    });
 
-    return tokens;
+    res.send({ accessToken });
   }
 }

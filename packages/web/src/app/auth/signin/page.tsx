@@ -6,17 +6,23 @@ import styled from '@emotion/styled';
 import { useCallback, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { appError } from '@/lib/error';
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import { useUser } from '@/states/user';
 import { SignInResponse, User } from '@/lib/api/types';
 import { themedPalette } from '@/styles/palette';
 import FullHeightPage from '@/components/common/system/FullHeightPage';
 import { queryKey } from '@/lib/query/queryKey';
+import { useGetMyAccount } from '@/lib/hooks/useGetMyAccount';
 
 function SignInPage() {
   const queryClient = useQueryClient();
   const { setUser, displayName } = useUser();
   const router = useRouter();
+  const { data: meData } = useGetMyAccount();
+
+  if (meData) {
+    redirect('/');
+  }
 
   // api request error state
   const [serverError, setServerError] = useState<string>('');
@@ -28,20 +34,7 @@ function SignInPage() {
       setServerError('');
     },
     onSuccess: async (data: SignInResponse) => {
-      if (data.statusCode === 0) {
-        router.push('/');
-        await queryClient.invalidateQueries(queryKey.GET_ME);
-        // queryClient.setQueryData(queryKey.IS_SIGNED_IN, true);
-
-        setUser({
-          displayName: data.payload.user.displayName,
-          level: data.payload.user.level,
-          id: data.payload.user.id,
-          username: data.payload.user.username,
-        } as User);
-      } else {
-        setServerError(appError(data.name as string, data.payload));
-      }
+      await queryClient.refetchQueries(queryKey.GET_ME);
     },
     onError: (error: any) => {
       console.error(error);

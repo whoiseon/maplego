@@ -7,13 +7,14 @@ import HeaderNavList from './HeaderNavList';
 import { themedPalette } from '@/styles/palette';
 import styled from '@emotion/styled';
 import { useGetMyAccount } from '@/lib/hooks/useGetMyAccount';
-import { memo } from 'react';
+import { memo, useEffect } from 'react';
+import { useUser } from '@/states/user';
+import { User } from '@/lib/api/types';
 
 interface Props {}
 
 function Header() {
   const { data: meData } = useGetMyAccount();
-
   return (
     <StyledHeader>
       <Container>
@@ -23,15 +24,18 @@ function Header() {
         </LeftBox>
         <RightBox>
           <ThemeButton />
-          <ActionsBox>
-            {meData && meData.displayName}
-            <Button size="small" variant="text" href="/auth/signin">
-              로그인
-            </Button>
-            <Button size="small" variant="primary" href="/auth/signup">
-              가입하기
-            </Button>
-          </ActionsBox>
+          {meData ? (
+            meData.displayName
+          ) : (
+            <ActionsBox>
+              <Button size="small" variant="text" href="/auth/signin">
+                로그인
+              </Button>
+              <Button size="small" variant="primary" href="/auth/signup">
+                가입하기
+              </Button>
+            </ActionsBox>
+          )}
         </RightBox>
       </Container>
     </StyledHeader>
