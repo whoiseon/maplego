@@ -17,7 +17,7 @@ COPY --chown=node:node . .
 RUN yarn build \
     && yarn install --production --ignore-scripts --prefer-offline
 
-PROM node:18-alpine
+FROM node:18-alpine
 
 ENV NODE_ENV production
 
