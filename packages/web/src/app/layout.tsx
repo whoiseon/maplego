@@ -26,7 +26,6 @@ export default async function RootLayout({
     <html lang="ko" suppressHydrationWarning>
       <body>
         <Providers>
-          {/* @ts-expect-error Async Server Component */}
           <HydrateRoot>
             <DesktopLayout>{children}</DesktopLayout>
           </HydrateRoot>
