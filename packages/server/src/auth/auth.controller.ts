@@ -14,13 +14,8 @@ import { SignInBodyDto } from 'src/auth/dto/sign-in-body.dto';
 import { Request, Response } from 'express';
 import { CookieService } from 'src/cookie/cookie.service';
 import { GetUser, Public } from 'src/lib/decorators';
-import {
-  RefreshTokenResponse,
-  SignInResponseType,
-  SignUpResponseType,
-} from 'src/auth/types';
+import { SignInResponseType, SignUpResponseType } from 'src/auth/types';
 import { AuthGuard } from 'src/lib/guards';
-import { Tokens } from 'src/token/types';
 import { User } from '@prisma/client';
 
 @Controller('api/auth')
