@@ -34,6 +34,7 @@ function SignInPage() {
       setServerError('');
     },
     onSuccess: async (data: SignInResponse) => {
+      await queryClient.setQueryData(queryKey.IS_SIGNED_IN, true);
       await queryClient.refetchQueries(queryKey.GET_ME);
     },
     onError: (error: any) => {

@@ -10,10 +10,15 @@ import { useGetMyAccount } from '@/lib/hooks/useGetMyAccount';
 import { memo, useEffect } from 'react';
 import { useUser } from '@/states/user';
 import { User } from '@/lib/api/types';
+import HeaderAuthBox from '@/components/desktop/base/HeaderAuthBox';
+import { useQueryClient } from '@tanstack/react-query';
+import { queryKey } from '@/lib/query/queryKey';
+import HeaderUserBox from '@/components/desktop/base/HeaderUserBox';
 
 interface Props {}
 
 function Header() {
+  const queryClient = useQueryClient();
   const { data: meData } = useGetMyAccount();
   return (
     <StyledHeader>
@@ -22,21 +27,7 @@ function Header() {
           <Logo />
           <HeaderNavList />
         </LeftBox>
-        <RightBox>
-          <ThemeButton />
-          {meData ? (
-            meData.displayName
-          ) : (
-            <ActionsBox>
-              <Button size="small" variant="text" href="/auth/signin">
-                로그인
-              </Button>
-              <Button size="small" variant="primary" href="/auth/signup">
-                가입하기
-              </Button>
-            </ActionsBox>
-          )}
-        </RightBox>
+        <RightBox>{meData ? <HeaderUserBox /> : <HeaderAuthBox />}</RightBox>
       </Container>
     </StyledHeader>
   );

@@ -14,19 +14,16 @@ export async function fetchGetMe(): Promise<User | null> {
 
     if (!response.ok) {
       const error = data as ErrorResponse;
-      if (error?.payload?.isExpiredToken) {
-        try {
-          const { accessToken } = await fetchRefresh();
 
-          if (!accessToken) {
-            return null;
-          }
+      try {
+        const { accessToken } = await fetchRefresh();
 
-          return await fetchGetMe();
-        } catch (e) {
+        if (!accessToken) {
           return null;
         }
-      } else {
+
+        return await fetchGetMe();
+      } catch (e) {
         return null;
       }
     }

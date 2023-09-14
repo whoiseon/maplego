@@ -87,6 +87,11 @@ const IconButton = styled.button`
   &:hover {
     background: ${themedPalette.bg_element2};
   }
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
 `;
 
 const Positioner = styled.div`

@@ -12,6 +12,7 @@ export interface User {
   username: string;
   displayName: string;
   level: number;
+  profileImage: string;
 }
 
 export interface Tokens {

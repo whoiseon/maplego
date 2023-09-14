@@ -9,7 +9,9 @@ import { fetchGetMeOnServer } from '@/lib/api/me';
 async function HydrateRoot({ children }: { children: React.ReactNode }) {
   const cookieStore = cookies();
   const queryClient = getQueryClient();
-  const isSignedIn = !!cookieStore.get('access_token')?.value;
+  const isSignedIn = !!cookieStore.get('refresh_token')?.value;
+
+  await queryClient.setQueryData(queryKey.IS_SIGNED_IN, isSignedIn);
 
   // prefetch me
   if (isSignedIn) {

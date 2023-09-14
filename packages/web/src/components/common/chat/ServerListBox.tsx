@@ -2,13 +2,19 @@
 
 import styled from '@emotion/styled';
 import Card from '@/components/common/system/Card';
-import { useCallback, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import transitions from '@/lib/transitions';
 import { themedPalette } from '@/styles/palette';
 
 interface Props {
-  onToggle: () => void;
   modalClosing: boolean;
+  onClose: () => void;
 }
 
 const dummyServerList = [
@@ -22,7 +28,23 @@ const dummyServerList = [
   { id: 8, name: '루나' },
 ];
 
-function ServerListBox({ onToggle, modalClosing }: Props) {
+function ServerListBox({ modalClosing, onClose }: Props) {
+  const ModalRef = useRef<any>(null);
+
+  const onCloseModal = (e: React.MouseEvent<HTMLDivElement> | MouseEvent) => {
+    if (ModalRef.current && !ModalRef.current.contains(e.target)) {
+      onClose();
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('click', onCloseModal);
+
+    return () => {
+      document.removeEventListener('click', onCloseModal);
+    };
+  }, [ModalRef]);
+
   const renderServerList = useMemo(
     () =>
       dummyServerList.map((server) => (
@@ -32,7 +54,7 @@ function ServerListBox({ onToggle, modalClosing }: Props) {
   );
 
   return (
-    <StyledListBox className={modalClosing ? 'close' : 'open'}>
+    <StyledListBox className={modalClosing ? 'close' : 'open'} ref={ModalRef}>
       <Card>{renderServerList}</Card>
     </StyledListBox>
   );

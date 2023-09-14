@@ -15,6 +15,7 @@ function ServerSelectBox() {
 
   const onClose = useCallback(() => {
     setModalClosing(true);
+    setClicked(false);
     setTimeout(() => {
       onOpen();
       setModalClosing(false);
@@ -40,7 +41,7 @@ function ServerSelectBox() {
         </ServerBox>
         <BottomArrowIcon />
       </SelectBox>
-      {open && <ServerListBox onToggle={onClose} modalClosing={modalClosing} />}
+      {open && <ServerListBox modalClosing={modalClosing} onClose={onClose} />}
     </StyledSelectBox>
   );
 }

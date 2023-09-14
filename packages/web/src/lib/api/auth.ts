@@ -40,6 +40,17 @@ export async function fetchSignIn(params: SignInParams) {
   return await response.json();
 }
 
+export async function fetchSignOut() {
+  await fetch(endpoint.auth.signOut, {
+    method: 'POST',
+    cache: 'no-cache',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+}
+
 export async function fetchRefresh(token?: string): Promise<Tokens> {
   const response = await fetch(endpoint.auth.refresh, {
     method: 'POST',
