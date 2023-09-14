@@ -1,10 +1,9 @@
 'use client';
 
 import styled from '@emotion/styled';
-import LinksHeader from '@/components/desktop/system/LinksHeader';
 
-function TalkHome() {
-  return <Block>123</Block>;
+function MeProfile() {
+  return <Block>프로필</Block>;
 }
 
 const Block = styled.section`
@@ -14,4 +13,4 @@ const Block = styled.section`
   gap: 20px 0;
 `;
 
-export default TalkHome;
+export default MeProfile;

@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import Card from '@/components/common/system/Card';
 import { themedPalette } from '@/styles/palette';
 import Button from '@/components/common/system/Button';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import TimerIcon from '@/assets/images/vectors/timer-icon.svg';
 import HotIcon from '@/assets/images/vectors/hot-icon.svg';
@@ -49,28 +49,35 @@ function LinksHeader({ title, description, links }: Props) {
     pathname.includes('/talk') &&
     pathname.substring(1).split('/')[1] !== undefined;
 
-  const renderLinks = useMemo(
-    () =>
-      links?.map((link) => {
-        const isActive = pathname.includes(link.href);
-        if (isActive) {
-          setBoardDescription(link.description);
-          setBoardName(link.name);
-        }
-        return (
-          <li key={link.name}>
-            <Button
-              href={`/talk/${link.href}`}
-              variant={isActive ? 'primary' : 'gray'}
-              size="small"
-            >
-              {link.name}
-            </Button>
-          </li>
-        );
-      }),
-    [pathname],
-  );
+  const renderLinks = useMemo(() => {
+    let updatedBoardDescription = description;
+    let updatedBoardName = title;
+
+    const renderedLinks = links?.map((link) => {
+      const isActive = pathname.includes(link.href);
+      if (isActive) {
+        updatedBoardDescription = link.description;
+        updatedBoardName = link.name;
+      }
+
+      return (
+        <li key={link.name}>
+          <Button
+            href={`/${link.href}`}
+            variant={isActive ? 'primary' : 'gray'}
+            size="small"
+          >
+            {link.name}
+          </Button>
+        </li>
+      );
+    });
+
+    setBoardDescription(updatedBoardDescription);
+    setBoardName(updatedBoardName);
+
+    return renderedLinks;
+  }, [pathname, links, description, title]);
 
   const renderSubLinks = useMemo(
     () =>

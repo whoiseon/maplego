@@ -10,6 +10,7 @@ import LogoutIcon from '@/assets/images/vectors/logout-icon.svg';
 import ThemeIcon from '@/assets/images/vectors/profile-theme-icon.svg';
 import { useSignOut } from '@/lib/hooks/useSignOut';
 import ThemeButton from '@/components/common/system/ThemeButton';
+import { usePathname } from 'next/navigation';
 
 interface Props {
   modalClosing: boolean;
@@ -20,15 +21,25 @@ function ProfileToggleListBox({ modalClosing, onClose }: Props) {
   const { data: meData } = useGetMyAccount();
   const ModalRef = useRef<any>(null);
   const [onSignOutMutation] = useSignOut();
+  const pathname = usePathname();
 
   const onSignOut = () => {
     onSignOutMutation();
+    onLinkClick();
+
+    if (pathname !== '/') {
+      window.location.href = '/';
+    }
   };
 
   const onCloseModal = (e: React.MouseEvent<HTMLDivElement> | MouseEvent) => {
     if (ModalRef.current && !ModalRef.current.contains(e.target)) {
       onClose();
     }
+  };
+
+  const onLinkClick = () => {
+    onClose();
   };
 
   useEffect(() => {
@@ -43,13 +54,13 @@ function ProfileToggleListBox({ modalClosing, onClose }: Props) {
     <StyledListBox className={modalClosing ? 'close' : 'open'} ref={ModalRef}>
       <Card>
         <ListItem>
-          <Link href="/accounts/info">
+          <Link href="/me/profile" onClick={onLinkClick}>
             <div className="item-icon">
               <LevelIcon level={1} />
             </div>
             <div className="item-text">
               <p>{meData?.displayName}</p>
-              <p className="sub-text">마이페이지</p>
+              <p className="sub-text">내 프로필</p>
             </div>
           </Link>
         </ListItem>
