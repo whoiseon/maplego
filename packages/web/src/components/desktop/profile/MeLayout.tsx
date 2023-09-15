@@ -16,17 +16,18 @@ const dummyProfilePageMap: {
   {
     name: '내 프로필',
     href: 'me/profile',
-    description: '나만의 프로필을 꾸며보세요!',
+    description: '나만의 개성있는 프로필을 만들어보세요',
   },
   {
     name: '내 등급',
     href: 'me/level',
-    description: '나의 등급을 확인해보세요!',
+    description:
+      '등급을 확인하고, MP를 모아서 더 높은 등급으로 진급 할 수 있어요!',
   },
   {
     name: '비밀번호 변경',
     href: 'me/password',
-    description: '더욱 안전한 비밀번호로 변경해보세요!',
+    description: '90일마다 비밀번호를 변경하시는 것을 권장드려요!',
   },
 ];
 
