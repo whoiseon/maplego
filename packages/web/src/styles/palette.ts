@@ -18,6 +18,7 @@ type ThemeVariables = {
   border2: string;
   border3: string;
   border4: string;
+  card_border: string;
   lightNoneDarkBorder: string;
   primary1: string;
   primary2: string;
@@ -25,6 +26,8 @@ type ThemeVariables = {
   danger1: string;
   danger2: string;
   danger3: string;
+  warning_text: string;
+  success_text: string;
   button_text1: string;
   button_text2: string;
   button_border1: string;
@@ -45,7 +48,7 @@ const themeVariableSets: Record<Theme, ThemeVariables> = {
     bg_page3: '#ffffff',
     bg_element1: '#ffffff',
     bg_element2: '#f8f9fa',
-    bg_element3: '#E9ECEF',
+    bg_element3: '#f8f9fa',
     bg_element4: '#DEE2E6',
     bg_element5: '#282828',
     bg_element6: '#3F3F3F',
@@ -62,6 +65,7 @@ const themeVariableSets: Record<Theme, ThemeVariables> = {
     border2: '#adb5bd',
     border3: '#dee2e6',
     border4: '#f1f3f5',
+    card_border: 'none',
     lightNoneDarkBorder: 'none',
     primary1: '#ff7417',
     primary2: '#ff8537',
@@ -69,6 +73,8 @@ const themeVariableSets: Record<Theme, ThemeVariables> = {
     danger1: '#fb4e4e',
     danger2: '#fc7171',
     danger3: '#E94646',
+    warning_text: '#946800',
+    success_text: '#18794E',
     shadow1:
       '0 0 2px 0 rgba(145, 158, 171, 0.2), 0 12px 24px -4px rgba(145, 158, 171, 0.12)',
     shadow2: '0 1px 2px 0 rgba(0, 0, 0, 0.08)',
@@ -83,7 +89,7 @@ const themeVariableSets: Record<Theme, ThemeVariables> = {
     bg_page3: '#0E0E0E',
     bg_element1: '#1e1e1e',
     bg_element2: '#1e1e1e',
-    bg_element3: '#282828',
+    bg_element3: '#242424',
     bg_element4: '#2E2E2E',
     bg_element5: '#F1F3F5',
     bg_element6: '#F8F9FA',
@@ -100,6 +106,7 @@ const themeVariableSets: Record<Theme, ThemeVariables> = {
     border2: '#a0a0a0',
     border3: '#4d4d4d',
     border4: '#303436',
+    card_border: '1px solid #303436',
     lightNoneDarkBorder: '1px solid #303436',
     primary1: '#f7863e',
     primary2: '#d67e45',
@@ -107,6 +114,8 @@ const themeVariableSets: Record<Theme, ThemeVariables> = {
     danger1: '#CB4A4F',
     danger2: '#ff6369',
     danger3: '#98443B',
+    warning_text: '#F6B93B',
+    success_text: '#4CC38A',
     shadow1:
       '0 0 2px 0 rgba(0, 0, 0, 0.2), 0 12px 24px -4px rgba(0, 0, 0, 0.12)',
     shadow2: '0 1px 3px 0 rgba(0, 0, 0, 0.4)',

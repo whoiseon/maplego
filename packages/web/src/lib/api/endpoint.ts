@@ -20,6 +20,9 @@ export const endpoint = {
 
   // me
   get me() {
-    return `${this.base}/me`;
+    return {
+      getMe: `${this.base}/me`,
+      getMeAll: `${this.base}/me/all`,
+    };
   },
 };

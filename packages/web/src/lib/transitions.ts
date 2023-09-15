@@ -35,14 +35,14 @@ const modalOpen = keyframes`
 const modalOpenFromTop = keyframes`
   0% {
     opacity: 0;
-    transform: translateY(-100%) scale(0);
+    transform: translateY(-20%);
   }
-  70% {
-    transform: translateY(3%) scale(1.03);
+  50% {
+    transform: translateY(6%);
   }
   100% {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
   }
 `;
 
@@ -60,11 +60,14 @@ const modalClose = keyframes`
 const modalCloseToTop = keyframes`
   0% {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6%);
   }
   100% {
     opacity: 0;
-    transform: translateY(-50%) scale(0);
+    transform: translateY(-30%);
   }
 `;
 

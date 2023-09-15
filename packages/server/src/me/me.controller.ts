@@ -10,7 +10,7 @@ export class MeController {
 
   @Get()
   @UseGuards(AuthGuard)
-  public async getMe(@GetUser() user: User) {
-    return user;
+  public async getMe(@GetUser() user: User): Promise<User> {
+    return this.meService.getMeAll(user);
   }
 }

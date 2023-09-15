@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import MeLevel from '@/components/desktop/profile/MeLevel';
+import MeLevel from '@/components/desktop/profile/meLevel/MeLevel';
 
 export const metadata: Metadata = {
   title: '메이플고 - 내 등급',

@@ -99,6 +99,15 @@ export class AuthService {
 
       const tokens = await this.tokenService.generateTokens(user);
 
+      await this.db.user.update({
+        where: {
+          id: user.id,
+        },
+        data: {
+          lastLogin: new Date(),
+        },
+      });
+
       return {
         user,
         tokens,

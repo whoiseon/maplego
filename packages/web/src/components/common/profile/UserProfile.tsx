@@ -1,10 +1,7 @@
 import styled from '@emotion/styled';
-import { themedPalette } from '@/styles/palette';
 import NoProfile from '@/components/common/profile/NoProfile';
 import { useCallback, useState } from 'react';
 import { useGetMyAccount } from '@/lib/hooks/useGetMyAccount';
-import Link from 'next/link';
-import Card from '@/components/common/system/Card';
 import ProfileToggleListBox from '@/components/common/profile/ProfileToggleListBox';
 import useToggle from '@/lib/hooks/useToggle';
 
@@ -38,7 +35,11 @@ function UserProfile({ size = 38, onlyImage = false }: Props) {
   if (onlyImage) {
     return (
       <OnlyImageBlock>
-        {!meData?.profileImage ? <NoProfile size={size} /> : '프로필'}
+        {!meData?.profileImage ? (
+          <NoProfile size={size} onlyImage={onlyImage} />
+        ) : (
+          '프로필'
+        )}
       </OnlyImageBlock>
     );
   }

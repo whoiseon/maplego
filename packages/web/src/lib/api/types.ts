@@ -13,6 +13,11 @@ export interface User {
   displayName: string;
   level: number;
   profileImage: string;
+  introduction: string;
+  lastLogin: Date;
+  email: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface Tokens {

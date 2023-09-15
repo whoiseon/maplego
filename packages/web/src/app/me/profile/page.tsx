@@ -1,4 +1,4 @@
-import MeProfile from '@/components/desktop/profile/MeProfile';
+import MeProfile from '@/components/desktop/profile/meProfile/MeProfile';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {

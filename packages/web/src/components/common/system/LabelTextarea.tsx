@@ -1,20 +1,17 @@
+import Textarea, { TextareaProps } from '@/components/common/system/Textarea';
 import styled from '@emotion/styled';
-import Input, { InputProps } from './Input';
 import { themedPalette } from '@/styles/palette';
-import { memo } from 'react';
 
-interface Props extends InputProps {
+interface Props extends TextareaProps {
   label: string;
-  description?: string;
   boxClassName?: string;
 }
 
-function LabelInput({ label, description, boxClassName, ...rest }: Props) {
+function LabelTextarea({ label, boxClassName, ...rest }: Props) {
   return (
     <Block className={boxClassName}>
       <label>{label}</label>
-      <Input {...rest} />
-      {description && <Description>{description}</Description>}
+      <Textarea {...rest} />
     </Block>
   );
 }
@@ -32,11 +29,4 @@ const Block = styled.div`
   }
 `;
 
-const Description = styled.p`
-  color: ${themedPalette.text4};
-  font-size: 14px;
-  line-height: 1.5;
-  margin-top: 4px;
-`;
-
-export default memo(LabelInput);
+export default LabelTextarea;

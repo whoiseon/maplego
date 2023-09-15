@@ -28,7 +28,6 @@ const Block = styled.div`
 
   input {
     font-size: 14px;
-    background: ${themedPalette.bg_page2};
 
     &:focus {
       border: 1px solid ${themedPalette.border2};

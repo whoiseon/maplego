@@ -6,10 +6,11 @@ import { themedPalette } from '@/styles/palette';
 
 interface Props {
   children: ReactNode;
+  className?: string;
 }
 
-function Card({ children }: Props) {
-  return <StyledCard>{children}</StyledCard>;
+function Card({ children, className }: Props) {
+  return <StyledCard className={className}>{children}</StyledCard>;
 }
 
 const StyledCard = styled.div`
@@ -18,6 +19,7 @@ const StyledCard = styled.div`
   border-radius: 4px;
   background-color: ${themedPalette.bg_element1};
   box-shadow: ${themedPalette.shadow1};
+  border: ${themedPalette.card_border};
 `;
 
 export default Card;

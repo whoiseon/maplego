@@ -9,10 +9,8 @@ import styled from '@emotion/styled';
 import { useGetMyAccount } from '@/lib/hooks/useGetMyAccount';
 import { memo, useEffect } from 'react';
 import { useUser } from '@/states/user';
-import { User } from '@/lib/api/types';
 import HeaderAuthBox from '@/components/desktop/base/HeaderAuthBox';
 import { useQueryClient } from '@tanstack/react-query';
-import { queryKey } from '@/lib/query/queryKey';
 import HeaderUserBox from '@/components/desktop/base/HeaderUserBox';
 
 interface Props {}
@@ -20,6 +18,19 @@ interface Props {}
 function Header() {
   const queryClient = useQueryClient();
   const { data: meData } = useGetMyAccount();
+  const { setUser } = useUser();
+
+  useEffect(() => {
+    if (!meData) return;
+    setUser({
+      id: meData.id,
+      displayName: meData.displayName,
+      profileImage: meData.profileImage,
+      level: meData.level,
+      username: meData.username,
+    });
+  }, [meData]);
+
   return (
     <StyledHeader>
       <Container>

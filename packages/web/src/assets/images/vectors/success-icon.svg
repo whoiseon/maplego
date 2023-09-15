@@ -1,0 +1,19 @@
+<svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        class="icon-md relative top-[-18px] text-icon-success"
+        role="img"
+        data-testid="status-finished"
+        title="Finished"
+>
+    <g id="status-success">
+        <path
+                id="Subtract"
+                fill="currentColor"
+                fill-rule="evenodd"
+                d="M12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2ZM10.6605 13.4142L8.56759 11.3212C8.17707 10.9307 7.54391 10.9307 7.15338 11.3212C6.76286 11.7118 6.76286 12.3449 7.15338 12.7354L9.95342 15.5355C10.3439 15.926 10.9771 15.926 11.3676 15.5355L17.0245 9.87862C17.415 9.4881 17.415 8.85493 17.0245 8.46441C16.634 8.07388 16.0008 8.07388 15.6103 8.46441L10.6605 13.4142Z"
+                clip-rule="evenodd"
+        ></path>
+    </g>
+</svg>

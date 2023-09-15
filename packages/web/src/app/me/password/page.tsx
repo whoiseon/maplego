@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import MePassword from '@/components/desktop/profile/MePassword';
+import MePassword from '@/components/desktop/profile/mePassword/MePassword';
 
 export const metadata: Metadata = {
   title: '메이플고 - 비밀번호 변경',
