@@ -18,17 +18,9 @@ interface Props {}
 function Header() {
   const queryClient = useQueryClient();
   const { data: meData } = useGetMyAccount();
-  const { setUser } = useUser();
 
   useEffect(() => {
     if (!meData) return;
-    setUser({
-      id: meData.id,
-      displayName: meData.displayName,
-      profileImage: meData.profileImage,
-      level: meData.level,
-      username: meData.username,
-    });
   }, [meData]);
 
   return (
