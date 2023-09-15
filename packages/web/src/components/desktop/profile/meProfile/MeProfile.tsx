@@ -2,7 +2,7 @@
 
 import styled from '@emotion/styled';
 import ProfileEditCard from '@/components/desktop/profile/meProfile/ProfileEditCard';
-import LevelCheckCard from '@/components/desktop/profile/meProfile/LevelCheckCard';
+import LevelCheckCard from '@/components/desktop/profile/meLevel/LevelCheckCard';
 import EmailVerifyCard from '@/components/desktop/profile/meProfile/EmailVerifyCard';
 
 function MeProfile() {
