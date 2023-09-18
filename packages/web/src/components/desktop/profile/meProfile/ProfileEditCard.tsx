@@ -8,7 +8,7 @@ import styled from '@emotion/styled';
 import { themedPalette } from '@/styles/palette';
 import { useMemo } from 'react';
 import dayjs from 'dayjs';
-import { useGetMyAccount } from '@/lib/hooks/useGetMyAccount';
+import { useGetMyAccount } from '@/lib/hooks/mutations/useGetMyAccount';
 import { useInput } from '@/lib/hooks/useInput';
 
 function ProfileEditCard() {
@@ -29,7 +29,7 @@ function ProfileEditCard() {
     )}`;
   }, [meData?.lastLogin]);
 
-  const onEidtProfile = () => {
+  const onEditProfile = () => {
     const isNotChangedDisplayName = meData?.displayName === displayName;
     const isNotChangedIntroduction = meData?.introduction === introduction;
 
@@ -40,7 +40,7 @@ function ProfileEditCard() {
   };
 
   return (
-    <MeCard title="프로필 수정" icon={<MyProfileIcon />} onEdit={onEidtProfile}>
+    <MeCard title="프로필 수정" icon={<MyProfileIcon />} onEdit={onEditProfile}>
       <ProfileBox>
         <LastLoginBox>
           <p>{lastLoginRender}</p>
@@ -97,10 +97,6 @@ const ProfileEditInputGroup = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px 0;
-
-  .input-item {
-    gap: 6px 0;
-  }
 
   input {
     font-size: 14px;

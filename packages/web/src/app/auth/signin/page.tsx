@@ -8,11 +8,11 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { appError } from '@/lib/error';
 import { redirect, useRouter } from 'next/navigation';
 import { useUser } from '@/states/user';
-import { SignInResponse, User } from '@/lib/api/types';
+import { ErrorResponse, SignInResponse, User } from '@/lib/api/types';
 import { themedPalette } from '@/styles/palette';
 import FullHeightPage from '@/components/common/system/FullHeightPage';
 import { queryKey } from '@/lib/query/queryKey';
-import { useGetMyAccount } from '@/lib/hooks/useGetMyAccount';
+import { useGetMyAccount } from '@/lib/hooks/mutations/useGetMyAccount';
 
 function SignInPage() {
   const queryClient = useQueryClient();
@@ -33,12 +33,18 @@ function SignInPage() {
     onMutate: () => {
       setServerError('');
     },
-    onSuccess: async (data: SignInResponse) => {
+    onSuccess: async (data: SignInResponse | ErrorResponse) => {
+      if ('name' in data) {
+        const error = data as ErrorResponse;
+        setServerError(appError(error.name));
+
+        return;
+      }
+
       await queryClient.setQueryData(queryKey.IS_SIGNED_IN, true);
       await queryClient.refetchQueries(queryKey.GET_ME);
     },
     onError: (error: any) => {
-      console.error(error);
       setServerError('알 수 없는 오류');
     },
   });

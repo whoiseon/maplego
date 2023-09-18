@@ -2,10 +2,8 @@ const ALREADY_EXISTS = 'AlreadyExists';
 const WRONG_CREDENTIALS = 'WrongCredentials';
 const UNKNWON = 'Unknown';
 
-export function appError(message: string, payload: any): string
-{
-  switch (message)
-  {
+export function appError(message: string, payload?: any): string {
+  switch (message) {
     case ALREADY_EXISTS:
       const field = payload?.field === 'username' ? '아이디' : '별명';
       return `이미 사용중인 ${field} 입니다!`;

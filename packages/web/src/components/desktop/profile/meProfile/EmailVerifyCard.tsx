@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import MyEmailIcon from '@/assets/images/vectors/my-email-icon.svg';
 import Input from '@/components/common/system/Input';
 import { themedPalette } from '@/styles/palette';
-import { useGetMyAccount } from '@/lib/hooks/useGetMyAccount';
+import { useGetMyAccount } from '@/lib/hooks/mutations/useGetMyAccount';
 import { useInput } from '@/lib/hooks/useInput';
 import WarningIcon from '@/assets/images/vectors/warning-icon.svg';
 import SuccessIcon from '@/assets/images/vectors/success-icon.svg';
@@ -56,7 +56,7 @@ const EmailVerifyBox = styled.div`
 
 const InputGroup = styled.div`
   input {
-    height: 52px;
+    font-size: 14px;
 
     &:focus {
       border: 1px solid ${themedPalette.border2};

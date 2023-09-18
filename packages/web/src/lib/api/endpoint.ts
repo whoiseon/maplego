@@ -15,6 +15,7 @@ export const endpoint = {
       signOut: `${this.base}/auth/signout`,
       signUp: `${this.base}/auth/signup`,
       refresh: `${this.base}/auth/refresh`,
+      changePassword: `${this.base}/auth/password`,
     };
   },
 

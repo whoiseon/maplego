@@ -4,17 +4,67 @@ import MyPasswordIcon from '@/assets/images/vectors/my-password-icon.svg';
 import { themedPalette } from '@/styles/palette';
 import LabelInput from '@/components/common/system/LabelInput';
 import { useInput } from '@/lib/hooks/useInput';
+import { useEffect, useState } from 'react';
+import { useChangePassword } from '@/lib/hooks/mutations/useChangePassword';
+
+export interface ServerMessage {
+  type: 'success' | 'error';
+  message: string;
+}
 
 function PasswordChangeCard() {
   const [password, onChangePassword] = useInput('');
   const [newPassword, onChangeNewPassword] = useInput('');
   const [newPasswordConfirm, onChangeNewPasswordConfirm] = useInput('');
+  const [serverMessage, setServerMessage] = useState<ServerMessage>({
+    type: 'success',
+    message: '',
+  });
+
+  const [mutate, isLoading] = useChangePassword(setServerMessage);
+
+  const validatePasswordInput = (): boolean => {
+    if (!password) {
+      setServerMessage({
+        type: 'error',
+        message: '현재 비밀번호를 입력해주세요.',
+      });
+      return false;
+    }
+
+    if (!newPassword) {
+      setServerMessage({
+        type: 'error',
+        message: '새로운 비밀번호를 입력해주세요.',
+      });
+      return false;
+    }
+
+    if (!newPasswordConfirm) {
+      setServerMessage({
+        type: 'error',
+        message: '새로운 비밀번호 확인을 입력해주세요.',
+      });
+      return false;
+    }
+
+    if (newPassword !== newPasswordConfirm) {
+      setServerMessage({
+        type: 'error',
+        message: '새로운 비밀번호가 일치하지 않습니다.',
+      });
+      return false;
+    }
+
+    return true;
+  };
 
   const onPasswordChange = () => {
-    console.log({
-      password,
+    if (!validatePasswordInput()) return;
+
+    mutate({
+      currentPassword: password,
       newPassword,
-      newPasswordConfirm,
     });
   };
 
@@ -24,8 +74,9 @@ function PasswordChangeCard() {
       icon={<MyPasswordIcon />}
       buttonText="변경"
       onEdit={onPasswordChange}
+      message={serverMessage}
     >
-      <PasswordChangeBox>
+      <PasswordChangeForm onSubmit={onPasswordChange}>
         <InputGroup>
           <LabelInput
             type="password"
@@ -49,12 +100,12 @@ function PasswordChangeCard() {
             onChange={onChangeNewPasswordConfirm}
           />
         </InputGroup>
-      </PasswordChangeBox>
+      </PasswordChangeForm>
     </MeCard>
   );
 }
 
-const PasswordChangeBox = styled.div`
+const PasswordChangeForm = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem 0;
@@ -66,12 +117,8 @@ const InputGroup = styled.div`
   flex-direction: column;
   gap: 1rem 0;
 
-  .input-item {
-    gap: 6px 0;
-  }
-
   input {
-    height: 52px;
+    font-size: 14px;
 
     &:focus {
       border: 1px solid ${themedPalette.border2};

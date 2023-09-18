@@ -3,6 +3,8 @@ import styled from '@emotion/styled';
 import { ReactNode } from 'react';
 import { themedPalette } from '@/styles/palette';
 import Button from '@/components/common/system/Button';
+import { ServerMessage } from '@/components/desktop/profile/mePassword/PasswordChangeCard';
+import transitions from '@/lib/transitions';
 
 interface Props {
   children: ReactNode;
@@ -11,6 +13,7 @@ interface Props {
   icon?: ReactNode;
   onEdit?: () => void;
   buttonText?: string;
+  message?: ServerMessage;
 }
 
 function MeCard({
@@ -19,6 +22,7 @@ function MeCard({
   icon,
   onEdit,
   description,
+  message,
   buttonText = '저장',
 }: Props) {
   return (
@@ -36,6 +40,11 @@ function MeCard({
         {children}
         {onEdit && (
           <ActionsBox>
+            {message && (
+              <MessageBox messageType={message?.type}>
+                <p>{message?.message}</p>
+              </MessageBox>
+            )}
             <Button variant="primary" onClick={onEdit}>
               {buttonText}
             </Button>
@@ -79,6 +88,7 @@ const Description = styled.p`
 `;
 
 const ActionsBox = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -89,6 +99,21 @@ const ActionsBox = styled.div`
 
   button {
     height: 36px;
+  }
+`;
+
+const MessageBox = styled.div<{ messageType?: 'success' | 'error' }>`
+  position: absolute;
+  top: 22px;
+  left: 24px;
+  font-size: 14px;
+  animation: ${transitions.modalOpenFromTop} 0.3s ease-in-out;
+
+  p {
+    color: ${({ messageType }) =>
+      messageType === 'success'
+        ? themedPalette.success_text
+        : themedPalette.danger2};
   }
 `;
 

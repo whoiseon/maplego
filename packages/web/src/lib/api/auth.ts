@@ -1,5 +1,9 @@
 import { endpoint } from '@/lib/api/endpoint';
-import { Tokens } from '@/lib/api/types';
+import {
+  ChangePasswordParams,
+  ChangePasswordResponse,
+  Tokens,
+} from '@/lib/api/types';
 
 export interface SignUpParams {
   displayName: string;
@@ -65,4 +69,20 @@ export async function fetchRefresh(token?: string): Promise<Tokens> {
   });
 
   return await response.json();
+}
+
+export async function fetchChangePassword(
+  params: ChangePasswordParams,
+): Promise<ChangePasswordResponse> {
+  const response = await fetch(endpoint.auth.changePassword, {
+    method: 'PATCH',
+    cache: 'no-cache',
+    credentials: 'include',
+    body: JSON.stringify(params),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  return (await response.json()) as ChangePasswordResponse;
 }

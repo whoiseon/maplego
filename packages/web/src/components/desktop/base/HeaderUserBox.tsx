@@ -1,4 +1,4 @@
-import { useGetMyAccount } from '@/lib/hooks/useGetMyAccount';
+import { useGetMyAccount } from '@/lib/hooks/mutations/useGetMyAccount';
 import styled from '@emotion/styled';
 import { themedPalette } from '@/styles/palette';
 import UserProfile from '@/components/common/profile/UserProfile';

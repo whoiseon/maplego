@@ -31,3 +31,15 @@ export interface ErrorResponse {
   statusCode: number;
   payload?: any;
 }
+
+export interface ChangePasswordParams {
+  currentPassword: string;
+  newPassword: string;
+}
+
+export interface ChangePasswordResponse {
+  changed: boolean;
+  payload?: {
+    field: 'currentPassword' | 'newPassword';
+  };
+}

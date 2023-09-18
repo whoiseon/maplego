@@ -6,7 +6,7 @@ import ThemeButton from '@/components/common/system/ThemeButton';
 import HeaderNavList from './HeaderNavList';
 import { themedPalette } from '@/styles/palette';
 import styled from '@emotion/styled';
-import { useGetMyAccount } from '@/lib/hooks/useGetMyAccount';
+import { useGetMyAccount } from '@/lib/hooks/mutations/useGetMyAccount';
 import { memo, useEffect } from 'react';
 import { useUser } from '@/states/user';
 import HeaderAuthBox from '@/components/desktop/base/HeaderAuthBox';

@@ -106,7 +106,7 @@ const InputGroup = styled.div`
 `;
 
 const ErrorMessage = styled.p`
-  font-size: 16px;
+  font-size: 14px;
   color: ${themedPalette.danger1};
 `;
 

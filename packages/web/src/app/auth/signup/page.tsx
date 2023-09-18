@@ -10,7 +10,7 @@ import { useCallback, useState } from 'react';
 import { SignUpResponse } from '@/lib/api/types';
 import { themedPalette } from '@/styles/palette';
 import FullHeightPage from '@/components/common/system/FullHeightPage';
-import { useGetMyAccount } from '@/lib/hooks/useGetMyAccount';
+import { useGetMyAccount } from '@/lib/hooks/mutations/useGetMyAccount';
 import { redirect } from 'next/navigation';
 
 function SignUpPage() {
