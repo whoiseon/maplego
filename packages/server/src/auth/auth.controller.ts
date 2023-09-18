@@ -3,6 +3,7 @@ import {
   Controller,
   HttpCode,
   HttpStatus,
+  Patch,
   Post,
   Req,
   Res,
@@ -17,6 +18,7 @@ import { GetUser, Public } from 'src/lib/decorators';
 import { SignInResponseType, SignUpResponseType } from 'src/auth/types';
 import { AuthGuard } from 'src/lib/guards';
 import { User } from '@prisma/client';
+import { ChangePasswordBodyDto } from './dto/change-password-body.dto';
 
 @Controller('api/auth')
 export class AuthController {
@@ -74,5 +76,15 @@ export class AuthController {
     });
 
     res.send({ accessToken });
+  }
+
+  @UseGuards(AuthGuard)
+  @Patch('password')
+  @HttpCode(HttpStatus.OK)
+  public async changePassword(
+    @GetUser() user: User,
+    @Body() body: ChangePasswordBodyDto,
+  ) {
+    return await this.authService.changePassword(user.id, body);
   }
 }

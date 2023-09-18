@@ -9,7 +9,9 @@ import { SignInBodyDto } from 'src/auth/dto/sign-in-body.dto';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { TokenService } from 'src/token/token.service';
-import { RefreshTokenPayload, Tokens } from 'src/token/types';
+import { RefreshTokenPayload } from 'src/token/types';
+import { ChangePasswordBodyDto } from './dto/change-password-body.dto';
+import { ChangePasswordResponseType } from './types/change-password-response.type';
 
 @Injectable()
 export class AuthService {
@@ -113,7 +115,10 @@ export class AuthService {
         tokens,
       };
     } catch (e) {
-      console.error(e);
+      if (isAppError(e)) {
+        throw e;
+      }
+
       throw new AppError('Unknown');
     }
   }
@@ -163,60 +168,62 @@ export class AuthService {
     }
   }
 
-  // public async refreshToken(token: string): Promise<Tokens> {
-  //   try {
-  //     const { tokenId, rotationCounter } =
-  //       await this.tokenService.validateToken<RefreshTokenPayload>(token);
-  //     const tokenItem = await this.db.token.findUnique({
-  //       where: {
-  //         id: tokenId,
-  //       },
-  //       include: {
-  //         user: true,
-  //       },
-  //     });
-  //
-  //     if (!tokenItem) {
-  //       throw new Error('Token not found');
-  //     }
-  //
-  //     if (tokenItem.blocked) {
-  //       throw new AppError('Unauthorized', {
-  //         isExpiredToken: false,
-  //       });
-  //     }
-  //
-  //     if (tokenItem.rotationCounter !== rotationCounter) {
-  //       await this.db.token.update({
-  //         where: {
-  //           id: tokenId,
-  //         },
-  //         data: {
-  //           blocked: true,
-  //         },
-  //       });
-  //
-  //       throw new Error('Rotation counter does not match');
-  //     }
-  //
-  //     tokenItem.rotationCounter += 1;
-  //     await this.db.token.update({
-  //       where: {
-  //         id: tokenId,
-  //       },
-  //       data: {
-  //         rotationCounter: tokenItem.rotationCounter,
-  //       },
-  //     });
-  //
-  //     const tokens = await this.tokenService.generateTokens(
-  //       tokenItem.user,
-  //       tokenItem,
-  //     );
-  //
-  //     return tokens;
-  //   } catch (e) {
-  //     throw new AppError('RefreshFailure');
-  //   }
-  // }
+  public async changePassword(
+    userId: number,
+    changePasswordDto: ChangePasswordBodyDto,
+  ): Promise<ChangePasswordResponseType> {
+    const { currentPassword, newPassword } = changePasswordDto;
+
+    try {
+      const user = await this.db.user.findUnique({
+        where: {
+          id: userId,
+        },
+      });
+
+      const isPasswordValid: boolean = await bcrypt.compare(
+        currentPassword,
+        user.passwordHash,
+      );
+
+      if (!isPasswordValid) {
+        return {
+          changed: false,
+          payload: {
+            field: 'currentPassword',
+          },
+        };
+      }
+
+      if (currentPassword === newPassword) {
+        return {
+          changed: false,
+          payload: {
+            field: 'newPassword',
+          },
+        };
+      }
+
+      const hashedPassword: string = await bcrypt.hash(
+        newPassword,
+        this.SALT_ROUNDS,
+      );
+
+      await this.db.user.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          passwordHash: hashedPassword,
+        },
+      });
+
+      return {
+        changed: true,
+        payload: null,
+      };
+    } catch (e) {
+      throw new AppError('Unknown');
+    }
+  }
 }
