@@ -1,13 +1,14 @@
 'use client';
 
 import SignUpedBox from '@/components/common/auth/SignUpedBox';
-import SignUpForm from '@/components/desktop/auth/SignUpForm';
+import SignUpForm, {
+  CheckDisplayName,
+} from '@/components/desktop/auth/SignUpForm';
 import { SignUpParams, fetchSignUp } from '@/lib/api/auth';
 import { appError } from '@/lib/error';
 import styled from '@emotion/styled';
 import { useMutation } from '@tanstack/react-query';
 import { useCallback, useState } from 'react';
-import { SignUpResponse } from '@/lib/api/types';
 import { themedPalette } from '@/styles/palette';
 import FullHeightPage from '@/components/common/system/FullHeightPage';
 import { useGetMyAccount } from '@/lib/hooks/mutations/useGetMyAccount';
@@ -15,7 +16,11 @@ import { redirect } from 'next/navigation';
 
 function SignUpPage() {
   // signuped state
-  const [isSignUped, setIsSignUped] = useState(false);
+  const [isSignUpped, setIsSignUpped] = useState(false);
+  const [checkDisplayName, setCheckDisplayName] = useState<CheckDisplayName>({
+    statusCode: 0,
+    message: '',
+  });
   // api request error state
   const [serverError, setServerError] = useState<string>('');
 
@@ -31,15 +36,17 @@ function SignUpPage() {
     onMutate: () => {
       setServerError('');
     },
-    onSuccess: (data: SignUpResponse) => {
-      if (data.registered) {
-        setIsSignUped(true);
+    onSuccess: (data) => {
+      console.log(data);
+      if (data.statusCode !== 200) {
+        setServerError(appError(data.name));
+
+        return;
       }
+
+      setIsSignUpped(true);
     },
-    onError: (error: any) => {
-      console.error(error);
-      setServerError('알 수 없는 오류');
-    },
+    onError: (error: any) => {},
   });
 
   const onSubmit = useCallback(
@@ -52,13 +59,15 @@ function SignUpPage() {
   return (
     <FullHeightPage>
       <Block>
-        {isSignUped ? (
+        {isSignUpped ? (
           <SignUpedBox />
         ) : (
           <SignUpForm
             onSubmit={onSubmit}
             serverError={serverError}
             isLoading={isLoading}
+            checkDisplayName={checkDisplayName}
+            setCheckDisplayName={setCheckDisplayName}
           />
         )}
       </Block>

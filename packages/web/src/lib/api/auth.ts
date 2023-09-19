@@ -2,6 +2,10 @@ import { endpoint } from '@/lib/api/endpoint';
 import {
   ChangePasswordParams,
   ChangePasswordResponse,
+  CheckDisplayNameParams,
+  CheckDisplayNameResponse,
+  SignInResponse,
+  SignUpResponse,
   Tokens,
 } from '@/lib/api/types';
 
@@ -16,7 +20,9 @@ export interface SignInParams {
   password: string;
 }
 
-export async function fetchSignUp(params: SignUpParams) {
+export async function fetchSignUp(
+  params: SignUpParams,
+): Promise<SignUpResponse> {
   const response = await fetch(endpoint.auth.signUp, {
     method: 'POST',
     cache: 'no-cache',
@@ -30,7 +36,9 @@ export async function fetchSignUp(params: SignUpParams) {
   return await response.json();
 }
 
-export async function fetchSignIn(params: SignInParams) {
+export async function fetchSignIn(
+  params: SignInParams,
+): Promise<SignInResponse> {
   const response = await fetch(endpoint.auth.signIn, {
     method: 'POST',
     cache: 'no-cache',
@@ -85,4 +93,20 @@ export async function fetchChangePassword(
   });
 
   return (await response.json()) as ChangePasswordResponse;
+}
+
+export async function fetchCheckDisplayName(
+  params: CheckDisplayNameParams,
+): Promise<CheckDisplayNameResponse> {
+  const response = await fetch(endpoint.auth.checkDisplayName, {
+    method: 'POST',
+    cache: 'no-cache',
+    credentials: 'include',
+    body: JSON.stringify(params),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  return (await response.json()) as CheckDisplayNameResponse;
 }

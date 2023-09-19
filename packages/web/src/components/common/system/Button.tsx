@@ -3,6 +3,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Link from 'next/link';
 import { themedPalette } from '@/styles/palette';
+import Spinner from '@/components/common/system/Spinner';
 
 type Variant = 'primary' | 'danger' | 'gray' | 'dark' | 'text';
 
@@ -11,6 +12,7 @@ interface ButtonProps {
   size?: 'small' | 'medium';
   variant?: Variant;
   icon?: React.ReactNode;
+  isLoading?: boolean;
 }
 
 interface Props
@@ -18,6 +20,7 @@ interface Props
     ButtonProps {
   to?: string;
   href?: string;
+  isLoading?: boolean;
 }
 
 function Button({
@@ -26,6 +29,7 @@ function Button({
   variant = 'primary',
   href,
   icon,
+  isLoading = false,
   ...rest
 }: Props) {
   if (href) {
@@ -39,12 +43,15 @@ function Button({
         style={rest.style}
       >
         {icon}
-        {rest.children}
+        {isLoading ? <Spinner /> : rest.children}
       </StyledLink>
     );
   }
   return (
-    <StyledButton layout={layout} variant={variant} size={size} {...rest} />
+    <StyledButton layout={layout} variant={variant} size={size} {...rest}>
+      {icon}
+      {isLoading ? <Spinner /> : rest.children}
+    </StyledButton>
   );
 }
 
@@ -137,6 +144,7 @@ const sizeStyles = {
 };
 
 const sharedStyles = (props: ButtonProps) => css`
+  position: relative;
   display: flex;
   ${sizeStyles[props.size!]};
   ${variantStyles[props.variant!]!};

@@ -10,6 +10,7 @@ import { SignInParams } from '@/lib/api/auth';
 import { signInFormErrors } from '@/lib/formErrors';
 import { useForm } from 'react-hook-form';
 import { Dispatch, SetStateAction, useEffect } from 'react';
+import Spinner from '@/components/common/system/Spinner';
 
 interface Props {
   onSubmit: (params: SignInParams) => void;
@@ -66,7 +67,9 @@ function SignInForm({
         {serverError && <ErrorMessage>{serverError}</ErrorMessage>}
         <ActionsBox>
           <QuestionLink name="비밀번호를 잊으셨나요?" to="/auth/forgot" />
-          <Button layout="fullWidth">로그인</Button>
+          <Button layout="fullWidth" isLoading={isLoading}>
+            로그인
+          </Button>
         </ActionsBox>
         <QuestionLink
           className="text-center"
@@ -106,8 +109,10 @@ const InputGroup = styled.div`
 `;
 
 const ErrorMessage = styled.p`
-  font-size: 14px;
+  text-align: center;
+  font-size: 16px;
   color: ${themedPalette.danger1};
+  padding: 8px 0;
 `;
 
 const ActionsBox = styled.div`

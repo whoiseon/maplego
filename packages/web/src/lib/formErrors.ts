@@ -4,6 +4,10 @@ export const signUpFormErrors = {
       value: true,
       message: '별명을 입력해주세요!',
     },
+    minLength: {
+      value: 2,
+      message: '별명은 2글자 이상으로 입력해주세요!',
+    },
     maxLength: {
       value: 16,
       message: '별명은 16자 이하로 입력해주세요!',

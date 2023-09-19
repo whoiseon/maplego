@@ -21,7 +21,7 @@ function SignInPage() {
   const { data: meData } = useGetMyAccount();
 
   if (meData) {
-    redirect('/');
+    window.location.href = '/';
   }
 
   // api request error state
@@ -33,10 +33,9 @@ function SignInPage() {
     onMutate: () => {
       setServerError('');
     },
-    onSuccess: async (data: SignInResponse | ErrorResponse) => {
-      if ('name' in data) {
-        const error = data as ErrorResponse;
-        setServerError(appError(error.name));
+    onSuccess: async (data) => {
+      if (data.statusCode !== 200) {
+        setServerError(appError(data.name));
 
         return;
       }
@@ -63,6 +62,7 @@ function SignInPage() {
           onSubmit={onSubmit}
           serverError={serverError}
           setServerError={setServerError}
+          isLoading={isLoading}
         />
       </Block>
     </FullHeightPage>

@@ -1,10 +1,21 @@
-export interface SignUpResponse {
-  registered: boolean;
+export interface AppResponse {
+  name: string;
+  statusCode: number;
+  message: string;
+  payload: any;
 }
 
-export interface SignInResponse {
-  user: User;
-  token: Tokens;
+export interface ErrorResponse extends AppResponse {}
+
+export interface SignUpResponse extends AppResponse {
+  payload: null;
+}
+
+export interface SignInResponse extends AppResponse {
+  payload: {
+    user: User;
+    token: Tokens;
+  };
 }
 
 export interface User {
@@ -25,21 +36,19 @@ export interface Tokens {
   refreshToken: string;
 }
 
-export interface ErrorResponse {
-  message: string;
-  name: string;
-  statusCode: number;
-  payload?: any;
-}
-
 export interface ChangePasswordParams {
   currentPassword: string;
   newPassword: string;
 }
 
-export interface ChangePasswordResponse {
-  changed: boolean;
-  payload?: {
-    field: 'currentPassword' | 'newPassword';
-  };
+export interface ChangePasswordResponse extends AppResponse {
+  payload: null;
+}
+
+export interface CheckDisplayNameParams {
+  displayName: string;
+}
+
+export interface CheckDisplayNameResponse extends AppResponse {
+  payload: null;
 }

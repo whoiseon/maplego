@@ -8,8 +8,8 @@ import LabelInput from '@/components/common/system/LabelInput';
 import useToggle from '@/lib/hooks/useToggle';
 import { themedPalette } from '@/styles/palette';
 import styled from '@emotion/styled';
-import { SignUpParams } from '@/lib/api/auth';
-import React from 'react';
+import { fetchCheckDisplayName, SignUpParams } from '@/lib/api/auth';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { signUpFormErrors } from '@/lib/formErrors';
 
@@ -17,9 +17,22 @@ interface Props {
   onSubmit: (params: SignUpParams) => void;
   serverError?: string;
   isLoading?: boolean;
+  checkDisplayName: CheckDisplayName;
+  setCheckDisplayName: React.Dispatch<React.SetStateAction<CheckDisplayName>>;
 }
 
-function SignUpForm({ onSubmit, isLoading, serverError }: Props) {
+export interface CheckDisplayName {
+  statusCode: number;
+  message: string;
+}
+
+function SignUpForm({
+  onSubmit,
+  isLoading,
+  serverError,
+  checkDisplayName,
+  setCheckDisplayName,
+}: Props) {
   // modals of agreement
   const [isOpenServiceAgree, onToggleServiceAgree] = useToggle(false);
   const [isOpenPrivacyAgree, onTogglePrivacyAgree] = useToggle(false);
@@ -36,6 +49,7 @@ function SignUpForm({ onSubmit, isLoading, serverError }: Props) {
     register,
     handleSubmit,
     formState: { errors },
+    getValues,
   } = useForm<SignUpParams>({
     defaultValues: {
       displayName: '',
@@ -43,6 +57,36 @@ function SignUpForm({ onSubmit, isLoading, serverError }: Props) {
       password: '',
     },
   });
+
+  const onCheckDisplayName = async () => {
+    if (
+      getValues('displayName') === '' ||
+      getValues('displayName').length < 2
+    ) {
+      setCheckDisplayName({
+        statusCode: 0,
+        message: '',
+      });
+      return;
+    }
+
+    try {
+      const response = await fetchCheckDisplayName({
+        displayName: getValues('displayName'),
+      });
+      if (response.statusCode === 200) {
+        setCheckDisplayName({
+          statusCode: response.statusCode,
+          message: '사용 가능한 별명입니다.',
+        });
+      } else {
+        setCheckDisplayName({
+          statusCode: response.statusCode,
+          message: '이미 사용중인 별명입니다.',
+        });
+      }
+    } catch (e) {}
+  };
 
   return (
     <Block>
@@ -58,6 +102,8 @@ function SignUpForm({ onSubmit, isLoading, serverError }: Props) {
             errors={errors.displayName}
             register={register}
             options={displayNameOption}
+            innerMessage={checkDisplayName}
+            onBlur={onCheckDisplayName}
           />
           <LabelInput
             label="아이디"
@@ -96,7 +142,7 @@ function SignUpForm({ onSubmit, isLoading, serverError }: Props) {
               약관에 동의하게 됩니다.
             </span>
           </AgreementBox>
-          <Button type="submit" layout="fullWidth" disabled={isLoading}>
+          <Button type="submit" layout="fullWidth" isLoading={isLoading}>
             가입하기
           </Button>
         </ActionsBox>
@@ -158,8 +204,10 @@ const AgreementBox = styled.div`
 `;
 
 const ErrorMessage = styled.p`
+  text-align: center;
   font-size: 16px;
   color: ${themedPalette.danger1};
+  padding: 8px 0;
 `;
 
 const ActionsBox = styled.div`

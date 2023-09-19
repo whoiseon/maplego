@@ -1,5 +1,5 @@
 import { endpoint } from '@/lib/api/endpoint';
-import { ErrorResponse, User } from './types';
+import { User, ErrorResponse } from './types';
 import { fetchRefresh } from '@/lib/api/auth';
 
 export async function fetchGetMe(): Promise<User | null> {
@@ -40,24 +40,6 @@ export async function fetchGetMeOnServer(
   accessToken?: string,
 ): Promise<User | null> {
   const response = await fetch(endpoint.me.getMe, {
-    method: 'GET',
-    cache: 'no-store',
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-      authorization: `Bearer ${accessToken}`,
-    },
-  });
-
-  const data = (await response.json()) as User | ErrorResponse;
-
-  return data as User;
-}
-
-export async function fetchGetMeAll(
-  accessToken?: string,
-): Promise<User | null> {
-  const response = await fetch(endpoint.me.getMeAll, {
     method: 'GET',
     cache: 'no-store',
     credentials: 'include',

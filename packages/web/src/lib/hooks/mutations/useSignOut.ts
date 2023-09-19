@@ -9,6 +9,8 @@ export function useSignOut() {
     onSuccess: async () => {
       await queryClient.setQueryData(queryKey.IS_SIGNED_IN, false);
       await queryClient.setQueryData(queryKey.GET_ME, null);
+
+      window.location.href = '/';
     },
     onError: (error: any) => {
       console.error(error);
