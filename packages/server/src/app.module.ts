@@ -8,7 +8,7 @@ import { TokenModule } from './token/token.module';
 import { CookieModule } from './cookie/cookie.module';
 import { MeModule } from './me/me.module';
 import { APP_GUARD } from '@nestjs/core';
-import { AuthGuard } from 'src/lib/guards/auth.guard';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { JwtService } from '@nestjs/jwt';
 
 @Module({

@@ -16,9 +16,10 @@ import { Request, Response } from 'express';
 import { CookieService } from 'src/cookie/cookie.service';
 import { GetUser, Public } from 'src/lib/decorators';
 import { SignInResponseType, SignUpResponseType } from 'src/auth/types';
-import { AuthGuard } from 'src/lib/guards';
+import { AuthGuard } from 'src/auth/guards';
 import { User } from '@prisma/client';
 import { ChangePasswordBodyDto } from './dto/change-password-body.dto';
+import AppResponse from '../lib/app.response';
 
 @Controller('api/auth')
 export class AuthController {
@@ -32,7 +33,7 @@ export class AuthController {
   @HttpCode(HttpStatus.CREATED)
   public async signUp(
     @Body() signUpBodyDto: SignUpBodyDto,
-  ): Promise<SignUpResponseType> {
+  ): Promise<AppResponse<SignUpResponseType>> {
     return this.authService.signUp(signUpBodyDto);
   }
 
@@ -42,9 +43,12 @@ export class AuthController {
   public async signIn(
     @Body() signInBodyDto: SignInBodyDto,
     @Req() req: Request,
-  ): Promise<SignInResponseType> {
+  ): Promise<AppResponse<SignInResponseType>> {
     const response = await this.authService.signIn(signInBodyDto);
-    this.cookieService.setTokenCookie(req, response.tokens);
+
+    if (response.statusCode === 200) {
+      this.cookieService.setTokenCookie(req, response.payload.tokens);
+    }
 
     return response;
   }
@@ -67,7 +71,9 @@ export class AuthController {
     @Body() body,
   ) {
     const refreshToken = body.refreshToken || req.cookies.refresh_token;
-    const { accessToken } = await this.authService.refreshToken(refreshToken);
+    const { accessToken } = (await this.authService.refreshToken(refreshToken))
+      .payload;
+
     res.setHeader('Authorization', `Bearer ${accessToken}`);
     res.cookie('access_token', accessToken, {
       httpOnly: true,

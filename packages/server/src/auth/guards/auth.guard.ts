@@ -5,13 +5,8 @@ import { Reflector } from '@nestjs/core';
 import { IS_PUBLIC } from 'src/lib/constant';
 import { TokenService } from 'src/token/token.service';
 import { AppError } from 'src/lib/error';
-import {
-  AccessTokenPayload,
-  RefreshTokenPayload,
-  Tokens,
-} from 'src/token/types';
+import { AccessTokenPayload, Tokens } from 'src/token/types';
 import { AuthService } from 'src/auth/auth.service';
-import { CookieService } from 'src/cookie/cookie.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {

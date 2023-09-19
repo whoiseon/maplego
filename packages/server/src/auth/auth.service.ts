@@ -1,4 +1,4 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { SignUpBodyDto } from 'src/auth/dto/sign-up-body.dto';
 import bcrypt from 'bcrypt';
@@ -12,6 +12,7 @@ import { TokenService } from 'src/token/token.service';
 import { RefreshTokenPayload } from 'src/token/types';
 import { ChangePasswordBodyDto } from './dto/change-password-body.dto';
 import { ChangePasswordResponseType } from './types/change-password-response.type';
+import AppResponse from '../lib/app.response';
 
 @Injectable()
 export class AuthService {
@@ -29,7 +30,7 @@ export class AuthService {
 
   public async signUp(
     signUpBodyDto: SignUpBodyDto,
-  ): Promise<SignUpResponseType> {
+  ): Promise<AppResponse<SignUpResponseType>> {
     const { username, password, displayName } = signUpBodyDto;
 
     try {
@@ -40,10 +41,11 @@ export class AuthService {
       });
 
       if (existingUser) {
-        const isExistingUsername = username === existingUser.username;
-
-        throw new AppError('AlreadyExists', {
-          field: isExistingUsername ? 'username' : 'displayName',
+        return new AppResponse({
+          name: 'UsernameAlreadyExists',
+          statusCode: 409,
+          message: 'username already exists',
+          payload: null,
         });
       }
 
@@ -52,7 +54,7 @@ export class AuthService {
         this.SALT_ROUNDS,
       );
 
-      const user = await this.db.user.create({
+      await this.db.user.create({
         data: {
           username,
           passwordHash: hashedPassword,
@@ -60,9 +62,12 @@ export class AuthService {
         },
       });
 
-      return {
-        registered: !!user,
-      };
+      return new AppResponse({
+        name: '',
+        statusCode: 201,
+        message: '',
+        payload: null,
+      });
     } catch (e) {
       throw new AppError('Unknown');
     }
@@ -70,7 +75,7 @@ export class AuthService {
 
   public async signIn(
     signInBodyDto: SignInBodyDto,
-  ): Promise<SignInResponseType> {
+  ): Promise<AppResponse<SignInResponseType>> {
     const { username, password } = signInBodyDto;
 
     try {
@@ -81,22 +86,26 @@ export class AuthService {
       });
 
       if (!user) {
-        throw new AppError('WrongCredentials');
+        return new AppResponse({
+          name: 'WrongCredentials',
+          statusCode: 401,
+          message: 'username or password is wrong',
+          payload: null,
+        });
       }
 
-      try {
-        const isPasswordValid: boolean = await bcrypt.compare(
-          password,
-          user.passwordHash,
-        );
+      const isPasswordValid: boolean = await bcrypt.compare(
+        password,
+        user.passwordHash,
+      );
 
-        if (!isPasswordValid) throw new AppError('WrongCredentials');
-      } catch (e) {
-        if (isAppError(e)) {
-          throw e;
-        }
-
-        throw new AppError('Unknown');
+      if (!isPasswordValid) {
+        return new AppResponse({
+          name: 'WrongCredentials',
+          statusCode: 401,
+          message: 'username or password is wrong',
+          payload: null,
+        });
       }
 
       const tokens = await this.tokenService.generateTokens(user);
@@ -110,15 +119,16 @@ export class AuthService {
         },
       });
 
-      return {
-        user,
-        tokens,
-      };
+      return new AppResponse({
+        name: '',
+        statusCode: 200,
+        message: '',
+        payload: {
+          user,
+          tokens,
+        },
+      });
     } catch (e) {
-      if (isAppError(e)) {
-        throw e;
-      }
-
       throw new AppError('Unknown');
     }
   }
@@ -134,7 +144,9 @@ export class AuthService {
     });
   }
 
-  public async refreshToken(token: string): Promise<{ accessToken: string }> {
+  public async refreshToken(
+    token: string,
+  ): Promise<AppResponse<{ accessToken: string }>> {
     try {
       const decodedToken =
         await this.tokenService.validateToken<RefreshTokenPayload>(token);
@@ -146,8 +158,11 @@ export class AuthService {
       );
 
       if (!user) {
-        throw new AppError('Unauthorized', {
-          isExpiredToken: false,
+        return new AppResponse({
+          name: 'Unauthorized',
+          statusCode: 401,
+          message: 'user not found',
+          payload: null,
         });
       }
 
@@ -160,9 +175,14 @@ export class AuthService {
         profileImage: user.profileImage,
       });
 
-      return {
-        accessToken,
-      };
+      return new AppResponse({
+        name: '',
+        statusCode: 200,
+        message: '',
+        payload: {
+          accessToken,
+        },
+      });
     } catch (e) {
       throw new AppError('RefreshFailure');
     }
@@ -171,7 +191,7 @@ export class AuthService {
   public async changePassword(
     userId: number,
     changePasswordDto: ChangePasswordBodyDto,
-  ): Promise<ChangePasswordResponseType> {
+  ): Promise<AppResponse<ChangePasswordResponseType>> {
     const { currentPassword, newPassword } = changePasswordDto;
 
     try {
@@ -187,21 +207,21 @@ export class AuthService {
       );
 
       if (!isPasswordValid) {
-        return {
-          changed: false,
-          payload: {
-            field: 'currentPassword',
-          },
-        };
+        return new AppResponse({
+          name: 'WrongCredentials',
+          statusCode: 401,
+          message: 'current password is wrong',
+          payload: null,
+        });
       }
 
       if (currentPassword === newPassword) {
-        return {
-          changed: false,
-          payload: {
-            field: 'newPassword',
-          },
-        };
+        return new AppResponse({
+          name: 'SamePassword',
+          statusCode: 400,
+          message: 'current password and new password are the same',
+          payload: null,
+        });
       }
 
       const hashedPassword: string = await bcrypt.hash(
@@ -219,7 +239,9 @@ export class AuthService {
       });
 
       return {
-        changed: true,
+        name: '',
+        statusCode: 200,
+        message: '',
         payload: null,
       };
     } catch (e) {
