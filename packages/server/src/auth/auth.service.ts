@@ -3,7 +3,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { SignUpBodyDto } from 'src/auth/dto/sign-up-body.dto';
 import bcrypt from 'bcrypt';
 import { User } from '@prisma/client';
-import { AppError, isAppError } from 'src/lib/error';
+import { AppError } from 'src/lib/error';
 import { SignInResponseType, SignUpResponseType } from 'src/auth/types';
 import { SignInBodyDto } from 'src/auth/dto/sign-in-body.dto';
 import { JwtService } from '@nestjs/jwt';
@@ -13,6 +13,7 @@ import { RefreshTokenPayload } from 'src/token/types';
 import { ChangePasswordBodyDto } from './dto/change-password-body.dto';
 import { ChangePasswordResponseType } from './types/change-password-response.type';
 import AppResponse from '../lib/app.response';
+import { MaplePointService } from '../maple-point/maple-point.service';
 
 @Injectable()
 export class AuthService {
@@ -26,6 +27,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
     private readonly tokenService: TokenService,
+    private readonly maplePointService: MaplePointService,
   ) {}
 
   public async signUp(
@@ -64,7 +66,7 @@ export class AuthService {
 
       return new AppResponse({
         name: '',
-        statusCode: 201,
+        statusCode: 200,
         message: '',
         payload: null,
       });
@@ -119,6 +121,10 @@ export class AuthService {
         },
       });
 
+      const isFirstSignIn = await this.maplePointService.loginCheckEvent(
+        user.id,
+      );
+
       return new AppResponse({
         name: '',
         statusCode: 200,
@@ -126,6 +132,7 @@ export class AuthService {
         payload: {
           user,
           tokens,
+          isFirstSignIn,
         },
       });
     } catch (e) {
@@ -171,8 +178,6 @@ export class AuthService {
         userId: user.id,
         username: user.username,
         displayName: user.displayName,
-        level: user.level,
-        profileImage: user.profileImage,
       });
 
       return new AppResponse({
@@ -185,6 +190,36 @@ export class AuthService {
       });
     } catch (e) {
       throw new AppError('RefreshFailure');
+    }
+  }
+
+  public async existDisplayName(
+    displayName: string,
+  ): Promise<AppResponse<null>> {
+    try {
+      const existUser = await this.db.user.findFirst({
+        where: {
+          displayName,
+        },
+      });
+
+      if (existUser) {
+        return new AppResponse({
+          name: 'DisplayNameAlreadyExists',
+          statusCode: 409,
+          message: 'display name already exists',
+          payload: null,
+        });
+      }
+
+      return new AppResponse({
+        name: '',
+        statusCode: 200,
+        message: '',
+        payload: null,
+      });
+    } catch (e) {
+      throw new AppError('Unknown');
     }
   }
 

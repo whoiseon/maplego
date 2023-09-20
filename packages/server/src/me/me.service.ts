@@ -22,9 +22,10 @@ export class MeService {
         level: true,
         createdAt: true,
         updatedAt: true,
+        mp: true,
       };
 
-      const userAll: User = await this.db.user.findUnique({
+      const userAll = await this.db.user.findUnique({
         where: {
           id: userId,
         },

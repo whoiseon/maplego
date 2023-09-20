@@ -38,7 +38,7 @@ export class TokenService {
   }
 
   public async generateTokens(user: User): Promise<Tokens> {
-    const { id: userId, username, displayName, level, profileImage } = user;
+    const { id: userId, username, displayName, level, profileImage, mp } = user;
 
     const [accessToken, refreshToken] = await Promise.all([
       this.generateToken({
@@ -46,8 +46,6 @@ export class TokenService {
         userId,
         username,
         displayName,
-        level,
-        profileImage,
       }),
       this.generateToken({
         type: 'refresh_token',

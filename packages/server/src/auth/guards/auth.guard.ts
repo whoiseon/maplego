@@ -45,8 +45,6 @@ export class AuthGuard implements CanActivate {
         id: payload.userId,
         username: payload.username,
         displayName: payload.displayName,
-        level: payload.level,
-        profileImage: payload.profileImage,
       };
     } catch (e: any) {
       if (e.name === 'TokenExpiredError') {

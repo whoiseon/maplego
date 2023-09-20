@@ -19,13 +19,17 @@ model User {
   email              String?   @unique
   profileImage       String?
   introduction       String?   @default("")
-  level              Int       @default(0)
+  level              Int       @default(1)
+  role               Int       @default(0)
+  mp                 Int       @default(0)
   lastLogin          DateTime?
   createdAt          DateTime  @default(now())
-  updatedAt          DateTime  @updatedAt
+  updatedAt          DateTime? @updatedAt
+  deletedAt          DateTime?
   currentHashedToken String?
 
-  posts Post[]
+  posts      Post[]
+  MaplePoint MaplePoint[]
 }
 
 model Post {
@@ -39,4 +43,15 @@ model Post {
 
   author   User @relation(fields: [authorId], references: [id])
   authorId Int
+}
+
+model MaplePoint {
+  id        Int      @id @default(autoincrement())
+  point     Int
+  message   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
 }

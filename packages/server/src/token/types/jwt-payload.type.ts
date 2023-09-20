@@ -3,8 +3,6 @@ export type AccessTokenPayload = {
   userId: number;
   username: string;
   displayName: string;
-  level: number;
-  profileImage: string;
 };
 
 export type RefreshTokenPayload = {

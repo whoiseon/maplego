@@ -10,6 +10,8 @@ import { MeModule } from './me/me.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { JwtService } from '@nestjs/jwt';
+import { MaplePointService } from './maple-point/maple-point.service';
+import { MaplePointModule } from './maple-point/maple-point.module';
 
 @Module({
   imports: [
@@ -22,6 +24,7 @@ import { JwtService } from '@nestjs/jwt';
     TokenModule,
     CookieModule,
     MeModule,
+    MaplePointModule,
   ],
   controllers: [AppController],
   providers: [
@@ -31,6 +34,7 @@ import { JwtService } from '@nestjs/jwt';
       provide: APP_GUARD,
       useClass: AuthGuard,
     },
+    MaplePointService,
   ],
 })
 export class AppModule {}

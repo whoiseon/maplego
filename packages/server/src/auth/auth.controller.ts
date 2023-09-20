@@ -20,6 +20,7 @@ import { AuthGuard } from 'src/auth/guards';
 import { User } from '@prisma/client';
 import { ChangePasswordBodyDto } from './dto/change-password-body.dto';
 import AppResponse from '../lib/app.response';
+import { ExistDisplayNameDto } from './dto/exist-display-name.dto';
 
 @Controller('api/auth')
 export class AuthController {
@@ -92,5 +93,14 @@ export class AuthController {
     @Body() body: ChangePasswordBodyDto,
   ) {
     return await this.authService.changePassword(user.id, body);
+  }
+
+  @Public()
+  @Post('exist/displayName')
+  @HttpCode(HttpStatus.OK)
+  public async checkDisplayName(
+    @Body() body: ExistDisplayNameDto,
+  ): Promise<AppResponse<null>> {
+    return await this.authService.existDisplayName(body.displayName);
   }
 }
