@@ -19,7 +19,7 @@ const StyledCard = styled.div`
   border-radius: 4px;
   background-color: ${themedPalette.bg_element1};
   box-shadow: ${themedPalette.shadow1};
-  border: ${themedPalette.card_border};
+  border: 1px solid ${themedPalette.border4};
 `;
 
 export default Card;

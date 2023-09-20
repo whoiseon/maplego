@@ -4,4 +4,7 @@ export const queryKey = {
 
   // auth
   GET_ME: ['me'],
+
+  // point
+  GET_POINT_HISTORY: ['my', 'point', 'history'],
 };

@@ -18,7 +18,6 @@ type ThemeVariables = {
   border2: string;
   border3: string;
   border4: string;
-  card_border: string;
   lightNoneDarkBorder: string;
   primary1: string;
   primary2: string;
@@ -65,7 +64,6 @@ const themeVariableSets: Record<Theme, ThemeVariables> = {
     border2: '#adb5bd',
     border3: '#dee2e6',
     border4: '#f1f3f5',
-    card_border: 'none',
     lightNoneDarkBorder: 'none',
     primary1: '#ff7417',
     primary2: '#ff8537',
@@ -106,7 +104,6 @@ const themeVariableSets: Record<Theme, ThemeVariables> = {
     border2: '#a0a0a0',
     border3: '#4d4d4d',
     border4: '#303436',
-    card_border: '1px solid #303436',
     lightNoneDarkBorder: '1px solid #303436',
     primary1: '#f7863e',
     primary2: '#d67e45',

@@ -12,7 +12,7 @@ import { ErrorResponse, SignInResponse, User } from '@/lib/api/types';
 import { themedPalette } from '@/styles/palette';
 import FullHeightPage from '@/components/common/system/FullHeightPage';
 import { queryKey } from '@/lib/query/queryKey';
-import { useGetMyAccount } from '@/lib/hooks/mutations/useGetMyAccount';
+import { useGetMyAccount } from '@/lib/hooks/queries/useGetMyAccount';
 
 function SignInPage() {
   const queryClient = useQueryClient();

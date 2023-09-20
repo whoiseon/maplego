@@ -27,4 +27,11 @@ export const endpoint = {
       getMeAll: `${this.base}/me/all`,
     };
   },
+
+  // point (MP)
+  get point() {
+    return {
+      getPointHistory: `${this.base}/point/history`,
+    };
+  },
 };

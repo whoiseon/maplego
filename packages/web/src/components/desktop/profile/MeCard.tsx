@@ -57,6 +57,7 @@ function MeCard({
 
 const Block = styled.article`
   position: relative;
+  width: 100%;
 `;
 
 const CardHeader = styled.div`

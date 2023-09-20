@@ -4,11 +4,11 @@ import { themedPalette } from '@/styles/palette';
 import transitions from '@/lib/transitions';
 import Link from 'next/link';
 import LevelIcon from '@/components/common/user/LevelIcon';
-import { useGetMyAccount } from '@/lib/hooks/mutations/useGetMyAccount';
+import { useGetMyAccount } from '@/lib/hooks/queries/useGetMyAccount';
 import React, { useRef, useEffect } from 'react';
 import LogoutIcon from '@/assets/images/vectors/logout-icon.svg';
 import ThemeIcon from '@/assets/images/vectors/profile-theme-icon.svg';
-import { useSignOut } from '@/lib/hooks/mutations/useSignOut';
+import { useSignOut } from '@/lib/hooks/queries/useSignOut';
 import ThemeButton from '@/components/common/system/ThemeButton';
 import { usePathname } from 'next/navigation';
 

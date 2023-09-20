@@ -8,7 +8,7 @@ import styled from '@emotion/styled';
 import { themedPalette } from '@/styles/palette';
 import { useMemo } from 'react';
 import dayjs from 'dayjs';
-import { useGetMyAccount } from '@/lib/hooks/mutations/useGetMyAccount';
+import { useGetMyAccount } from '@/lib/hooks/queries/useGetMyAccount';
 import { useInput } from '@/lib/hooks/useInput';
 
 function ProfileEditCard() {

@@ -21,12 +21,13 @@ const StyledProfile = styled.div<{ size: number; onlyImage: boolean }>`
   width: ${({ size }) => size}px;
   height: ${({ size }) => size}px;
   border-radius: 50%;
-  background: #eeeeee;
+  background: ${themedPalette.bg_element2};
+  box-shadow: ${themedPalette.shadow2};
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.15s ease-in-out;
-  border: 2px solid transparent;
+  border: 1px solid ${themedPalette.border4};
 
   svg {
     width: ${({ size }) => size * 0.5}px;
@@ -36,7 +37,7 @@ const StyledProfile = styled.div<{ size: number; onlyImage: boolean }>`
     ${({ onlyImage }) =>
       !onlyImage &&
       css`
-        border: 2px solid ${themedPalette.primary2};
+        border: 1px solid ${themedPalette.primary2};
       `}
   }
 `;

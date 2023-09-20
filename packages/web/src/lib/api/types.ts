@@ -1,3 +1,31 @@
+export interface User {
+  id: number;
+  username: string;
+  displayName: string;
+  level: number;
+  profileImage: string;
+  introduction: string;
+  lastLogin: Date;
+  email: string;
+  createdAt: Date;
+  updatedAt: Date;
+  mp: number;
+}
+
+export interface MaplePoint {
+  id: number;
+  point: number;
+  message: string;
+  createdAt: Date;
+  updatedAt?: Date;
+  userId?: number;
+}
+
+export interface Tokens {
+  accessToken: string;
+  refreshToken: string;
+}
+
 export interface AppResponse {
   name: string;
   statusCode: number;
@@ -15,25 +43,8 @@ export interface SignInResponse extends AppResponse {
   payload: {
     user: User;
     token: Tokens;
+    isFirstSignIn: boolean;
   };
-}
-
-export interface User {
-  id: number;
-  username: string;
-  displayName: string;
-  level: number;
-  profileImage: string;
-  introduction: string;
-  lastLogin: Date;
-  email: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-export interface Tokens {
-  accessToken: string;
-  refreshToken: string;
 }
 
 export interface ChangePasswordParams {
@@ -51,4 +62,13 @@ export interface CheckDisplayNameParams {
 
 export interface CheckDisplayNameResponse extends AppResponse {
   payload: null;
+}
+
+export interface MaplePointHistoryResponse extends AppResponse {
+  payload: {
+    showCount: number;
+    totalCount: number;
+    pageNumber: number;
+    data: MaplePoint[];
+  };
 }

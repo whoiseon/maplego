@@ -1,11 +1,17 @@
-import { useGetMyAccount } from '@/lib/hooks/mutations/useGetMyAccount';
+import { useGetMyAccount } from '@/lib/hooks/queries/useGetMyAccount';
 import styled from '@emotion/styled';
 import { themedPalette } from '@/styles/palette';
 import UserProfile from '@/components/common/profile/UserProfile';
+import HeaderMpBox from '@/components/desktop/base/HeaderMpBox';
 
-function HeaderUserBox() {
+interface Props {
+  mp: number;
+}
+
+function HeaderUserBox({ mp }: Props) {
   return (
     <Block>
+      <HeaderMpBox point={mp} />
       <UserProfile size={38} />
     </Block>
   );
@@ -14,7 +20,7 @@ function HeaderUserBox() {
 const Block = styled.div`
   display: flex;
   align-items: center;
-  gap: 0 8px;
+  gap: 0 0.5rem;
 
   .circle {
     width: 38px;

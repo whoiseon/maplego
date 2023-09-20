@@ -6,17 +6,14 @@ import ThemeButton from '@/components/common/system/ThemeButton';
 import HeaderNavList from './HeaderNavList';
 import { themedPalette } from '@/styles/palette';
 import styled from '@emotion/styled';
-import { useGetMyAccount } from '@/lib/hooks/mutations/useGetMyAccount';
+import { useGetMyAccount } from '@/lib/hooks/queries/useGetMyAccount';
 import { memo, useEffect } from 'react';
-import { useUser } from '@/states/user';
 import HeaderAuthBox from '@/components/desktop/base/HeaderAuthBox';
-import { useQueryClient } from '@tanstack/react-query';
 import HeaderUserBox from '@/components/desktop/base/HeaderUserBox';
 
 interface Props {}
 
 function Header() {
-  const queryClient = useQueryClient();
   const { data: meData } = useGetMyAccount();
 
   useEffect(() => {
@@ -30,7 +27,9 @@ function Header() {
           <Logo />
           <HeaderNavList />
         </LeftBox>
-        <RightBox>{meData ? <HeaderUserBox /> : <HeaderAuthBox />}</RightBox>
+        <RightBox>
+          {meData ? <HeaderUserBox mp={meData?.mp} /> : <HeaderAuthBox />}
+        </RightBox>
       </Container>
     </StyledHeader>
   );

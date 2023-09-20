@@ -65,7 +65,6 @@ const StyledListBox = styled.ul`
   top: 46px;
   left: 0;
   width: 340px;
-  border: 1px solid ${themedPalette.border4};
   border-radius: 4px;
   box-shadow: ${themedPalette.shadow1};
   z-index: 999;

@@ -128,7 +128,7 @@ function BoardList({ slug }: Props) {
         </tr>
       );
     });
-  }, []);
+  }, [postData]);
 
   return (
     <Card>

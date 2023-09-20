@@ -25,6 +25,11 @@ const dummyProfilePageMap: {
       '등급을 확인하고, MP를 모아서 더 높은 등급으로 진급 할 수 있어요!',
   },
   {
+    name: '내 포인트',
+    href: 'me/mp',
+    description: '포인트를 모아서 다양한 혜택을 받아보세요!',
+  },
+  {
     name: '비밀번호 변경',
     href: 'me/password',
     description: '90일마다 비밀번호를 변경하시는 것을 권장드려요!',
