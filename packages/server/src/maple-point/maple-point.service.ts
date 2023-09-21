@@ -32,19 +32,44 @@ export class MaplePointService {
     userId: number,
     pageNumber: number,
     showCount: number,
+    target: string,
+    startDate: string,
+    endDate: string,
   ): Promise<AppResponse<MaplePointHistoryResponse>> {
     try {
       const historySelectField: Prisma.MaplePointSelect = {
         id: true,
         point: true,
+        prevPoint: true,
         message: true,
         createdAt: true,
       };
 
+      const historyWhereField: Prisma.MaplePointWhereInput = {
+        userId,
+      };
+
+      if (!!startDate && !!endDate) {
+        historyWhereField.createdAt = {
+          gte: this.formatStartDate(new Date(startDate)),
+          lte: this.formatEndDate(new Date(endDate)),
+        };
+      }
+
+      if (!!target && target === 'get') {
+        historyWhereField.point = {
+          gt: 0,
+        };
+      }
+
+      if (!!target && target === 'use') {
+        historyWhereField.point = {
+          lt: 0,
+        };
+      }
+
       const history = await this.db.maplePoint.findMany({
-        where: {
-          userId,
-        },
+        where: historyWhereField,
         select: historySelectField,
         orderBy: {
           createdAt: 'desc',
@@ -64,13 +89,14 @@ export class MaplePointService {
         statusCode: 200,
         message: '',
         payload: {
-          showCount: 10,
+          showCount,
           pageNumber: 1,
           totalCount: historyCount,
           data: history,
         },
       });
     } catch (e) {
+      console.log(e);
       throw new AppError('Unknown');
     }
   }
@@ -103,6 +129,7 @@ export class MaplePointService {
   public async createMaplePointHistory(
     userId: number,
     mp: number,
+    prevMp: number,
     message: string,
   ): Promise<void> {
     try {
@@ -110,6 +137,7 @@ export class MaplePointService {
         data: {
           userId,
           point: mp,
+          prevPoint: prevMp,
           message,
         },
       });
@@ -144,7 +172,7 @@ export class MaplePointService {
       }
 
       await this.updateMaplePoint(userId, mp);
-      await this.createMaplePointHistory(userId, mp, message);
+      await this.createMaplePointHistory(userId, mp, user.mp, message);
 
       this.logger.log(
         `[MaplePoint-Give] (${userId} ${user.username})에게 ${mp}만큼의 메이플포인트를 지급하였습니다.`,
@@ -192,7 +220,7 @@ export class MaplePointService {
       }
 
       await this.updateMaplePoint(userId, mp);
-      await this.createMaplePointHistory(userId, mp, message);
+      await this.createMaplePointHistory(userId, mp, user.mp, message);
 
       this.logger.log(
         `[MaplePoint-Receive] (${userId} ${user.username})에게 ${mp}만큼의 메이플포인트를 회수하였습니다.`,
@@ -222,7 +250,7 @@ export class MaplePointService {
   }
 
   /** 로그인 출석체크 포인트 지급 이벤트 */
-  public async loginCheckEvent(userId: number): Promise<boolean> {
+  public async signInCheckEvent(userId: number): Promise<boolean> {
     try {
       const history = await this.getMaplePointHistoryAll(userId);
       const today = new Date().getDate();
@@ -234,7 +262,7 @@ export class MaplePointService {
         return false;
       }
 
-      const minPoint = 10;
+      const minPoint = 1;
       const maxPoint = 100;
       const randomPoint = Math.floor(
         Math.random() * (maxPoint - minPoint + 1) + minPoint,
@@ -246,5 +274,27 @@ export class MaplePointService {
     } catch (e) {
       throw new AppError('Unknown');
     }
+  }
+
+  /** 회원가입 포인트 지급 이벤트 */
+  public async signUpPointEvent(userId: number): Promise<void> {
+    try {
+      await this.giveMaplePointByAdmin(userId, 1000, '신규가입 이벤트');
+    } catch (e) {
+      throw new AppError('Unknown');
+    }
+  }
+
+  /** 유틸 */
+  private formatStartDate(date: Date): Date {
+    const d = new Date(date);
+    d.setHours(0, 0, 0, 0);
+    return d;
+  }
+
+  private formatEndDate(date: Date): Date {
+    const d = new Date(date);
+    d.setHours(23, 59, 59, 999);
+    return d;
   }
 }

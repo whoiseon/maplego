@@ -4,5 +4,4 @@ import { User } from '@prisma/client';
 export interface SignInResponseType {
   user: User;
   tokens: Tokens;
-  isFirstSignIn: boolean;
 }

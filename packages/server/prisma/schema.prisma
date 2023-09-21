@@ -48,6 +48,7 @@ model Post {
 model MaplePoint {
   id        Int      @id @default(autoincrement())
   point     Int
+  prevPoint Int      @default(0)
   message   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

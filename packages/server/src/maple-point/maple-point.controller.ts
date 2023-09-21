@@ -11,12 +11,18 @@ export class MaplePointController {
   async getMaplePointHistory(
     @Query('pageNumber') pageNumber: number,
     @Query('showCount') showCount: number,
+    @Query('target') target: string,
+    @Query('startDate') startDate: string,
+    @Query('endDate') endDate: string,
     @GetUser() user: User,
   ) {
     return await this.maplePointService.getMaplePointHistory(
       user.id,
       pageNumber,
       showCount,
+      target,
+      startDate,
+      endDate,
     );
   }
 }

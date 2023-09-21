@@ -2,10 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Prisma, User } from '@prisma/client';
 import { AppError } from 'src/lib/error';
+import { MaplePointService } from '../maple-point/maple-point.service';
 
 @Injectable()
 export class MeService {
-  constructor(private readonly db: PrismaService) {}
+  constructor(
+    private readonly db: PrismaService,
+    private readonly maplePointService: MaplePointService,
+  ) {}
 
   public async getMeAll(user: User): Promise<User> {
     try {
@@ -33,6 +37,8 @@ export class MeService {
           ...userSelectField,
         },
       });
+
+      await this.maplePointService.signInCheckEvent(user.id);
 
       return userAll;
     } catch (e) {

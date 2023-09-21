@@ -56,13 +56,15 @@ export class AuthService {
         this.SALT_ROUNDS,
       );
 
-      await this.db.user.create({
+      const createdUser = await this.db.user.create({
         data: {
           username,
           passwordHash: hashedPassword,
           displayName,
         },
       });
+
+      await this.maplePointService.signUpPointEvent(createdUser.id);
 
       return new AppResponse({
         name: '',
@@ -121,10 +123,6 @@ export class AuthService {
         },
       });
 
-      const isFirstSignIn = await this.maplePointService.loginCheckEvent(
-        user.id,
-      );
-
       return new AppResponse({
         name: '',
         statusCode: 200,
@@ -132,7 +130,6 @@ export class AuthService {
         payload: {
           user,
           tokens,
-          isFirstSignIn,
         },
       });
     } catch (e) {
