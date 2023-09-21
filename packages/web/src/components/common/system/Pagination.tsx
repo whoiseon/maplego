@@ -1,3 +1,5 @@
+'use client';
+
 import { themedPalette } from '@/styles/palette';
 import styled from '@emotion/styled';
 import Link from 'next/link';
@@ -43,7 +45,7 @@ function Pagination({ totalPage, limit, page }: Props) {
         setCurrentPageArray(totalPageArray[Math.floor(page / limit) - 1]);
       }
     }
-  }, [page, limit]);
+  }, [page]);
 
   useEffect(() => {
     const slicedPageArray = sliceArrayByLimit(totalPage, limit);
@@ -52,7 +54,7 @@ function Pagination({ totalPage, limit, page }: Props) {
       setTotalPageArray(slicedPageArray);
       setCurrentPageArray(slicedPageArray[0]);
     }
-  }, [totalPage, limit]);
+  }, [totalPage]);
 
   return (
     <StyledPagination>
@@ -93,6 +95,7 @@ const StyledPagination = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
+  min-height: 106px;
   padding: 30px 0 40px;
 `;
 

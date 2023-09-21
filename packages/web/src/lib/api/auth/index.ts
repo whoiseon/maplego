@@ -6,8 +6,8 @@ import {
   CheckDisplayNameResponse,
   SignInResponse,
   SignUpResponse,
-  Tokens,
-} from '@/lib/api/types';
+} from './types';
+import { Tokens } from '@/lib/api/types';
 
 export interface SignUpParams {
   displayName: string;

@@ -1,5 +1,5 @@
 import { endpoint } from '@/lib/api/endpoint';
-import { User, ErrorResponse } from './types';
+import { User, AppResponse } from '../types';
 import { fetchRefresh } from '@/lib/api/auth';
 
 export async function fetchGetMe(): Promise<User | null> {
@@ -10,10 +10,10 @@ export async function fetchGetMe(): Promise<User | null> {
       credentials: 'include',
     });
 
-    const data = (await response.json()) as User | ErrorResponse;
+    const data = (await response.json()) as User | AppResponse;
 
     if (!response.ok) {
-      const error = data as ErrorResponse;
+      const error = data as AppResponse;
 
       if (error.statusCode === 500) return null;
 
@@ -49,7 +49,7 @@ export async function fetchGetMeOnServer(
     },
   });
 
-  const data = (await response.json()) as User | ErrorResponse;
+  const data = (await response.json()) as User | AppResponse;
 
   return data as User;
 }

@@ -2,6 +2,7 @@ import MeCard from '@/components/desktop/profile/MeCard';
 import styled from '@emotion/styled';
 import { useGetMyAccount } from '@/lib/hooks/queries/useGetMyAccount';
 import { themedPalette } from '@/styles/palette';
+import PointIcon from '@/components/common/system/PointIcon';
 
 interface Props {
   hasLink?: boolean;
@@ -21,7 +22,7 @@ function PointCheckCard({ hasLink = true, layout = 'full' }: Props) {
             </span>
           </PointText>
           <PointValueBox layout={layout}>
-            <i>MP</i>
+            <PointIcon />
             <span>{meData!.mp.toLocaleString()}</span>
           </PointValueBox>
         </PointCheckBox>
@@ -39,7 +40,7 @@ function PointCheckCard({ hasLink = true, layout = 'full' }: Props) {
           </span>
         </PointText>
         <PointValueBox layout={layout}>
-          <i>MP</i>
+          <PointIcon />
           <span>{meData!.mp?.toLocaleString()}</span>
         </PointValueBox>
       </PointCheckBox>
@@ -87,13 +88,6 @@ const PointValueBox = styled.div<{ layout: 'full' | 'half' }>`
 
   span {
     font-weight: 700;
-  }
-
-  i {
-    font-style: normal;
-    font-size: 12px;
-    font-weight: bold;
-    color: ${themedPalette.primary2};
   }
 `;
 

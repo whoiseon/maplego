@@ -115,7 +115,7 @@ const themeVariableSets: Record<Theme, ThemeVariables> = {
     success_text: '#4CC38A',
     shadow1:
       '0 0 2px 0 rgba(0, 0, 0, 0.2), 0 12px 24px -4px rgba(0, 0, 0, 0.12)',
-    shadow2: '0 1px 3px 0 rgba(0, 0, 0, 0.4)',
+    shadow2: '0 1.5px 3px 0 rgba(0, 0, 0, 0.4)',
     shadow3:
       '0 0 2px 0 rgba(0, 0, 0, 0.2), 0 12px 24px -4px rgba(0, 0, 0, 0.12)',
     selectArrowBg:

@@ -3,6 +3,7 @@
 import LinksHeader from '@/components/desktop/system/LinksHeader';
 import { ReactNode } from 'react';
 import styled from '@emotion/styled';
+import { useGetMyAccount } from '@/lib/hooks/queries/useGetMyAccount';
 
 interface Props {
   children: ReactNode;
@@ -37,6 +38,13 @@ const dummyProfilePageMap: {
 ];
 
 function MeLayout({ children }: Props) {
+  const { data: meData } = useGetMyAccount();
+
+  if (!meData) {
+    window.location.href = '/';
+    return;
+  }
+
   return (
     <Block>
       <LinksHeader

@@ -27,7 +27,7 @@ const StyledProfile = styled.div<{ size: number; onlyImage: boolean }>`
   align-items: center;
   justify-content: center;
   transition: all 0.15s ease-in-out;
-  border: 1px solid ${themedPalette.border4};
+  border: 1px solid ${themedPalette.border3};
 
   svg {
     width: ${({ size }) => size * 0.5}px;
