@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import { AppErrorFilter } from 'src/lib/error/app-error.filter';
 import helmet from 'helmet';
 import hpp from 'hpp';
+import { json, urlencoded } from 'express';
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
@@ -27,6 +28,9 @@ async function bootstrap(): Promise<void> {
       credentials: true,
     });
   }
+
+  app.use(json({ limit: '10mb' }));
+  app.use(urlencoded({ limit: '10mb' }));
 
   app.useGlobalPipes(
     new ValidationPipe({

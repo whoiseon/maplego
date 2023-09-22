@@ -41,4 +41,11 @@ export const endpoint = {
       getPointHistory: `${this.base}/point/history`,
     };
   },
+
+  // upload
+  get upload() {
+    return {
+      profile: `${this.base}/upload/profile`,
+    };
+  },
 };

@@ -6,7 +6,7 @@ import LabelTextarea from '@/components/common/system/LabelTextarea';
 import MeCard from '@/components/desktop/profile/MeCard';
 import styled from '@emotion/styled';
 import { themedPalette } from '@/styles/palette';
-import { useMemo, useState } from 'react';
+import { ChangeEvent, useMemo, useState } from 'react';
 import dayjs from 'dayjs';
 import { useGetMyAccount } from '@/lib/hooks/queries/useGetMyAccount';
 import { useInput } from '@/lib/hooks/useInput';
@@ -14,6 +14,8 @@ import { fetchCheckDisplayName } from '@/lib/api/auth';
 import { CheckDisplayName } from '@/components/desktop/auth/SignUpForm';
 import { useUpdateProfile } from '@/lib/hooks/queries/useUpdateProfile';
 import { ServerMessage } from '@/components/desktop/profile/mePassword/PasswordChangeCard';
+import LabelFileInput from '@/components/common/system/LabelFileInput';
+import { fetchUploadProfile } from '@/lib/api/upload';
 
 function ProfileEditCard() {
   const { data: meData } = useGetMyAccount();
@@ -63,7 +65,18 @@ function ProfileEditCard() {
     });
   };
 
-  const hasDisplayNameChangeItem = false;
+  const onChangeProfileImage = async (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('file', file, encodeURIComponent(file.name));
+    try {
+      const response = await fetchUploadProfile(formData);
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   const onCheckDisplayName = async () => {
     if (
@@ -114,9 +127,12 @@ function ProfileEditCard() {
               프로필 사진은 <strong>5MB</strong> 이하의 이미지 파일만 업로드할
               수 있어요!
             </p>
-            <Button variant="gray" size="small">
-              프로필 사진 변경
-            </Button>
+            <LabelFileInput
+              label="프로필 선택"
+              inputId="profile-image-input"
+              onChange={onChangeProfileImage}
+              accept="image/*"
+            />
           </ActionsBox>
         </ProfileImageBox>
         <ProfileEditBox>
@@ -131,7 +147,7 @@ function ProfileEditCard() {
               disabled={!!meData?.displayNameChangedAt}
               description={
                 meData?.displayNameChangedAt
-                  ? '닉네임 변경권을 사용하면 언제든지 변경할 수 있어요!'
+                  ? '닉네임 변경권이 있다면 언제든지 변경할 수 있어요!'
                   : '처음 한 번은 아이템 없이 변경할 수 있어요!'
               }
             />
@@ -171,6 +187,7 @@ const ProfileEditInputGroup = styled.div`
   .input-description {
     color: ${themedPalette.warning_text};
     font-weight: 500;
+    margin-top: 8px;
   }
 
   input {

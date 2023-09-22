@@ -2,20 +2,11 @@ import { Module } from '@nestjs/common';
 import { MaplePointController } from './maple-point.controller';
 import { MaplePointService } from './maple-point.service';
 import { PrismaService } from '../prisma/prisma.service';
-import { TokenService } from '../token/token.service';
-import { JwtService } from '@nestjs/jwt';
-import { AuthService } from '../auth/auth.service';
+import { authProviders } from '../lib/providers/auth.providers';
 
 @Module({
   controllers: [MaplePointController],
-  providers: [
-    MaplePointService,
-    PrismaService,
-    TokenService,
-    JwtService,
-    AuthService,
-    MaplePointService,
-  ],
+  providers: [MaplePointService, PrismaService, ...authProviders],
   exports: [MaplePointService],
 })
 export class MaplePointModule {}

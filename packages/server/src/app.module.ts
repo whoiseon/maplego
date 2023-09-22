@@ -13,6 +13,8 @@ import { JwtService } from '@nestjs/jwt';
 import { MaplePointService } from './maple-point/maple-point.service';
 import { MaplePointModule } from './maple-point/maple-point.module';
 import { UserModule } from './user/user.module';
+import { UploadService } from './upload/upload.service';
+import { UploadModule } from './upload/upload.module';
 
 @Module({
   imports: [
@@ -27,6 +29,7 @@ import { UserModule } from './user/user.module';
     MeModule,
     MaplePointModule,
     UserModule,
+    UploadModule,
   ],
   controllers: [AppController],
   providers: [
@@ -37,6 +40,7 @@ import { UserModule } from './user/user.module';
       useClass: AuthGuard,
     },
     MaplePointService,
+    UploadService,
   ],
 })
 export class AppModule {}

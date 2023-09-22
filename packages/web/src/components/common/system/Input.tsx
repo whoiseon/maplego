@@ -12,12 +12,18 @@ export interface InputProps
   register?: any;
   options?: RegisterOptions;
   errors?: any;
+  inputId?: string;
 }
 
-function Input({ errors, register, options, ...rest }: InputProps) {
+function Input({ errors, register, options, inputId, ...rest }: InputProps) {
+  if (rest.type === 'file') {
+    return <StyledFileInput id={inputId || rest.id} {...rest} />;
+  }
+
   if (rest.type === 'password') {
     return (
       <PasswordInput
+        id={inputId || rest.id}
         register={register}
         errors={errors}
         options={options}
@@ -29,7 +35,11 @@ function Input({ errors, register, options, ...rest }: InputProps) {
   if (register) {
     return (
       <>
-        <StyledInput {...register(rest.name, options)} {...rest} />
+        <StyledInput
+          id={inputId || rest.id}
+          {...register(rest.name, options)}
+          {...rest}
+        />
         {errors && <InputError>{errors.message}</InputError>}
       </>
     );
@@ -74,6 +84,17 @@ export const InputError = styled.p`
   font-size: 0.875rem;
   color: ${themedPalette.danger1};
   animation: ${transitions.errorBounce} 0.4s ease-in-out;
+`;
+
+const StyledFileInput = styled.input`
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 `;
 
 export default Input;
