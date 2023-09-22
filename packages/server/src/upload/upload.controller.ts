@@ -24,6 +24,6 @@ export class UploadController {
     }),
   )
   uploadProfile(@UploadedFile() file: Express.Multer.File) {
-    console.log(file);
+    return this.uploadService.uploadProfile(file);
   }
 }
