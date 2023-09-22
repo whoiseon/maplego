@@ -12,21 +12,22 @@ datasource db {
 }
 
 model User {
-  id                 Int       @id @default(autoincrement())
-  username           String    @unique
-  passwordHash       String
-  displayName        String    @unique
-  email              String?   @unique
-  profileImage       String?
-  introduction       String?   @default("")
-  level              Int       @default(1)
-  role               Int       @default(0)
-  mp                 Int       @default(0)
-  lastLogin          DateTime?
-  createdAt          DateTime  @default(now())
-  updatedAt          DateTime? @updatedAt
-  deletedAt          DateTime?
-  currentHashedToken String?
+  id                   Int       @id @default(autoincrement())
+  username             String    @unique
+  passwordHash         String
+  displayName          String    @unique
+  email                String?   @unique
+  profileImage         String?
+  introduction         String?   @default("")
+  level                Int       @default(1)
+  role                 Int       @default(0)
+  mp                   Int       @default(0)
+  lastLogin            DateTime?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime? @updatedAt
+  deletedAt            DateTime?
+  displayNameChangedAt DateTime? @updatedAt
+  currentHashedToken   String?
 
   posts      Post[]
   MaplePoint MaplePoint[]

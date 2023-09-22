@@ -6,10 +6,14 @@ import LabelTextarea from '@/components/common/system/LabelTextarea';
 import MeCard from '@/components/desktop/profile/MeCard';
 import styled from '@emotion/styled';
 import { themedPalette } from '@/styles/palette';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import dayjs from 'dayjs';
 import { useGetMyAccount } from '@/lib/hooks/queries/useGetMyAccount';
 import { useInput } from '@/lib/hooks/useInput';
+import { fetchCheckDisplayName } from '@/lib/api/auth';
+import { CheckDisplayName } from '@/components/desktop/auth/SignUpForm';
+import { useUpdateProfile } from '@/lib/hooks/queries/useUpdateProfile';
+import { ServerMessage } from '@/components/desktop/profile/mePassword/PasswordChangeCard';
 
 function ProfileEditCard() {
   const { data: meData } = useGetMyAccount();
@@ -20,6 +24,16 @@ function ProfileEditCard() {
   const [introduction, onChangeIntroduction] = useInput(
     meData?.introduction || '',
   );
+  const [checkDisplayName, setCheckDisplayName] = useState<CheckDisplayName>({
+    statusCode: 0,
+    message: '',
+  });
+  const [serverMessage, setServerMessage] = useState<ServerMessage>({
+    type: 'success',
+    message: '',
+  });
+
+  const [mutate, isLoading] = useUpdateProfile(setServerMessage);
 
   const lastLoginRender = useMemo(() => {
     if (!meData?.lastLogin) return '';
@@ -30,17 +44,65 @@ function ProfileEditCard() {
   }, [meData?.lastLogin]);
 
   const onEditProfile = () => {
+    const profileImage = '';
     const isNotChangedDisplayName = meData?.displayName === displayName;
     const isNotChangedIntroduction = meData?.introduction === introduction;
 
-    console.log({
-      displayName: isNotChangedDisplayName ? null : displayName,
-      introduction: isNotChangedIntroduction ? null : introduction,
+    if (isNotChangedDisplayName && isNotChangedIntroduction && !profileImage) {
+      setServerMessage({
+        type: 'error',
+        message: '변경된 내용이 없습니다.',
+      });
+      return;
+    }
+
+    mutate({
+      profileImage,
+      displayName: isNotChangedDisplayName ? '' : displayName,
+      introduction: isNotChangedIntroduction ? '' : introduction,
     });
   };
 
+  const hasDisplayNameChangeItem = false;
+
+  const onCheckDisplayName = async () => {
+    if (
+      displayName === '' ||
+      displayName.length < 2 ||
+      meData?.displayName === displayName
+    ) {
+      setCheckDisplayName({
+        statusCode: 0,
+        message: '',
+      });
+      return;
+    }
+
+    try {
+      const response = await fetchCheckDisplayName({
+        displayName,
+      });
+      if (response.statusCode === 200) {
+        setCheckDisplayName({
+          statusCode: response.statusCode,
+          message: '사용 가능한 별명입니다.',
+        });
+      } else {
+        setCheckDisplayName({
+          statusCode: response.statusCode,
+          message: '이미 사용중인 별명입니다.',
+        });
+      }
+    } catch (e) {}
+  };
+
   return (
-    <MeCard title="프로필 수정" icon={<MyProfileIcon />} onEdit={onEditProfile}>
+    <MeCard
+      title="프로필 수정"
+      icon={<MyProfileIcon />}
+      onEdit={onEditProfile}
+      message={serverMessage}
+    >
       <ProfileBox>
         <LastLoginBox>
           <p>{lastLoginRender}</p>
@@ -61,13 +123,21 @@ function ProfileEditCard() {
           <ProfileEditInputGroup>
             <LabelInput
               label="닉네임"
-              boxClassName="input-item"
+              boxClassName="displayname-input input-item"
               value={displayName}
               onChange={onChangeDisplayName}
+              onBlur={onCheckDisplayName}
+              innerMessage={checkDisplayName}
+              disabled={!!meData?.displayNameChangedAt}
+              description={
+                meData?.displayNameChangedAt
+                  ? '닉네임 변경권을 사용하면 언제든지 변경할 수 있어요!'
+                  : '처음 한 번은 아이템 없이 변경할 수 있어요!'
+              }
             />
             <LabelTextarea
               label="소개"
-              boxClassName="input-item"
+              boxClassName="introduction-input input-item"
               value={introduction}
               onChange={onChangeIntroduction}
             />
@@ -97,6 +167,11 @@ const ProfileEditInputGroup = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px 0;
+
+  .input-description {
+    color: ${themedPalette.warning_text};
+    font-weight: 500;
+  }
 
   input {
     font-size: 14px;

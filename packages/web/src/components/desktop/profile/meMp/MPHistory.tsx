@@ -11,7 +11,6 @@ import { useGetMyAccount } from '@/lib/hooks/queries/useGetMyAccount';
 import { formatDate } from '@/lib/formatDate';
 import Button from '@/components/common/system/Button';
 import DatePicker from '@/components/common/system/DatePicker';
-import { end } from '@popperjs/core';
 import { format } from 'date-fns';
 
 function MPHistory() {
@@ -265,7 +264,7 @@ const HistoryItemContent = styled.div`
 
   p:nth-of-type(1) {
     font-size: 16px;
-    font-weight: 700;
+    font-weight: 600;
   }
 
   p:nth-of-type(2) {
@@ -282,7 +281,7 @@ const HistoryItemPointValue = styled.div<{ pointType: string }>`
   p:nth-of-type(1) {
     color: ${({ pointType }) =>
       pointType === '획득' ? themedPalette.primary2 : themedPalette.text3};
-    font-weight: bold;
+    font-weight: 500;
     font-size: 16px;
   }
   p:nth-of-type(2) {
@@ -299,7 +298,8 @@ const HistoryItemPointType = styled.span<{ pointType: string }>`
   background: ${({ pointType }) =>
     pointType === '획득' ? themedPalette.primary2 : themedPalette.text3};
   color: ${themedPalette.bg_page1};
-  font-weight: bold;
+  font-weight: 700;
+  font-size: 14px;
   border: 1px solid ${themedPalette.button_border1};
   box-shadow: ${themedPalette.shadow2};
 `;

@@ -1,12 +1,14 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import { MaplePointService } from './maple-point.service';
 import { GetUser } from '../lib/decorators';
 import { User } from '@prisma/client';
+import { AuthGuard } from '../auth/guards';
 
 @Controller('api/point')
 export class MaplePointController {
   constructor(private readonly maplePointService: MaplePointService) {}
 
+  @UseGuards(AuthGuard)
   @Get('/history')
   async getMaplePointHistory(
     @Query('pageNumber') pageNumber: number,

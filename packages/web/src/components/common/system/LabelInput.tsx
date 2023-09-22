@@ -23,7 +23,9 @@ function LabelInput({
     <Block className={boxClassName}>
       <label>{label}</label>
       <Input {...rest} />
-      {description && <Description>{description}</Description>}
+      {description && (
+        <Description className="input-description">{description}</Description>
+      )}
       {innerMessage && (
         <InnerMessage statusCode={innerMessage.statusCode}>
           {innerMessage.message}

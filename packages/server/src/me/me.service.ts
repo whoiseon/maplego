@@ -26,6 +26,7 @@ export class MeService {
         level: true,
         createdAt: true,
         updatedAt: true,
+        displayNameChangedAt: true,
         mp: true,
       };
 

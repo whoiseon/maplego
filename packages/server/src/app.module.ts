@@ -12,6 +12,7 @@ import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { JwtService } from '@nestjs/jwt';
 import { MaplePointService } from './maple-point/maple-point.service';
 import { MaplePointModule } from './maple-point/maple-point.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { MaplePointModule } from './maple-point/maple-point.module';
     CookieModule,
     MeModule,
     MaplePointModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [

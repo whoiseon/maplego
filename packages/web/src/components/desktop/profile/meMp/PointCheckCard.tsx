@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { useGetMyAccount } from '@/lib/hooks/queries/useGetMyAccount';
 import { themedPalette } from '@/styles/palette';
 import PointIcon from '@/components/common/system/PointIcon';
+import Link from 'next/link';
 
 interface Props {
   hasLink?: boolean;
@@ -21,10 +22,10 @@ function PointCheckCard({ hasLink = true, layout = 'full' }: Props) {
               보유 중인 <em>포인트</em>
             </span>
           </PointText>
-          <PointValueBox layout={layout}>
+          <PointValueLinkBox href="/me/mp" layout={layout}>
             <PointIcon />
             <span>{meData!.mp.toLocaleString()}</span>
-          </PointValueBox>
+          </PointValueLinkBox>
         </PointCheckBox>
       </MeCard>
     );
@@ -74,6 +75,24 @@ const PointText = styled.p`
   }
 `;
 
+const PointValueLinkBox = styled(Link)<{ layout: 'full' | 'half' }>`
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: ${({ layout }) => (layout === 'full' ? '240px' : '160px')};
+  gap: 0 6px;
+  padding: ${({ layout }) => (layout === 'full' ? '10px' : '8px')} 12px;
+  border-radius: 4px;
+  background: ${themedPalette.bg_page1};
+  border: 1px solid ${themedPalette.border3};
+  box-shadow: ${themedPalette.shadow2};
+  color: ${themedPalette.text1};
+
+  span {
+    font-weight: 600;
+  }
+`;
+
 const PointValueBox = styled.div<{ layout: 'full' | 'half' }>`
   display: inline-flex;
   align-items: center;
@@ -85,6 +104,7 @@ const PointValueBox = styled.div<{ layout: 'full' | 'half' }>`
   background: ${themedPalette.bg_page1};
   border: 1px solid ${themedPalette.border3};
   box-shadow: ${themedPalette.shadow2};
+  color: ${themedPalette.text1};
 
   span {
     font-weight: 700;

@@ -6,9 +6,8 @@ import styled from '@emotion/styled';
 import { useCallback, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { appError } from '@/lib/error';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useUser } from '@/states/user';
-import { ErrorResponse, SignInResponse, User } from '@/lib/api/types';
 import { themedPalette } from '@/styles/palette';
 import FullHeightPage from '@/components/common/system/FullHeightPage';
 import { queryKey } from '@/lib/query/queryKey';
@@ -16,8 +15,6 @@ import { useGetMyAccount } from '@/lib/hooks/queries/useGetMyAccount';
 
 function SignInPage() {
   const queryClient = useQueryClient();
-  const { setUser, displayName } = useUser();
-  const router = useRouter();
   const { data: meData } = useGetMyAccount();
 
   if (meData) {

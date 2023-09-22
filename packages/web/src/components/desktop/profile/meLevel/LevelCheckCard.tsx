@@ -26,7 +26,8 @@ function LevelCheckCard({ hasLink = true, layout = 'full' }: Props) {
           <LevelIcon
             className="level-item"
             level={meData!.level}
-            hasLevelName
+            href="/me/level"
+            hasName={true}
           />
         </LevelCheckBox>
       </MeCard>
@@ -41,7 +42,7 @@ function LevelCheckCard({ hasLink = true, layout = 'full' }: Props) {
             <strong>{meData?.displayName}님</strong>의 현재 <em>등급</em>
           </span>
         </LevelText>
-        <LevelIcon className="level-item" level={1} hasLevelName />
+        <LevelIcon className="level-item" level={1} hasName={true} />
       </LevelCheckBox>
     </MeCard>
   );

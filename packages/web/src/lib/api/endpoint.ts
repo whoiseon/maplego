@@ -28,6 +28,13 @@ export const endpoint = {
     };
   },
 
+  // user
+  get user() {
+    return {
+      updateProfile: `${this.base}/user/profile`,
+    };
+  },
+
   // point (MP)
   get point() {
     return {
