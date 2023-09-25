@@ -1,5 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { MulterOptionsFactory } from '@nestjs/platform-express';
+import {
+  MulterModuleOptions,
+  MulterOptionsFactory,
+} from '@nestjs/platform-express';
 import * as path from 'path';
 import { ConfigService } from '@nestjs/config';
 import * as process from 'process';
@@ -17,7 +20,7 @@ export class MulterConfigService implements MulterOptionsFactory {
 
   constructor(private readonly configService: ConfigService) {}
 
-  public createMulterOptions() {
+  public createMulterOptions(): MulterModuleOptions {
     const uuid = uuidv4();
     const dirPath = this.dirPath;
     return {
