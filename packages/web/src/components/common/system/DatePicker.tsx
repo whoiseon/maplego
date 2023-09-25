@@ -19,6 +19,7 @@ function DatePicker({ dateState, onChange, position = 'center' }: Props) {
       <ReactDatePicker
         selected={dateState}
         onChange={onChange}
+        locale="ko"
         dateFormat="yyyy-MM-dd"
       />
     </Block>
