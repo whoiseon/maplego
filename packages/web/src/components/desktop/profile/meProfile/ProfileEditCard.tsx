@@ -79,7 +79,9 @@ function ProfileEditCard() {
     try {
       const response = await fetchUploadProfile(formData);
       if (response?.statusCode === 200) {
-        setProfileImage(response?.payload.path);
+        setTimeout(() => {
+          setProfileImage(response?.payload.path);
+        }, 800);
       }
     } catch (e) {
       console.error(e);
