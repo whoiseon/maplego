@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import MeMp from '@/components/desktop/profile/meMp/meMp';
+import MeMp from '@/components/desktop/profile/meMp/MeMp';
 import HydrateMeMp from '@/components/desktop/hydrate/HydrateMeMp';
 
 export const metadata: Metadata = {

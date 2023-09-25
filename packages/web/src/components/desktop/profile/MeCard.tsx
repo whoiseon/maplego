@@ -13,6 +13,8 @@ interface Props {
   icon?: ReactNode;
   onEdit?: () => void;
   buttonText?: string;
+  buttonVariant?: 'primary' | 'danger';
+  buttonDisabled?: boolean;
   message?: ServerMessage;
 }
 
@@ -24,6 +26,8 @@ function MeCard({
   description,
   message,
   buttonText = '저장',
+  buttonDisabled = false,
+  buttonVariant = 'primary',
 }: Props) {
   return (
     <Block>
@@ -45,7 +49,11 @@ function MeCard({
                 <p>{message?.message}</p>
               </MessageBox>
             )}
-            <Button variant="primary" onClick={onEdit}>
+            <Button
+              variant={buttonVariant}
+              onClick={onEdit}
+              disabled={buttonDisabled}
+            >
               {buttonText}
             </Button>
           </ActionsBox>
@@ -100,6 +108,7 @@ const ActionsBox = styled.div`
 
   button {
     height: 36px;
+    font-size: 14px;
   }
 `;
 

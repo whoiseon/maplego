@@ -20,6 +20,7 @@ import { fetchUploadProfile } from '@/lib/api/upload';
 function ProfileEditCard() {
   const { data: meData } = useGetMyAccount();
 
+  const [profileImage, setProfileImage] = useState<string>('');
   const [displayName, onChangeDisplayName] = useInput(
     meData?.displayName || '',
   );
@@ -46,11 +47,15 @@ function ProfileEditCard() {
   }, [meData?.lastLogin]);
 
   const onEditProfile = () => {
-    const profileImage = '';
+    const isNotChangedProfileImage = meData?.profileImage === profileImage;
     const isNotChangedDisplayName = meData?.displayName === displayName;
     const isNotChangedIntroduction = meData?.introduction === introduction;
 
-    if (isNotChangedDisplayName && isNotChangedIntroduction && !profileImage) {
+    if (
+      isNotChangedDisplayName &&
+      isNotChangedIntroduction &&
+      isNotChangedProfileImage
+    ) {
       setServerMessage({
         type: 'error',
         message: '변경된 내용이 없습니다.',
@@ -59,7 +64,7 @@ function ProfileEditCard() {
     }
 
     mutate({
-      profileImage,
+      profileImage: isNotChangedProfileImage ? '' : profileImage,
       displayName: isNotChangedDisplayName ? '' : displayName,
       introduction: isNotChangedIntroduction ? '' : introduction,
     });
@@ -73,6 +78,9 @@ function ProfileEditCard() {
     formData.append('file', file, encodeURIComponent(file.name));
     try {
       const response = await fetchUploadProfile(formData);
+      if (response?.statusCode === 200) {
+        setProfileImage(response?.payload.path);
+      }
     } catch (e) {
       console.error(e);
     }
@@ -121,17 +129,18 @@ function ProfileEditCard() {
           <p>{lastLoginRender}</p>
         </LastLoginBox>
         <ProfileImageBox>
-          <UserProfile size={100} onlyImage />
+          <UserProfile size={100} thumbnail={profileImage} onlyImage />
           <ActionsBox>
             <p>
-              프로필 사진은 <strong>5MB</strong> 이하의 이미지 파일만 업로드할
-              수 있어요!
+              프로필 사진은 <strong>5MB</strong> 이하의 <em>png</em>{' '}
+              <em>jpg</em> <em>jpeg</em> <em>gif</em> <em>webp</em> 파일만
+              업로드할 수 있어요!
             </p>
             <LabelFileInput
               label="프로필 선택"
               inputId="profile-image-input"
               onChange={onChangeProfileImage}
-              accept="image/*"
+              accept="image/png, image/jpeg, image/jpg, image/gif, image/webp"
             />
           </ActionsBox>
         </ProfileImageBox>
@@ -213,6 +222,15 @@ const ActionsBox = styled.div`
   & > p {
     strong {
       color: ${themedPalette.primary2};
+    }
+
+    em {
+      font-style: normal;
+      padding: 2px 6px 4px;
+      border-radius: 4px;
+      background: ${themedPalette.bg_page1};
+      border: 1px solid ${themedPalette.border3};
+      box-shadow: ${themedPalette.shadow2};
     }
   }
 

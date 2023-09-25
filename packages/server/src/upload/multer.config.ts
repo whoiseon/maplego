@@ -10,7 +10,7 @@ import multer from 'multer';
 export class MulterConfigService implements MulterOptionsFactory {
   public dirPath: string =
     process.env.NODE_ENV === 'production'
-      ? ''
+      ? '/home/ubuntu/data/user/profile'
       : this.configService.get<string>('DEV_USER_PROFILE_IMAGE_PATH');
 
   constructor(private readonly configService: ConfigService) {}

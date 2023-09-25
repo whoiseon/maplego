@@ -35,6 +35,11 @@ const dummyProfilePageMap: {
     href: 'me/password',
     description: '90일마다 비밀번호를 변경하시는 것을 권장드려요!',
   },
+  {
+    name: '계정삭제',
+    href: 'me/delete',
+    description: '탈퇴는 영구적이며 되돌릴 수 없습니다.',
+  },
 ];
 
 function MeLayout({ children }: Props) {

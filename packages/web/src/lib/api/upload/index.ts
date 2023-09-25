@@ -1,21 +1,16 @@
-import {
-  MaplePointHistoryParams,
-  MaplePointHistoryResponse,
-} from '@/lib/api/mp/types';
+import { MaplePointHistoryResponse } from '@/lib/api/mp/types';
 import { endpoint } from '@/lib/api/endpoint';
+import { UploadProfileResponse } from '@/lib/api/upload/types';
 
 export async function fetchUploadProfile(
   formData: FormData,
-): Promise<MaplePointHistoryResponse | null> {
+): Promise<UploadProfileResponse | null> {
   const response = await fetch(endpoint.upload.profile, {
     method: 'post',
     cache: 'no-cache',
     credentials: 'include',
-    body: JSON.stringify(formData),
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    body: formData,
   });
 
-  return (await response.json()) as MaplePointHistoryResponse;
+  return (await response.json()) as UploadProfileResponse;
 }

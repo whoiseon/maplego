@@ -25,6 +25,10 @@ export class UserService {
         updateProfileField.introduction = introduction;
       }
 
+      if (profileImage !== '') {
+        updateProfileField.profileImage = profileImage;
+      }
+
       await this.db.user.update({
         where: {
           id: userId,

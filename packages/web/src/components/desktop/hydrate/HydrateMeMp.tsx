@@ -1,7 +1,7 @@
 import getQueryClient from '@/lib/query/getQueryClient';
 import { dehydrate } from '@tanstack/react-query';
 import HydrateOnClient from '@/components/common/hydrate/HydrateOnClient';
-import MeMp from '@/components/desktop/profile/meMp/meMp';
+import MeMp from '@/components/desktop/profile/meMp/MeMp';
 import { queryKey } from '@/lib/query/queryKey';
 import { cookies, headers } from 'next/headers';
 import { fetchGetMyPointHistory } from '@/lib/api/mp';
