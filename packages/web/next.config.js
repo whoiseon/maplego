@@ -2,9 +2,6 @@
 const nextConfig = {
   reactStrictMode: false,
   output: 'standalone',
-  compiler: {
-    emotion: true,
-  },
   webpack: (config) => {
     config.module.rules.push({
       test: /\.svg$/i,
