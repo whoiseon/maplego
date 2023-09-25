@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import AppResponse from '../lib/app.response';
 import { UploadProfileResponse } from './upload-profile-response.type';
-import * as process from 'process';
 
 @Injectable()
 export class UploadService {
@@ -13,10 +12,7 @@ export class UploadService {
   ): Promise<AppResponse<UploadProfileResponse>> {
     const { filename } = file;
 
-    const path =
-      process.env.NODE_ENV === 'production'
-        ? ''
-        : `/data/user/profile/${filename}`;
+    const path = `/images/profile/${filename}`;
 
     return new AppResponse({
       name: '',
