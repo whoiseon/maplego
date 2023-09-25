@@ -37,7 +37,7 @@ function UserProfile({ size = 38, onlyImage = false, thumbnail }: Props) {
 
   if (thumbnail) {
     return (
-      <OnlyImageBlock>
+      <OnlyImageBlock size={size}>
         <img
           className="profile-image"
           src={thumbnail}
@@ -51,7 +51,7 @@ function UserProfile({ size = 38, onlyImage = false, thumbnail }: Props) {
 
   if (onlyImage) {
     return (
-      <OnlyImageBlock>
+      <OnlyImageBlock size={size}>
         {!meData?.profileImage ? (
           <NoProfile size={size} onlyImage={onlyImage} />
         ) : (
@@ -110,7 +110,13 @@ const ProfileBox = styled.div<{ size: number }>`
   }
 `;
 
-const OnlyImageBlock = styled.div`
+const OnlyImageBlock = styled.div<{ size: number }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: ${({ size }) => size + 4}px;
+  height: ${({ size }) => size + 4}px;
+
   img.profile-image {
     border-radius: 50%;
     box-shadow: ${themedPalette.shadow2};
