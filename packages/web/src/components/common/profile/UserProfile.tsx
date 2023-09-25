@@ -38,7 +38,7 @@ function UserProfile({ size = 38, onlyImage = false, thumbnail }: Props) {
   if (thumbnail) {
     return (
       <OnlyImageBlock>
-        <Image
+        <img
           className="profile-image"
           src={thumbnail}
           alt={thumbnail}
@@ -55,7 +55,7 @@ function UserProfile({ size = 38, onlyImage = false, thumbnail }: Props) {
         {!meData?.profileImage ? (
           <NoProfile size={size} onlyImage={onlyImage} />
         ) : (
-          <Image
+          <img
             className="profile-image"
             src={meData.profileImage}
             alt={meData.profileImage}
@@ -72,7 +72,7 @@ function UserProfile({ size = 38, onlyImage = false, thumbnail }: Props) {
       {!meData?.profileImage ? (
         <NoProfile size={size} />
       ) : (
-        <Image
+        <img
           className="profile-image"
           src={meData.profileImage}
           alt={meData.profileImage}
