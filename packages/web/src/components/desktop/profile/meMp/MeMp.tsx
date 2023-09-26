@@ -3,13 +3,16 @@
 import styled from '@emotion/styled';
 import PointCheckCard from '@/components/desktop/profile/meMp/PointCheckCard';
 import MPHistory from '@/components/desktop/profile/meMp/MPHistory';
+import MeLayout from '@/components/desktop/profile/MeLayout';
 
 function MeMp() {
   return (
-    <Block>
-      <PointCheckCard hasLink={false} />
-      <MPHistory />
-    </Block>
+    <MeLayout>
+      <Block>
+        <PointCheckCard hasLink={false} />
+        <MPHistory />
+      </Block>
+    </MeLayout>
   );
 }
 

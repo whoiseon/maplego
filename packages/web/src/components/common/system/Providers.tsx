@@ -14,9 +14,9 @@ function Providers({ children }: Props) {
   const [queryClient] = useState(() => new QueryClient({}));
   return (
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools />
-      <GlobalStyle />
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <ReactQueryDevtools />
+        <GlobalStyle />
         {children}
       </ThemeProvider>
     </QueryClientProvider>

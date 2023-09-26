@@ -2,12 +2,15 @@
 
 import styled from '@emotion/styled';
 import LevelCheckCard from '@/components/desktop/profile/meLevel/LevelCheckCard';
+import MeLayout from '@/components/desktop/profile/MeLayout';
 
 function MeLevel() {
   return (
-    <Block>
-      <LevelCheckCard hasLink={false} />
-    </Block>
+    <MeLayout>
+      <Block>
+        <LevelCheckCard hasLink={false} />
+      </Block>
+    </MeLayout>
   );
 }
 

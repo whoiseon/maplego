@@ -5,17 +5,20 @@ import ProfileEditCard from '@/components/desktop/profile/meProfile/ProfileEditC
 import LevelCheckCard from '@/components/desktop/profile/meLevel/LevelCheckCard';
 import EmailVerifyCard from '@/components/desktop/profile/meProfile/EmailVerifyCard';
 import PointCheckCard from '@/components/desktop/profile/meMp/PointCheckCard';
+import MeLayout from '@/components/desktop/profile/MeLayout';
 
 function MeProfile() {
   return (
-    <Block>
-      <CardHalf>
-        <LevelCheckCard layout="half" />
-        <PointCheckCard layout="half" />
-      </CardHalf>
-      <ProfileEditCard />
-      <EmailVerifyCard />
-    </Block>
+    <MeLayout>
+      <Block>
+        <CardHalf>
+          <LevelCheckCard layout="half" />
+          <PointCheckCard layout="half" />
+        </CardHalf>
+        <ProfileEditCard />
+        <EmailVerifyCard />
+      </Block>
+    </MeLayout>
   );
 }
 
