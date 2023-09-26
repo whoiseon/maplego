@@ -4,7 +4,6 @@ import { AppError } from '../lib/error';
 import AppResponse from '../lib/app.response';
 import { MaplePoint, Prisma } from '@prisma/client';
 import { MaplePointHistoryResponse } from './types/point-history-response.type';
-import { formatDate } from '../lib/formatDate';
 
 @Injectable()
 export class MaplePointService {
@@ -85,14 +84,6 @@ export class MaplePointService {
         },
       });
 
-      const data = history.map((item) => ({
-        id: item.id,
-        point: item.point,
-        prevPoint: item.prevPoint,
-        message: item.message,
-        createdAt: formatDate(item.createdAt, 'medium'),
-      }));
-
       return new AppResponse({
         name: '',
         statusCode: 200,
@@ -101,7 +92,7 @@ export class MaplePointService {
           showCount,
           pageNumber: 1,
           totalCount: historyCount,
-          data,
+          data: history,
         },
       });
     } catch (e) {

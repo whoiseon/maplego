@@ -12,6 +12,7 @@ import Button from '@/components/common/system/Button';
 import DatePicker from '@/components/common/system/DatePicker';
 import { format } from 'date-fns';
 import dayjs from 'dayjs';
+import { formatDate } from '@/lib/formatDate';
 
 function MPHistory() {
   const pageNumber = Number(useSearchParams().get('page')) || 1;
@@ -65,7 +66,7 @@ function MPHistory() {
           </HistoryItemPointType>
           <HistoryItemContent>
             <p>{history.message}</p>
-            <p>{history.createdAt}</p>
+            <p>{formatDate(history.createdAt)}</p>
           </HistoryItemContent>
           <HistoryItemPointValue pointType={pointType}>
             <p>

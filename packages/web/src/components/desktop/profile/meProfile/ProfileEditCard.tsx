@@ -16,6 +16,7 @@ import { useUpdateProfile } from '@/lib/hooks/queries/useUpdateProfile';
 import { ServerMessage } from '@/components/desktop/profile/mePassword/PasswordChangeCard';
 import LabelFileInput from '@/components/common/system/LabelFileInput';
 import { fetchUploadProfile } from '@/lib/api/upload';
+import { formatDate } from '@/lib/formatDate';
 
 function ProfileEditCard() {
   const { data: meData } = useGetMyAccount();
@@ -117,7 +118,7 @@ function ProfileEditCard() {
     >
       <ProfileBox>
         <LastLoginBox>
-          <p>마지막 로그인: {meData?.lastLogin}</p>
+          <p>마지막 로그인: {formatDate(meData!.lastLogin, 'large')}</p>
         </LastLoginBox>
         <ProfileImageBox>
           <UserProfile size={100} thumbnail={profileImage} onlyImage />
