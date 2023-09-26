@@ -23,4 +23,8 @@ export const queryKey = {
     'endDate',
     endDate,
   ],
+
+  // game
+  GET_GAME_EVENT: ['game', 'event'],
+  GET_GAME_EVENT_VIEW: (id: number) => ['game', 'event', 'id', id],
 };

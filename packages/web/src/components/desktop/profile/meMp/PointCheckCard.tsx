@@ -1,6 +1,6 @@
 import MeCard from '@/components/desktop/profile/MeCard';
 import styled from '@emotion/styled';
-import { useGetMyAccount } from '@/lib/hooks/queries/useGetMyAccount';
+import { useGetMyAccount } from '@/lib/hooks/queries/me/useGetMyAccount';
 import { themedPalette } from '@/styles/palette';
 import PointIcon from '@/components/common/system/PointIcon';
 import Link from 'next/link';

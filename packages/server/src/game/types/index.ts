@@ -7,3 +7,10 @@ export interface GameEvent {
   endDate: string;
   diffDays: number;
 }
+
+export interface GameEventView {
+  title: string;
+  startDate: string;
+  endDate: string;
+  content: string;
+}

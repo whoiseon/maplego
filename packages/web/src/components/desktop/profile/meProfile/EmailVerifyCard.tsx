@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import MyEmailIcon from '@/assets/images/vectors/my-email-icon.svg';
 import Input from '@/components/common/system/Input';
 import { themedPalette } from '@/styles/palette';
-import { useGetMyAccount } from '@/lib/hooks/queries/useGetMyAccount';
+import { useGetMyAccount } from '@/lib/hooks/queries/me/useGetMyAccount';
 import { useInput } from '@/lib/hooks/useInput';
 import WarningIcon from '@/assets/images/vectors/warning-icon.svg';
 import SuccessIcon from '@/assets/images/vectors/success-icon.svg';

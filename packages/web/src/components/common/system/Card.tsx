@@ -20,6 +20,7 @@ const StyledCard = styled.div`
   background-color: ${themedPalette.bg_element1};
   box-shadow: ${themedPalette.shadow1};
   border: 1px solid ${themedPalette.border4};
+  width: 100%;
 `;
 
 export default Card;

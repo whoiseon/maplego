@@ -1,5 +1,7 @@
+import MapleHome from '@/components/desktop/maple/MapleHome';
+
 function MaplePage() {
-  return <div>메이플</div>;
+  return <MapleHome />;
 }
 
 export default MaplePage;

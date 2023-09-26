@@ -5,7 +5,7 @@ import { themedPalette } from '@/styles/palette';
 import LabelInput from '@/components/common/system/LabelInput';
 import { useInput } from '@/lib/hooks/useInput';
 import { useEffect, useState } from 'react';
-import { useChangePassword } from '@/lib/hooks/queries/useChangePassword';
+import { useChangePassword } from '@/lib/hooks/queries/auth/useChangePassword';
 
 export interface ServerMessage {
   type: 'success' | 'error';

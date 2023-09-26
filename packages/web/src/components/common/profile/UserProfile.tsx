@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import NoProfile from '@/components/common/profile/NoProfile';
 import { useCallback, useState } from 'react';
-import { useGetMyAccount } from '@/lib/hooks/queries/useGetMyAccount';
+import { useGetMyAccount } from '@/lib/hooks/queries/me/useGetMyAccount';
 import ProfileToggleListBox from '@/components/common/profile/ProfileToggleListBox';
 import useToggle from '@/lib/hooks/useToggle';
 import Image from 'next/image';

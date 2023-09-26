@@ -2,7 +2,7 @@
 
 import styled from '@emotion/styled';
 import Input from '@/components/common/system/Input';
-import { useGetMyAccount } from '@/lib/hooks/queries/useGetMyAccount';
+import { useGetMyAccount } from '@/lib/hooks/queries/me/useGetMyAccount';
 import { themedPalette } from '@/styles/palette';
 
 function ChatActionsBox() {

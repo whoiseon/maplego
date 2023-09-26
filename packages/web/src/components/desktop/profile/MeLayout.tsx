@@ -3,7 +3,7 @@
 import LinksHeader from '@/components/desktop/system/LinksHeader';
 import { ReactNode } from 'react';
 import styled from '@emotion/styled';
-import { useGetMyAccount } from '@/lib/hooks/queries/useGetMyAccount';
+import { useGetMyAccount } from '@/lib/hooks/queries/me/useGetMyAccount';
 
 interface Props {
   children: ReactNode;

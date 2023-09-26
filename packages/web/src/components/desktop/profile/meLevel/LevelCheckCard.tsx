@@ -1,6 +1,6 @@
 import MeCard from '@/components/desktop/profile/MeCard';
 import styled from '@emotion/styled';
-import { useGetMyAccount } from '@/lib/hooks/queries/useGetMyAccount';
+import { useGetMyAccount } from '@/lib/hooks/queries/me/useGetMyAccount';
 import LevelIcon from '@/components/common/user/LevelIcon';
 import Link from 'next/link';
 import Button from '@/components/common/system/Button';

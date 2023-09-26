@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import MeMp from '@/components/desktop/profile/meMp/MeMp';
-import HydrateMeMp from '@/components/desktop/hydrate/HydrateMeMp';
+import HydrateMeMp from '@/components/desktop/profile/meMp/hydrate/HydrateMeMp';
 
 export const metadata: Metadata = {
   title: '메이플고 - 내 포인트',

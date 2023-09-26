@@ -48,4 +48,12 @@ export const endpoint = {
       profile: `${this.base}/upload/profile`,
     };
   },
+
+  // game
+  get game() {
+    return {
+      events: `${this.base}/game/events`,
+      eventView: (id: number) => `${this.base}/game/event/${id}`,
+    };
+  },
 };

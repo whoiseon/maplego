@@ -2,7 +2,7 @@ import MeCard from '@/components/desktop/profile/MeCard';
 import styled from '@emotion/styled';
 import TrashIcon from '@/assets/images/vectors/trash-icon.svg';
 import { themedPalette } from '@/styles/palette';
-import { useGetMyAccount } from '@/lib/hooks/queries/useGetMyAccount';
+import { useGetMyAccount } from '@/lib/hooks/queries/me/useGetMyAccount';
 import Input from '@/components/common/system/Input';
 import { useInput } from '@/lib/hooks/useInput';
 

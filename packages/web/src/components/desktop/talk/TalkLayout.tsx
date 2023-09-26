@@ -3,6 +3,7 @@
 import { ReactNode } from 'react';
 import styled from '@emotion/styled';
 import LinksHeader from '@/components/desktop/system/LinksHeader';
+import TalkSubMenu from '@/components/desktop/talk/TalkSubMenu';
 
 interface Props {
   children: ReactNode;
@@ -72,6 +73,7 @@ function TalkLayout({ children }: Props) {
         title="커뮤니티 홈"
         description="다양한 정보와 유용한 팁을 공유하고, 함께 도움을 주고 받아보세요!"
         links={dummyTalkBoardList}
+        subMenu={<TalkSubMenu />}
       />
       {children}
     </Block>

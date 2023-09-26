@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { queryKey } from '../../query/queryKey';
+import { queryKey } from '../../../query/queryKey';
 import { fetchGetMyPointHistory } from '@/lib/api/mp';
 import { MaplePointHistoryParams } from '@/lib/api/mp/types';
 

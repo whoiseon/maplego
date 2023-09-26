@@ -11,7 +11,7 @@ import { useUser } from '@/states/user';
 import { themedPalette } from '@/styles/palette';
 import FullHeightPage from '@/components/common/system/FullHeightPage';
 import { queryKey } from '@/lib/query/queryKey';
-import { useGetMyAccount } from '@/lib/hooks/queries/useGetMyAccount';
+import { useGetMyAccount } from '@/lib/hooks/queries/me/useGetMyAccount';
 
 function SignInPage() {
   const queryClient = useQueryClient();

@@ -2,7 +2,7 @@
 
 import { useUser } from '@/states/user';
 import { redirect } from 'next/navigation';
-import { useGetMyAccount } from '@/lib/hooks/queries/useGetMyAccount';
+import { useGetMyAccount } from '@/lib/hooks/queries/me/useGetMyAccount';
 
 export function useProtectedRoute() {
   const { data: meData } = useGetMyAccount();
