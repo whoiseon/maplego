@@ -8,10 +8,10 @@ import { useGetPointHistory } from '@/lib/hooks/queries/useGetPointHistory';
 import { themedPalette } from '@/styles/palette';
 import Pagination from '@/components/common/system/Pagination';
 import { useGetMyAccount } from '@/lib/hooks/queries/useGetMyAccount';
-import { formatDate } from '@/lib/formatDate';
 import Button from '@/components/common/system/Button';
 import DatePicker from '@/components/common/system/DatePicker';
 import { format } from 'date-fns';
+import dayjs from 'dayjs';
 
 function MPHistory() {
   const pageNumber = Number(useSearchParams().get('page')) || 1;
@@ -65,7 +65,7 @@ function MPHistory() {
           </HistoryItemPointType>
           <HistoryItemContent>
             <p>{history.message}</p>
-            <p>{formatDate(history.createdAt, 'full')}</p>
+            <p>{dayjs(history.createdAt).format('YY-MM-DD HH:mm:ss')}</p>
           </HistoryItemContent>
           <HistoryItemPointValue pointType={pointType}>
             <p>

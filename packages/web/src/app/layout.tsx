@@ -16,7 +16,7 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="ko" suppressHydrationWarning>
-      <body suppressHydrationWarning>
+      <body>
         <Providers>
           <HydrateRoot>
             <DesktopLayout>{children}</DesktopLayout>

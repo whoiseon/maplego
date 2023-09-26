@@ -8,7 +8,7 @@ import Card from '@/components/common/system/Card';
 import { themedPalette } from '@/styles/palette';
 import ProfileBox from '@/components/common/user/ProfileBox';
 import Pagination from '@/components/common/system/Pagination';
-import { formatDate } from '@/lib/formatDate';
+import dayjs from 'dayjs';
 
 export interface PostItemModel {
   id: number;
@@ -123,7 +123,7 @@ function BoardList({ slug }: Props) {
           <td>
             <ProfileBox displayName={post.displayName} level={post.level} />
           </td>
-          <td>{formatDate(post.createdAt, 'full')}</td>
+          <td>{dayjs(post.createdAt).format('MM-DD')}</td>
           <td>{post.views}</td>
           <td>0</td>
         </tr>

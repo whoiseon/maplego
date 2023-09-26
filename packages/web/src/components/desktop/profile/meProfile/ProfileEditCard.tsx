@@ -16,6 +16,8 @@ import { useUpdateProfile } from '@/lib/hooks/queries/useUpdateProfile';
 import { ServerMessage } from '@/components/desktop/profile/mePassword/PasswordChangeCard';
 import LabelFileInput from '@/components/common/system/LabelFileInput';
 import { fetchUploadProfile } from '@/lib/api/upload';
+import { format } from 'date-fns';
+import DynamicTime from '@/components/common/system/DynamicTime';
 
 function ProfileEditCard() {
   const { data: meData } = useGetMyAccount();
@@ -37,15 +39,6 @@ function ProfileEditCard() {
   });
 
   const [mutate, isLoading] = useUpdateProfile(setServerMessage);
-
-  const lastLoginRender = useMemo(() => {
-    if (!meData?.lastLogin) return '';
-
-    return `마지막 로그인: ${dayjs(meData?.lastLogin).format(
-      'YYYY년 MM월 DD일 HH시 mm분',
-    )}`;
-  }, [meData?.lastLogin]);
-
   const onEditProfile = () => {
     const isNotChangedProfileImage = meData?.profileImage === profileImage;
     const isNotChangedDisplayName = meData?.displayName === displayName;
@@ -126,7 +119,10 @@ function ProfileEditCard() {
     >
       <ProfileBox>
         <LastLoginBox>
-          <p>{lastLoginRender}</p>
+          <p>
+            마지막 로그인:{' '}
+            {dayjs(meData?.lastLogin).format('YYYY년 MM월 DD일 HH시 mm분')}
+          </p>
         </LastLoginBox>
         <ProfileImageBox>
           <UserProfile size={100} thumbnail={profileImage} onlyImage />
