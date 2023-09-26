@@ -2,15 +2,12 @@
 
 import styled from '@emotion/styled';
 import PasswordChangeCard from '@/components/desktop/profile/mePassword/PasswordChangeCard';
-import MeLayout from '@/components/desktop/profile/MeLayout';
 
 function MePassword() {
   return (
-    <MeLayout>
-      <Block>
-        <PasswordChangeCard />
-      </Block>
-    </MeLayout>
+    <Block>
+      <PasswordChangeCard />
+    </Block>
   );
 }
 

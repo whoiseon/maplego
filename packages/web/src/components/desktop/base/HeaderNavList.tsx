@@ -7,7 +7,6 @@ interface Props {}
 
 const menuMaps = [
   { title: '메이플', href: '/maple' },
-  { title: '정보', href: '/info' },
   { title: '커뮤니티', href: '/talk' },
   { title: '마켓', href: '/market' },
   { title: '경매장', href: '/auction', notReady: true },

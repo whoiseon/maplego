@@ -11,7 +11,6 @@ import { useGetMyAccount } from '@/lib/hooks/queries/useGetMyAccount';
 import Button from '@/components/common/system/Button';
 import DatePicker from '@/components/common/system/DatePicker';
 import { format } from 'date-fns';
-import dayjs from 'dayjs';
 import { formatDate } from '@/lib/formatDate';
 
 function MPHistory() {

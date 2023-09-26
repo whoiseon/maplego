@@ -15,6 +15,8 @@ import { MaplePointModule } from './maple-point/maple-point.module';
 import { UserModule } from './user/user.module';
 import { UploadService } from './upload/upload.service';
 import { UploadModule } from './upload/upload.module';
+import { ParseModule } from './parse/parse.module';
+import { GameModule } from './game/game.module';
 
 @Module({
   imports: [
@@ -30,6 +32,8 @@ import { UploadModule } from './upload/upload.module';
     MaplePointModule,
     UserModule,
     UploadModule,
+    ParseModule,
+    GameModule,
   ],
   controllers: [AppController],
   providers: [

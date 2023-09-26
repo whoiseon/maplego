@@ -2,15 +2,12 @@
 
 import styled from '@emotion/styled';
 import AccountDeleteCard from '@/components/desktop/profile/meDelete/AccountDeleteCard';
-import MeLayout from '@/components/desktop/profile/MeLayout';
 
 function MeDelete() {
   return (
-    <MeLayout>
-      <Block>
-        <AccountDeleteCard />
-      </Block>
-    </MeLayout>
+    <Block>
+      <AccountDeleteCard />
+    </Block>
   );
 }
 
