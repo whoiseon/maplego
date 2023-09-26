@@ -1,4 +1,10 @@
-import { MaplePoint } from '@prisma/client';
+interface MaplePoint {
+  id: number;
+  point: number;
+  prevPoint: number;
+  message: string;
+  createdAt: string;
+}
 
 export interface MaplePointHistoryResponse {
   showCount: number;

@@ -3,6 +3,7 @@ import { MeService } from 'src/me/me.service';
 import { GetUser } from 'src/lib/decorators';
 import { User } from '@prisma/client';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
+import { MeResponseType } from './types/me-response.type';
 
 @Controller('api/me')
 export class MeController {
@@ -10,7 +11,7 @@ export class MeController {
 
   @Get()
   @UseGuards(AuthGuard)
-  public async getMe(@GetUser() user: User): Promise<User> {
+  public async getMe(@GetUser() user: User): Promise<MeResponseType> {
     return this.meService.getMeAll(user);
   }
 }

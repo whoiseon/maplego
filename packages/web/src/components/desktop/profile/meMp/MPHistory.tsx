@@ -65,7 +65,7 @@ function MPHistory() {
           </HistoryItemPointType>
           <HistoryItemContent>
             <p>{history.message}</p>
-            <p>{dayjs(history.createdAt).format('YY-MM-DD HH:mm:ss')}</p>
+            <p>{history.createdAt}</p>
           </HistoryItemContent>
           <HistoryItemPointValue pointType={pointType}>
             <p>

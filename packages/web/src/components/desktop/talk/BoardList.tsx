@@ -15,7 +15,7 @@ export interface PostItemModel {
   title: string;
   displayName: string;
   level: number;
-  createdAt: Date;
+  createdAt: string;
   views: number;
 }
 
@@ -43,7 +43,7 @@ const dummyPost: PostResultModel = {
         title: '메이플스토리 재밌어요',
         displayName: '진',
         level: 1,
-        createdAt: new Date(),
+        createdAt: '09-26',
         views: 10,
       },
       {
@@ -51,7 +51,7 @@ const dummyPost: PostResultModel = {
         title: '인맥 구해요',
         displayName: '전지현',
         level: 1,
-        createdAt: new Date(),
+        createdAt: '09-26',
         views: 10,
       },
       {
@@ -59,7 +59,7 @@ const dummyPost: PostResultModel = {
         title: '도깨비 망치 삼',
         displayName: '공유',
         level: 1,
-        createdAt: new Date(),
+        createdAt: '09-24',
         views: 10,
       },
       {
@@ -67,7 +67,7 @@ const dummyPost: PostResultModel = {
         title: '뚜시뚜시',
         displayName: '이동욱',
         level: 1,
-        createdAt: new Date(),
+        createdAt: '09-23',
         views: 10,
       },
       {
@@ -75,7 +75,7 @@ const dummyPost: PostResultModel = {
         title: '방가링 ㅋㅋㅋ',
         displayName: '남주혁',
         level: 1,
-        createdAt: new Date(),
+        createdAt: '09-23',
         views: 10,
       },
       {
@@ -83,7 +83,7 @@ const dummyPost: PostResultModel = {
         title: '안녕하세요 여러분',
         displayName: '강동원',
         level: 1,
-        createdAt: new Date(),
+        createdAt: '09-22',
         views: 10,
       },
     ],

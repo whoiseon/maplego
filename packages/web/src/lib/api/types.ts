@@ -2,14 +2,14 @@ export interface User {
   id: number;
   username: string;
   displayName: string;
-  level: number;
-  profileImage: string;
   introduction: string;
-  lastLogin: Date;
+  profileImage: string;
+  lastLogin: string;
   email: string;
-  createdAt: Date;
-  updatedAt: Date;
-  displayNameChangedAt: Date;
+  level: number;
+  createdAt: string;
+  updatedAt: string;
+  displayNameChangedAt: string;
   mp: number;
 }
 
@@ -18,9 +18,7 @@ export interface MaplePoint {
   point: number;
   prevPoint: number;
   message: string;
-  createdAt: Date;
-  updatedAt?: Date;
-  userId?: number;
+  createdAt: string;
 }
 
 export interface Tokens {

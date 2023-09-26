@@ -117,10 +117,7 @@ function ProfileEditCard() {
     >
       <ProfileBox>
         <LastLoginBox>
-          <p>
-            마지막 로그인:{' '}
-            {dayjs(meData?.lastLogin).format('YYYY년 MM월 DD일 HH시 mm분')}
-          </p>
+          <p>마지막 로그인: {meData?.lastLogin}</p>
         </LastLoginBox>
         <ProfileImageBox>
           <UserProfile size={100} thumbnail={profileImage} onlyImage />

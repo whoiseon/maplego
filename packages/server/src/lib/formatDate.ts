@@ -1,6 +1,5 @@
 import { format, formatDistanceToNow } from 'date-fns';
 import { ko } from 'date-fns/locale';
-import dynamic from 'next/dynamic';
 
 export function formatDate(
   date: Date,
