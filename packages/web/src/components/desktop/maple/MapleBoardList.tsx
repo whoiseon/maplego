@@ -16,6 +16,7 @@ function MapleBoardList({ list }: Props) {
   const page = Number(searchParams.get('page')) || 1;
   const target = searchParams.get('target');
   const isEmpty = list?.payload?.data?.length <= 0;
+  const isLastPage = list?.payload?.data?.length < 10;
 
   const category = useMemo(() => {
     switch (target) {
@@ -30,6 +31,20 @@ function MapleBoardList({ list }: Props) {
     }
   }, [target]);
 
+  const viewPath = (id: number) => {
+    let path = `/maple/update/${id}`;
+
+    if (target) {
+      path += `?target=${target}`;
+    }
+
+    if (page > 1) {
+      path += `${target ? '&' : '?'}page=${page}`;
+    }
+
+    return path;
+  };
+
   const renderList = useMemo(() => {
     if (isEmpty) {
       return (
@@ -41,16 +56,20 @@ function MapleBoardList({ list }: Props) {
       );
     }
 
-    return list?.payload?.data?.map((item: any) => (
-      <tr key={item.id}>
-        <td className={item.isNew ? 'new' : ''}>{category}</td>
-        <td className={item.isNew ? 'new' : ''}>
-          <Link href={`/maple/update/${item.id}`}>{item.title}</Link>
-          {item.isNew && <NewBadge />}
-        </td>
-        <td className={item.isNew ? 'new' : ''}>{item.date}</td>
-      </tr>
-    ));
+    return list?.payload?.data?.map((item: any) => {
+      const href = `/maple/update/${item.id}`;
+
+      return (
+        <tr key={item.id}>
+          <td className={item.isNew ? 'new' : ''}>{category}</td>
+          <td className={item.isNew ? 'new' : ''}>
+            <Link href={viewPath(item.id)}>{item.title}</Link>
+            {item.isNew && <NewBadge />}
+          </td>
+          <td className={item.isNew ? 'new' : ''}>{item.date}</td>
+        </tr>
+      );
+    });
   }, [page, list]);
 
   const pathname = usePathname();
@@ -87,9 +106,11 @@ function MapleBoardList({ list }: Props) {
                 이전
               </Button>
             )}
-            <Button href={pagePath(page + 1)} variant="gray" size="small">
-              다음
-            </Button>
+            {!isLastPage && (
+              <Button href={pagePath(page + 1)} variant="gray" size="small">
+                다음
+              </Button>
+            )}
           </ActionsBox>
         </Pagination>
       )}

@@ -2,7 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { ParseService } from '../parse/parse.service';
 import AppResponse from '../lib/app.response';
 import * as cheerio from 'cheerio';
-import { GameEvent, GameEventView, GameUpdateNews } from './types';
+import {
+  GameEvent,
+  GameEventView,
+  GameUpdateNews,
+  GameUpdateNewsView,
+} from './types';
 import * as console from 'console';
 import { GameUpdateNewsResponse } from './types/game-update-news-response.type';
 
@@ -99,6 +104,82 @@ export class GameService {
           data: updateNews,
           target: currentTarget,
           page: page || 1,
+        },
+      });
+    } catch (e) {
+      console.error(e);
+      return new AppResponse({
+        name: 'UnknownError',
+        message: 'An unknown error occurred',
+        statusCode: 500,
+        payload: null,
+      });
+    }
+  }
+
+  public async getUpdateNewsView(
+    id: number,
+    target: string,
+  ): Promise<AppResponse<GameUpdateNewsView>> {
+    try {
+      const targetMap = {
+        tespia: {
+          url: `https://maplestory.nexon.com/Testworld/Update/${id}`,
+        },
+        cash: {
+          url: `https://maplestory.nexon.com/News/CashShop/Sale/${id}`,
+        },
+      };
+
+      let url = `https://maplestory.nexon.com/News/Update/${id}`;
+      let currentTarget = 'update';
+      if (target) currentTarget = target;
+
+      if (target) {
+        url = targetMap[target].url;
+
+        if (!url) {
+          return new AppResponse({
+            name: 'InvalidTarget',
+            message: 'Invalid target',
+            statusCode: 400,
+            payload: null,
+          });
+        }
+      }
+
+      const html = await this.parseService.getHtml(url);
+      const $ = cheerio.load(html.data);
+      const content = $('div.div_inner');
+
+      const title = content.find('p.qs_title span').text().trim();
+      let date = content
+        .find('div.qs_info_wrap div.qs_info p.last')
+        .text()
+        .trim();
+
+      if (target === 'cash') {
+        date = content.find('div.qs_info_wrap span.event_date').text().trim();
+      }
+
+      const link = url;
+      let htmlContent = content.find('div.qs_text div.new_board_con').html();
+
+      if (target === 'cash') {
+        htmlContent = content
+          .find('div.qs_text div.new_board_con div:nth-child(1)')
+          .html();
+      }
+
+      return new AppResponse({
+        name: '',
+        message: '',
+        statusCode: 200,
+        payload: {
+          title,
+          date,
+          link,
+          content: htmlContent,
         },
       });
     } catch (e) {

@@ -21,6 +21,7 @@ interface Props
   to?: string;
   href?: string;
   isLoading?: boolean;
+  target?: string;
 }
 
 function Button({
@@ -30,6 +31,7 @@ function Button({
   href,
   icon,
   isLoading = false,
+  target,
   ...rest
 }: Props) {
   if (href) {

@@ -67,6 +67,13 @@ export const endpoint = {
         }
         return url;
       },
+      updateNewsView: (id: number, target?: string) => {
+        let url = `${this.base}/game/update/${id}`;
+        if (target) {
+          url += `?target=${target}`;
+        }
+        return url;
+      },
     };
   },
 };

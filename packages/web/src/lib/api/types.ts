@@ -58,3 +58,10 @@ export interface GameUpdateNews {
   thumbnail: string;
   isNew: boolean;
 }
+
+export interface GameUpdateNewsView {
+  title: string;
+  date: string;
+  link: string;
+  content: string;
+}

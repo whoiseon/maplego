@@ -6,7 +6,6 @@ import { useParams } from 'next/navigation';
 import { useGetGameEventView } from '@/lib/hooks/queries/game/useGetGameEventView';
 import { themedPalette } from '@/styles/palette';
 import CalendarIcon from '@/assets/images/vectors/view-calendar-icon.svg';
-import Link from 'next/link';
 import Button from '@/components/common/system/Button';
 
 function MapleEventView() {
