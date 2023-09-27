@@ -2,12 +2,115 @@ import { Injectable } from '@nestjs/common';
 import { ParseService } from '../parse/parse.service';
 import AppResponse from '../lib/app.response';
 import * as cheerio from 'cheerio';
-import { GameEvent, GameEventView } from './types';
+import { GameEvent, GameEventView, GameUpdateNews } from './types';
 import * as console from 'console';
+import { GameUpdateNewsResponse } from './types/game-update-news-response.type';
 
 @Injectable()
 export class GameService {
   constructor(private readonly parseService: ParseService) {}
+
+  public async getUpdateNews(
+    page: number,
+    target: string,
+  ): Promise<AppResponse<GameUpdateNewsResponse>> {
+    try {
+      const targetMap = {
+        tespia: {
+          url: 'https://maplestory.nexon.com/Testworld/Update',
+          selector: 'div.news_board ul li',
+          titleSelector: 'p a span',
+          linkSelector: 'p a',
+        },
+        cash: {
+          url: 'https://maplestory.nexon.com/News/CashShop',
+          selector: 'div.cash_board ul li',
+          titleSelector: 'p a',
+          linkSelector: 'p a',
+        },
+      };
+
+      let url = 'https://maplestory.nexon.com/News/Update';
+
+      if (target) {
+        url = targetMap[target].url;
+
+        if (!url) {
+          return new AppResponse({
+            name: 'InvalidTarget',
+            message: 'Invalid target',
+            statusCode: 400,
+            payload: null,
+          });
+        }
+      }
+
+      if (page) {
+        url = `${url}?page=${page}`;
+      }
+
+      const html = await this.parseService.getHtml(url);
+      const $ = cheerio.load(html.data);
+      let selector = 'div.update_board ul li';
+
+      if (target) {
+        selector = targetMap[target].selector;
+      }
+
+      const board = $(selector);
+      const updateNews: GameUpdateNews[] = [];
+      board.each((i, el) => {
+        const titleSelector = target
+          ? targetMap[target].titleSelector
+          : 'p a span';
+
+        const titleArray = $(el).find(titleSelector).text().trim().split('   ');
+        const link = $(el).find('p a').attr('href');
+        const id = Number(
+          link.split('/')[link.split('/').length - 1].split('?')[0],
+        );
+        let date = $(el).find('div.heart_date dl dd').text().trim();
+        let thumbnail = '';
+        const isNew = this.checkIsNewUpdateNews(date);
+
+        if (target === 'cash') {
+          date = $(el).find('div.cash_list_wrap dl dd.date > p').text().trim();
+          thumbnail = $(el).find('div.cash_list_wrap dl dt a img').attr('src');
+        }
+
+        updateNews.push({
+          id,
+          title: titleArray,
+          link,
+          date,
+          thumbnail,
+          isNew,
+        });
+      });
+
+      let currentTarget = 'update';
+      if (target) currentTarget = target;
+
+      return new AppResponse({
+        name: '',
+        message: '',
+        statusCode: 200,
+        payload: {
+          data: updateNews,
+          target: currentTarget,
+          page: page || 1,
+        },
+      });
+    } catch (e) {
+      console.error(e);
+      return new AppResponse({
+        name: 'UnknownError',
+        message: 'An unknown error occurred',
+        statusCode: 500,
+        payload: null,
+      });
+    }
+  }
 
   public async getEvents(): Promise<AppResponse<GameEvent[]>> {
     try {
@@ -150,5 +253,15 @@ export class GameService {
     const diff = end.getTime() - today.getTime();
 
     return Math.ceil(diff / (1000 * 3600 * 24)) + 1;
+  }
+
+  private checkIsNewUpdateNews(date: string): boolean {
+    // date를 기준으로 7일 이내의 게시글인지 확인
+    const today = new Date();
+    const postDate = new Date(date);
+    const diff = today.getTime() - postDate.getTime();
+    const diffDays = Math.ceil(diff / (1000 * 3600 * 24));
+
+    return diffDays <= 7;
   }
 }

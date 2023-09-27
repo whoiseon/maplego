@@ -7,14 +7,14 @@ import Button from '@/components/common/system/Button';
 import { usePathname, useSearchParams } from 'next/navigation';
 
 const dummySubLinks = [
-  { name: '최신', query: '0' },
-  { name: '인기', query: 'popular' },
-  { name: '10추', query: '10' },
+  { name: '본서버', query: '0' },
+  { name: '테스트서버', query: 'tespia' },
+  { name: '캐시샵', query: 'cash' },
 ];
 
-function EventSubMenu() {
+function UpdateSubMenu() {
   const pathname = usePathname();
-  const queryString = useSearchParams().get('sort');
+  const queryString = useSearchParams().get('target');
   const isIndex = pathname === '/talk';
 
   const renderSubLinks = useMemo(
@@ -24,7 +24,7 @@ function EventSubMenu() {
           queryString === link.query || (!queryString && link.query === '0');
 
         const href =
-          link.query !== '0' ? `${pathname}?sort=${link.query}` : pathname;
+          link.query !== '0' ? `${pathname}?target=${link.query}` : pathname;
 
         return (
           <li key={link.name}>
@@ -87,4 +87,4 @@ const SubLinksBox = styled.ul`
   }
 `;
 
-export default EventSubMenu;
+export default UpdateSubMenu;

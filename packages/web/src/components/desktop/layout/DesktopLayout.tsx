@@ -61,6 +61,7 @@ const RightBox = styled.main`
   flex-direction: column;
   flex: 1 1;
   gap: 20px 0;
+  max-width: 880px;
 `;
 
 export default DesktopLayout;

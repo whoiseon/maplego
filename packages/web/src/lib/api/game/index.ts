@@ -1,4 +1,8 @@
-import { GameEventResponse, GameEventViewResponse } from '@/lib/api/game/types';
+import {
+  GameEventResponse,
+  GameEventViewResponse,
+  GameUpdateNewsResponse,
+} from '@/lib/api/game/types';
 import { endpoint } from '@/lib/api/endpoint';
 
 export async function fetchGetGameEvents(): Promise<GameEventResponse> {
@@ -27,4 +31,20 @@ export async function fetchGetGameEventView(
   });
 
   return (await response.json()) as GameEventViewResponse;
+}
+
+export async function fetchGetGameUpdateNews(
+  target?: string,
+  page?: number,
+): Promise<GameUpdateNewsResponse> {
+  const response = await fetch(endpoint.game.updateNews(target, page), {
+    method: 'GET',
+    cache: 'no-cache',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  return (await response.json()) as GameUpdateNewsResponse;
 }

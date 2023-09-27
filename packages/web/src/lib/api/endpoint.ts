@@ -54,6 +54,19 @@ export const endpoint = {
     return {
       events: `${this.base}/game/events`,
       eventView: (id: number) => `${this.base}/game/event/${id}`,
+      updateNews: (target?: string, page?: number) => {
+        let url = `${this.base}/game/update`;
+        if (target && page) {
+          url += `?target=${target}&page=${page}`;
+        }
+        if (target && !page) {
+          url += `?target=${target}`;
+        }
+        if (!target && page) {
+          url += `?page=${page}`;
+        }
+        return url;
+      },
     };
   },
 };

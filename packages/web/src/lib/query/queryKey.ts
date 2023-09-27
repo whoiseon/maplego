@@ -27,4 +27,12 @@ export const queryKey = {
   // game
   GET_GAME_EVENT: ['game', 'event'],
   GET_GAME_EVENT_VIEW: (id: number) => ['game', 'event', 'id', id],
+  GET_GAME_UPDATE_NEWS: (target?: string, page?: number) => [
+    'game',
+    'updateNews',
+    'target',
+    target || '',
+    'page',
+    page || '',
+  ],
 };

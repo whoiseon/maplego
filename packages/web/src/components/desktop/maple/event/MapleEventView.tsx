@@ -6,25 +6,36 @@ import { useParams } from 'next/navigation';
 import { useGetGameEventView } from '@/lib/hooks/queries/game/useGetGameEventView';
 import { themedPalette } from '@/styles/palette';
 import CalendarIcon from '@/assets/images/vectors/view-calendar-icon.svg';
+import Link from 'next/link';
+import Button from '@/components/common/system/Button';
 
 function MapleEventView() {
   const eventId = Number(useParams().eventId);
   const { data } = useGetGameEventView(eventId);
 
-  console.log(data);
-
   return (
     <Block>
       <Card>
         <EventTitleBox>
-          <Title>
-            <i>Event</i>
-            {data?.payload.title}
-          </Title>
-          <DateText>
-            <CalendarIcon />
-            {data?.payload.startDate} ~ {data?.payload.endDate}
-          </DateText>
+          <TitleData>
+            <Title>
+              <i>Event</i>
+              {data?.payload.title}
+            </Title>
+            <DateText>
+              <CalendarIcon />
+              {data?.payload.startDate} ~ {data?.payload.endDate}
+            </DateText>
+          </TitleData>
+          <LinkBox>
+            <Button
+              href={`https://maplestory.nexon.com/News/Event/Ongoing/${eventId}`}
+              size="small"
+              variant="gray"
+            >
+              이벤트 바로가기
+            </Button>
+          </LinkBox>
         </EventTitleBox>
       </Card>
       <Card>
@@ -44,9 +55,15 @@ const Block = styled.article`
 
 const EventTitleBox = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem 0;
+  align-items: center;
+  justify-content: space-between;
   padding: 24px;
+`;
+
+const TitleData = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px 0;
 `;
 
 const Title = styled.h2`
@@ -64,6 +81,8 @@ const Title = styled.h2`
     color: ${themedPalette.primary2};
   }
 `;
+
+const LinkBox = styled.div``;
 
 const DateText = styled.p`
   display: flex;

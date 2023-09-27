@@ -1,5 +1,7 @@
+import HydrateMapleUpdate from '@/components/desktop/maple/update/hydrate/HydrateMapleUpdate';
+
 function MapleUpdatePage() {
-  return <div>MapleUpdatePage</div>;
+  return <HydrateMapleUpdate />;
 }
 
 export default MapleUpdatePage;

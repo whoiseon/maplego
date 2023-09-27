@@ -1,12 +1,22 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { GameService } from './game.service';
 import AppResponse from '../lib/app.response';
 import { Public } from '../lib/decorators';
-import { GameEvent, GameEventView } from './types';
+import { GameEvent, GameEventView, GameUpdateNews } from './types';
+import { GameUpdateNewsResponse } from './types/game-update-news-response.type';
 
 @Controller('api/game')
 export class GameController {
   constructor(private readonly gameService: GameService) {}
+
+  @Public()
+  @Get('update')
+  public async getUpdateNews(
+    @Query('page') page: number,
+    @Query('target') target: string,
+  ): Promise<AppResponse<GameUpdateNewsResponse>> {
+    return this.gameService.getUpdateNews(page, target);
+  }
 
   @Public()
   @Get('events')

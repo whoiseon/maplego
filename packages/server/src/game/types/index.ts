@@ -14,3 +14,12 @@ export interface GameEventView {
   endDate: string;
   content: string;
 }
+
+export interface GameUpdateNews {
+  id: number;
+  title: string[];
+  link: string;
+  date: string;
+  thumbnail: string;
+  isNew: boolean;
+}
