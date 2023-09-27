@@ -11,6 +11,8 @@ function MapleEventView() {
   const eventId = Number(useParams().eventId);
   const { data } = useGetGameEventView(eventId);
 
+  console.log(data);
+
   return (
     <Block>
       <Card>

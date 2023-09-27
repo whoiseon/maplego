@@ -10,11 +10,11 @@ interface QueryParams {
   eventId: string;
 }
 
-async function HydrateMapleEvent() {
+async function HydrateMapleEventView() {
   const queryClient = getQueryClient();
   const headerStore = headers();
 
-  const pathname = headerStore.get('referer') as string;
+  const pathname = headerStore.get('x-invoke-path') as string;
   const eventId = Number(pathname.split('/').pop());
 
   await queryClient.prefetchQuery(queryKey.GET_GAME_EVENT_VIEW(eventId), () =>
@@ -30,4 +30,4 @@ async function HydrateMapleEvent() {
   );
 }
 
-export default HydrateMapleEvent;
+export default HydrateMapleEventView;

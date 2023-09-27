@@ -1,7 +1,7 @@
-import HydrateMapleEvent from '@/components/desktop/maple/event/hydrate/HydrateMapleEventView';
+import HydrateMapleEventView from '@/components/desktop/maple/event/hydrate/HydrateMapleEventView';
 
 function EventView() {
-  return <HydrateMapleEvent />;
+  return <HydrateMapleEventView />;
 }
 
 export default EventView;
