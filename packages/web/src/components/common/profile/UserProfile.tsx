@@ -95,8 +95,9 @@ const ProfileBox = styled.div<{ size: number }>`
   width: ${({ size }) => size + 4}px;
   height: ${({ size }) => size + 4}px;
   border-radius: 50%;
+  outline: 1px solid transparent;
   border: 1px solid transparent;
-  transition: border 0.2s ease-in-out;
+  transition: outline 0.2s ease-in-out;
   cursor: pointer;
 
   img.profile-image {

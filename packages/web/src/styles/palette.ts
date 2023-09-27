@@ -72,7 +72,7 @@ const themeVariableSets: Record<Theme, ThemeVariables> = {
     danger2: '#fc7171',
     danger3: '#E94646',
     warning_text: '#946800',
-    success_text: '#18794E',
+    success_text: '#4CC38A',
     shadow1:
       '0 0 2px 0 rgba(145, 158, 171, 0.2), 0 12px 24px -4px rgba(145, 158, 171, 0.12)',
     shadow2: '0 1px 2px 0 rgba(0, 0, 0, 0.08)',

@@ -68,6 +68,7 @@ function EventViewLayout({ children }: { children: ReactNode }) {
               width: '22px',
               height: '22px',
             }}
+            hasLink={false}
           />
           <h2>이벤트</h2>
         </ViewTitleBox>

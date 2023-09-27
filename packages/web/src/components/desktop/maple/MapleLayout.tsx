@@ -59,7 +59,11 @@ function MapleLayout({ children, subMenu }: Props) {
       <LinksHeader
         title="메이플"
         titleIcon={
-          <Logo type="icon" style={{ width: '22px', height: '22px' }} />
+          <Logo
+            type="icon"
+            style={{ width: '22px', height: '22px' }}
+            hasLink={false}
+          />
         }
         description="메이플스토리의 다양한 정보를 확인해보세요!"
         links={dummyProfilePageMap}

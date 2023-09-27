@@ -67,6 +67,7 @@ function UpdateViewLayout({ children }: { children: ReactNode }) {
               width: '22px',
               height: '22px',
             }}
+            hasLink={false}
           />
           <h2>업데이트</h2>
         </ViewTitleBox>
