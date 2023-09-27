@@ -99,6 +99,7 @@ const DateText = styled.p`
 `;
 
 const EventContentBox = styled.div`
+  position: relative;
   padding: 24px;
 
   img {
@@ -138,6 +139,15 @@ const EventContentBox = styled.div`
       td {
         border-color: ${themedPalette.border3} !important;
       }
+    }
+  }
+
+  div#sec_1 {
+    img:nth-of-type(2) {
+      top: 8540px !important;
+      left: 49.8% !important;
+      box-shadow: none !important;
+      width: 80% !important;
     }
   }
 `;
