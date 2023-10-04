@@ -3,6 +3,7 @@
 import SignUpedBox from '@/components/common/auth/SignUpedBox';
 import SignUpForm, {
   CheckDisplayName,
+  VerifyMail,
 } from '@/components/desktop/auth/SignUpForm';
 import { SignUpParams, fetchSignUp } from '@/lib/api/auth';
 import { appError } from '@/lib/error';
@@ -23,6 +24,11 @@ function SignUpPage() {
   });
   // api request error state
   const [serverError, setServerError] = useState<string>('');
+  const [verifyMail, setVerifyMail] = useState<VerifyMail>({
+    statusCode: 0,
+    message: '',
+  });
+  const [isVerified, setIsVerified] = useState(false);
 
   const { data: meData } = useGetMyAccount();
 
@@ -37,7 +43,6 @@ function SignUpPage() {
       setServerError('');
     },
     onSuccess: (data) => {
-      console.log(data);
       if (data.statusCode !== 200) {
         setServerError(appError(data.name));
 
@@ -50,10 +55,15 @@ function SignUpPage() {
   });
 
   const onSubmit = useCallback(
-    ({ displayName, username, password }: SignUpParams) => {
-      mutate({ displayName, username, password });
+    ({ displayName, username, password, email }: SignUpParams) => {
+      if (!isVerified) {
+        setServerError('이메일 인증을 완료해주세요!');
+        return;
+      }
+
+      mutate({ displayName, username, password, email });
     },
-    [mutate],
+    [mutate, setIsVerified],
   );
 
   return (
@@ -65,9 +75,14 @@ function SignUpPage() {
           <SignUpForm
             onSubmit={onSubmit}
             serverError={serverError}
+            setServerError={setServerError}
             isLoading={isLoading}
             checkDisplayName={checkDisplayName}
             setCheckDisplayName={setCheckDisplayName}
+            verifyMail={verifyMail}
+            setVerifyMail={setVerifyMail}
+            isVerified={isVerified}
+            setIsVerified={setIsVerified}
           />
         )}
       </Block>

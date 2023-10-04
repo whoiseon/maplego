@@ -14,6 +14,10 @@ import { ChangePasswordBodyDto } from './dto/change-password-body.dto';
 import { ChangePasswordResponseType } from './types/change-password-response.type';
 import AppResponse from '../lib/app.response';
 import { MaplePointService } from '../maple-point/maple-point.service';
+import { SendMailDto } from './dto/send-mail.dto';
+import { EmailService } from '../email/email.service';
+import { createAuthEmail } from '../etc/emailTemplates';
+import { VerifyMailDto } from './dto/verify-mail.dto';
 
 @Injectable()
 export class AuthService {
@@ -28,12 +32,122 @@ export class AuthService {
     private readonly configService: ConfigService,
     private readonly tokenService: TokenService,
     private readonly maplePointService: MaplePointService,
+    private readonly emailService: EmailService,
   ) {}
+
+  public async sendMail(
+    sendMailDto: SendMailDto,
+  ): Promise<AppResponse<string>> {
+    const { email } = sendMailDto;
+    const code = this.emailService.createRandomCode();
+
+    try {
+      const existingUser: User = await this.db.user.findUnique({
+        where: {
+          email,
+        },
+      });
+
+      if (existingUser) {
+        return new AppResponse({
+          name: 'EmailAlreadyExists',
+          statusCode: 409,
+          message: 'email already exists',
+          payload: null,
+        });
+      }
+
+      await this.db.emailAuth.create({
+        data: {
+          email,
+          code: code.toString(),
+        },
+      });
+
+      await this.emailService.sendMail({
+        to: email,
+        ...createAuthEmail(code),
+        from: 'verify@maplego.me',
+      });
+
+      return new AppResponse({
+        name: '',
+        statusCode: 200,
+        message: '',
+        payload: null,
+      });
+    } catch (e) {
+      console.error(e);
+      return new AppResponse({
+        name: 'Unknown',
+        statusCode: 500,
+        message: 'Unknown',
+        payload: null,
+      });
+    }
+  }
+
+  public async verifyMail(params: VerifyMailDto): Promise<AppResponse<any>> {
+    const { email, code } = params;
+    try {
+      const emailAuth = await this.db.emailAuth.findFirst({
+        where: {
+          email,
+          code,
+        },
+      });
+
+      if (!emailAuth) {
+        return new AppResponse({
+          name: 'WrongCode',
+          statusCode: 400,
+          message: 'wrong code',
+          payload: null,
+        });
+      }
+
+      // 생성된 날짜로부터 3분이 지났는지 확인
+      const now = new Date();
+      const createdAt = emailAuth.createdAt;
+      const diff = now.getTime() - createdAt.getTime();
+      const diffMinutes = Math.floor(diff / 1000 / 60);
+
+      if (diffMinutes > 3) {
+        return new AppResponse({
+          name: 'ExpiredCode',
+          statusCode: 400,
+          message: 'expired code',
+          payload: null,
+        });
+      }
+
+      await this.db.emailAuth.delete({
+        where: {
+          id: emailAuth.id,
+        },
+      });
+
+      return new AppResponse({
+        name: '',
+        statusCode: 200,
+        message: '',
+        payload: null,
+      });
+    } catch (e) {
+      console.error(e);
+      return new AppResponse({
+        name: 'Unknown',
+        statusCode: 500,
+        message: 'Unknown',
+        payload: null,
+      });
+    }
+  }
 
   public async signUp(
     signUpBodyDto: SignUpBodyDto,
   ): Promise<AppResponse<SignUpResponseType>> {
-    const { username, password, displayName } = signUpBodyDto;
+    const { username, password, displayName, email } = signUpBodyDto;
 
     try {
       const existingUser: User = await this.db.user.findFirst({
@@ -61,6 +175,7 @@ export class AuthService {
           username,
           passwordHash: hashedPassword,
           displayName,
+          email,
         },
       });
 

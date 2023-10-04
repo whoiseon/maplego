@@ -45,6 +45,12 @@ export const signUpFormErrors = {
       message: '비밀번호는 8자 이상으로 입력해주세요!',
     },
   },
+  email: {
+    required: {
+      value: true,
+      message: '이메일을 입력해주세요!',
+    },
+  },
 };
 
 export const signInFormErrors = {

@@ -4,8 +4,10 @@ import {
   ChangePasswordResponse,
   CheckDisplayNameParams,
   CheckDisplayNameResponse,
+  SendAuthMailResponse,
   SignInResponse,
   SignUpResponse,
+  VerifyAuthMailParams,
 } from './types';
 import { Tokens } from '@/lib/api/types';
 
@@ -13,6 +15,7 @@ export interface SignUpParams {
   displayName: string;
   username: string;
   password: string;
+  email: string;
 }
 
 export interface SignInParams {
@@ -109,4 +112,37 @@ export async function fetchCheckDisplayName(
   });
 
   return (await response.json()) as CheckDisplayNameResponse;
+}
+
+export async function fetchSendAuthMail(
+  email: string,
+): Promise<SendAuthMailResponse> {
+  const response = await fetch(endpoint.auth.sendmail, {
+    method: 'POST',
+    cache: 'no-cache',
+    credentials: 'include',
+    body: JSON.stringify({ email }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  return (await response.json()) as SendAuthMailResponse;
+}
+
+export async function fetchVerifyEmail(
+  email: string,
+  code: string,
+): Promise<VerifyAuthMailParams> {
+  const response = await fetch(endpoint.auth.verify, {
+    method: 'POST',
+    cache: 'no-cache',
+    credentials: 'include',
+    body: JSON.stringify({ email, code }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  return (await response.json()) as VerifyAuthMailParams;
 }

@@ -8,20 +8,38 @@ import LabelInput from '@/components/common/system/LabelInput';
 import useToggle from '@/lib/hooks/useToggle';
 import { themedPalette } from '@/styles/palette';
 import styled from '@emotion/styled';
-import { fetchCheckDisplayName, SignUpParams } from '@/lib/api/auth';
+import {
+  fetchCheckDisplayName,
+  fetchSendAuthMail,
+  fetchVerifyEmail,
+  SignUpParams,
+} from '@/lib/api/auth';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { signUpFormErrors } from '@/lib/formErrors';
+import Input from '@/components/common/system/Input';
+import { useInput } from '@/lib/hooks/useInput';
+import { appError } from '@/lib/error';
 
 interface Props {
   onSubmit: (params: SignUpParams) => void;
   serverError?: string;
+  setServerError: React.Dispatch<React.SetStateAction<string>>;
   isLoading?: boolean;
   checkDisplayName: CheckDisplayName;
   setCheckDisplayName: React.Dispatch<React.SetStateAction<CheckDisplayName>>;
+  verifyMail: VerifyMail;
+  setVerifyMail: React.Dispatch<React.SetStateAction<VerifyMail>>;
+  isVerified: boolean;
+  setIsVerified: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface CheckDisplayName {
+  statusCode: number;
+  message: string;
+}
+
+export interface VerifyMail {
   statusCode: number;
   message: string;
 }
@@ -30,18 +48,32 @@ function SignUpForm({
   onSubmit,
   isLoading,
   serverError,
+  setServerError,
   checkDisplayName,
   setCheckDisplayName,
+  verifyMail,
+  setVerifyMail,
+  isVerified,
+  setIsVerified,
 }: Props) {
   // modals of agreement
   const [isOpenServiceAgree, onToggleServiceAgree] = useToggle(false);
   const [isOpenPrivacyAgree, onTogglePrivacyAgree] = useToggle(false);
+  const [openVerifyMail, setOpenVerifyMail] = useState(false);
+  const [verifyTime, setVerifyTime] = useState(180);
+  const [sendMailLoading, setSendMailLoading] = useState(false);
+  const [verifyLoading, setVerifyLoading] = useState(false);
+
+  const [code, onChangeCode] = useInput('');
+
+  let timer: NodeJS.Timeout;
 
   // react hook form error options
   const {
     displayName: displayNameOption,
     username: usernameOption,
     password: passwordOption,
+    email: emailOption,
   } = signUpFormErrors;
 
   // react hook form
@@ -55,6 +87,7 @@ function SignUpForm({
       displayName: '',
       username: '',
       password: '',
+      email: '',
     },
   });
 
@@ -88,6 +121,115 @@ function SignUpForm({
     } catch (e) {}
   };
 
+  const onSendEmail = async () => {
+    const email = getValues('email');
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+
+    if (sendMailLoading || email === '' || !emailRegex.test(email)) {
+      return;
+    }
+
+    setSendMailLoading(true);
+    setServerError('');
+    setVerifyMail({
+      statusCode: 0,
+      message: '',
+    });
+
+    try {
+      const response = await fetchSendAuthMail(email);
+      if (response.statusCode === 200) {
+        setOpenVerifyMail(true);
+
+        timer = setInterval(() => {
+          setVerifyTime((prev) => prev - 1);
+        }, 1000);
+
+        setTimeout(
+          () => {
+            clearInterval(timer);
+            setVerifyTime(180);
+            setVerifyMail({
+              statusCode: 0,
+              message: '제한 시간을 초과하였습니다. 다시 시도해주세요.',
+            });
+          },
+          (verifyTime + 1) * 1000,
+        );
+      } else {
+        setServerError(appError(response.name));
+      }
+    } catch (e) {
+      setVerifyMail({
+        statusCode: 500,
+        message: '인증 메일 전송에 실패했습니다.',
+      });
+    } finally {
+      setSendMailLoading(false);
+    }
+  };
+
+  const onVerifyEmail = async () => {
+    setVerifyLoading(true);
+
+    if (verifyLoading) {
+      return;
+    }
+
+    if (code === '') {
+      setVerifyMail({
+        statusCode: 0,
+        message: '인증번호를 입력해주세요.',
+      });
+      return;
+    }
+
+    try {
+      const response = await fetchVerifyEmail(getValues('email'), code);
+      if (response.statusCode === 200) {
+        setVerifyMail({
+          statusCode: 0,
+          message: '',
+        });
+
+        clearInterval(timer);
+        setVerifyTime(180);
+        setIsVerified(true);
+      } else {
+        setVerifyMail({
+          statusCode: response.statusCode,
+          message: appError(response.name),
+        });
+      }
+    } catch (e) {
+      setVerifyMail({
+        statusCode: 500,
+        message: '인증에 실패했습니다.',
+      });
+    } finally {
+      setVerifyLoading(false);
+    }
+  };
+
+  const verifyTimeToString = () => {
+    const minutes = Math.floor(verifyTime / 60);
+    const seconds = verifyTime % 60;
+
+    const formmattedMinutes = String(minutes).padStart(2, '0');
+    const formmattedSeconds = String(seconds).padStart(2, '0');
+
+    return {
+      minutes: formmattedMinutes,
+      seconds: formmattedSeconds,
+    };
+  };
+
+  useEffect(() => {
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
+
   return (
     <Block>
       <WelcomeBox type="signUp" />
@@ -109,8 +251,7 @@ function SignUpForm({
             label="아이디"
             type="text"
             name="username"
-            placeholder="아이디를 입력해주세요"
-            description="4~20자 영문과 숫자로만 가능해요!"
+            placeholder="4~20자 영문과 숫자로만 가능해요!"
             errors={errors.username}
             register={register}
             options={usernameOption}
@@ -119,12 +260,56 @@ function SignUpForm({
             label="비밀번호"
             type="password"
             name="password"
-            placeholder="비밀번호를 입력해주세요"
-            description="비밀번호는 최소 8글자 이상이어야 해요!"
+            placeholder="비밀번호는 최소 8글자 이상이어야 해요!"
             errors={errors.password}
             register={register}
             options={passwordOption}
           />
+          <LabelInput
+            label="이메일 인증"
+            type="email"
+            name="email"
+            placeholder="이메일을 입력해주세요"
+            onClick={onSendEmail}
+            buttonText="전송"
+            errors={errors.email}
+            register={register}
+            options={emailOption}
+            disabled={openVerifyMail}
+            isLoading={sendMailLoading}
+          />
+          {openVerifyMail && (
+            <VerifyEmailBox>
+              <LabelBox isVerified={isVerified}>
+                <label>인증번호</label>
+                <p>
+                  {isVerified
+                    ? '인증에 성공하셨어요!'
+                    : `${verifyTimeToString().minutes}:${
+                        verifyTimeToString().seconds
+                      }`}
+                </p>
+              </LabelBox>
+              <WithButtonInputBox>
+                <Input
+                  placeholder="발송된 인증번호를 입력해주세요"
+                  value={code}
+                  onChange={onChangeCode}
+                  disabled={isVerified}
+                />
+                <Button
+                  type="button"
+                  onClick={onVerifyEmail}
+                  disabled={isVerified}
+                >
+                  인증
+                </Button>
+              </WithButtonInputBox>
+              <VerifyMessageBox>
+                <p>{verifyMail.message}</p>
+              </VerifyMessageBox>
+            </VerifyEmailBox>
+          )}
         </InputGroup>
         {serverError && <ErrorMessage>{serverError}</ErrorMessage>}
         <ActionsBox>
@@ -146,13 +331,13 @@ function SignUpForm({
             가입하기
           </Button>
         </ActionsBox>
-        <QuestionLink
-          className="text-center"
-          question="계정이 있으신가요?"
-          name="로그인"
-          to="/auth/signin"
-        />
       </StyledForm>
+      <QuestionLink
+        className="text-center"
+        question="계정이 있으신가요?"
+        name="로그인"
+        to="/auth/signin"
+      />
       {isOpenServiceAgree && (
         <AuthServiceTermModal type="service" onToggle={onToggleServiceAgree} />
       )}
@@ -168,19 +353,72 @@ const Block = styled.div`
   flex-direction: column;
   width: 380px;
   margin-top: 100px;
-  gap: 32px;
+  gap: 1.5rem;
 `;
 
 const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 1.5rem;
 `;
 
 const InputGroup = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 1rem;
+`;
+
+const VerifyEmailBox = styled.div`
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: ${themedPalette.bg_page3};
+  border: 1px solid ${themedPalette.border3};
+  border-radius: 4px;
+  box-shadow: ${themedPalette.shadow2};
+
+  label {
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  input {
+    background: ${themedPalette.bg_element2};
+
+    &:focus {
+      border-color: ${themedPalette.border2};
+    }
+  }
+`;
+
+const LabelBox = styled.div<{ isVerified: boolean }>`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  p {
+    font-size: 12px;
+    color: ${({ isVerified }) =>
+      isVerified ? themedPalette.success_text : themedPalette.danger2};
+  }
+`;
+
+const WithButtonInputBox = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0 0.5rem;
+  button {
+    white-space: nowrap;
+    min-width: 62px;
+  }
+`;
+
+const VerifyMessageBox = styled.div`
+  p {
+    font-size: 14px;
+    color: ${themedPalette.danger2};
+  }
 `;
 
 const AgreementBox = styled.div`

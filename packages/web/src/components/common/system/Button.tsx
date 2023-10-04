@@ -50,7 +50,13 @@ function Button({
     );
   }
   return (
-    <StyledButton layout={layout} variant={variant} size={size} {...rest}>
+    <StyledButton
+      layout={layout}
+      variant={variant}
+      size={size}
+      disabled={isLoading}
+      {...rest}
+    >
       {icon}
       {isLoading ? <Spinner /> : rest.children}
     </StyledButton>

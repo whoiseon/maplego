@@ -27,3 +27,11 @@ export interface CheckDisplayNameParams {
 export interface CheckDisplayNameResponse extends AppResponse {
   payload: null;
 }
+
+export interface SendAuthMailResponse extends AppResponse {
+  payload: null;
+}
+
+export interface VerifyAuthMailParams extends AppResponse {
+  payload: null;
+}

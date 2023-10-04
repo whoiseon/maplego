@@ -12,4 +12,8 @@ export class SignUpBodyDto {
   @IsString()
   @IsNotEmpty()
   public password: string;
+
+  @IsString()
+  @IsNotEmpty()
+  public email: string;
 }

@@ -17,6 +17,7 @@ import { UploadService } from './upload/upload.service';
 import { UploadModule } from './upload/upload.module';
 import { ParseModule } from './parse/parse.module';
 import { GameModule } from './game/game.module';
+import { EmailModule } from './email/email.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { GameModule } from './game/game.module';
     UploadModule,
     ParseModule,
     GameModule,
+    EmailModule,
   ],
   controllers: [AppController],
   providers: [

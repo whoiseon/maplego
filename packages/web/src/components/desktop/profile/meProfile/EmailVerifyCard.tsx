@@ -25,6 +25,7 @@ function EmailVerifyCard() {
       description="원활한 활동을 위해서는 이메일 주소를 인증해야합니다."
       onEdit={onVerifyEmail}
       buttonText="인증"
+      buttonDisabled={isVerified}
     >
       <EmailVerifyBox>
         <InputGroup>
@@ -32,6 +33,7 @@ function EmailVerifyCard() {
             placeholder="이메일 주소를 입력해주세요."
             value={email}
             onChange={onChangeEmail}
+            disabled={isVerified}
           />
         </InputGroup>
         <VerifyBox isVerified={isVerified}>

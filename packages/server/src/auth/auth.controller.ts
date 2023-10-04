@@ -21,6 +21,8 @@ import { User } from '@prisma/client';
 import { ChangePasswordBodyDto } from './dto/change-password-body.dto';
 import AppResponse from '../lib/app.response';
 import { ExistDisplayNameDto } from './dto/exist-display-name.dto';
+import { SendMailDto } from './dto/send-mail.dto';
+import { VerifyMailDto } from './dto/verify-mail.dto';
 
 @Controller('api/auth')
 export class AuthController {
@@ -36,6 +38,24 @@ export class AuthController {
     @Body() signUpBodyDto: SignUpBodyDto,
   ): Promise<AppResponse<SignUpResponseType>> {
     return this.authService.signUp(signUpBodyDto);
+  }
+
+  @Public()
+  @Post('sendmail')
+  @HttpCode(HttpStatus.OK)
+  public async sendMail(
+    @Body() sendMailDto: SendMailDto,
+  ): Promise<AppResponse<any>> {
+    return this.authService.sendMail(sendMailDto);
+  }
+
+  @Public()
+  @Post('verify')
+  @HttpCode(HttpStatus.OK)
+  public async verifyMail(
+    @Body() verifyMailDto: VerifyMailDto,
+  ): Promise<AppResponse<any>> {
+    return this.authService.verifyMail(verifyMailDto);
   }
 
   @Public()

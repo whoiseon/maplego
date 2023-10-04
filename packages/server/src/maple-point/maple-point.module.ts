@@ -6,7 +6,7 @@ import { authProviders } from '../lib/providers/auth.providers';
 
 @Module({
   controllers: [MaplePointController],
-  providers: [MaplePointService, PrismaService, ...authProviders],
+  providers: [PrismaService, ...authProviders],
   exports: [MaplePointService],
 })
 export class MaplePointModule {}
