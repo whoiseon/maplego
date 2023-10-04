@@ -10,6 +10,7 @@ import {
 } from './types';
 import * as console from 'console';
 import { GameUpdateNewsResponse } from './types/game-update-news-response.type';
+import { parseUrl } from '../lib/parseUrl';
 
 @Injectable()
 export class GameService {
@@ -22,20 +23,20 @@ export class GameService {
     try {
       const targetMap = {
         tespia: {
-          url: 'https://maplestory.nexon.com/Testworld/Update',
+          url: parseUrl.update.normal,
           selector: 'div.news_board ul li',
           titleSelector: 'p a span',
           linkSelector: 'p a',
         },
         cash: {
-          url: 'https://maplestory.nexon.com/News/CashShop',
+          url: parseUrl.update.cashShop,
           selector: 'div.cash_board ul li',
           titleSelector: 'p a',
           linkSelector: 'p a',
         },
       };
 
-      let url = 'https://maplestory.nexon.com/News/Update';
+      let url = parseUrl.update.normal;
 
       if (target) {
         url = targetMap[target].url;
@@ -124,14 +125,14 @@ export class GameService {
     try {
       const targetMap = {
         tespia: {
-          url: `https://maplestory.nexon.com/Testworld/Update/${id}`,
+          url: parseUrl.update.view.tespia(id),
         },
         cash: {
-          url: `https://maplestory.nexon.com/News/CashShop/Sale/${id}`,
+          url: parseUrl.update.view.cashShop(id),
         },
       };
 
-      let url = `https://maplestory.nexon.com/News/Update/${id}`;
+      let url = parseUrl.update.view.normal(id);
       let currentTarget = 'update';
       if (target) currentTarget = target;
 
@@ -195,7 +196,7 @@ export class GameService {
 
   public async getEvents(): Promise<AppResponse<GameEvent[]>> {
     try {
-      const url = 'https://maplestory.nexon.com/News/Event';
+      const url = parseUrl.event.normal;
       const html = await this.parseService.getHtml(url);
       const $ = cheerio.load(html.data);
       const events = $('div.event_board ul li');
@@ -264,7 +265,7 @@ export class GameService {
         });
       }
 
-      const url = `https://maplestory.nexon.com/News/Event/Ongoing/${id}`;
+      const url = parseUrl.event.view.normal(id);
       const html = await this.parseService.getHtml(url);
       const $ = cheerio.load(html.data);
       const eventView = $('div.contents_wrap');
@@ -306,7 +307,7 @@ export class GameService {
 
   private async getEventIdList(): Promise<number[]> {
     try {
-      const url = 'https://maplestory.nexon.com/News/Event';
+      const url = parseUrl.event.normal;
       const html = await this.parseService.getHtml(url);
       const $ = cheerio.load(html.data);
       const events = $('div.event_board ul li');
