@@ -63,7 +63,7 @@ function SignUpPage() {
 
       mutate({ displayName, username, password, email });
     },
-    [mutate, setIsVerified],
+    [mutate, isVerified],
   );
 
   return (
