@@ -16,6 +16,10 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="ko" suppressHydrationWarning>
+      <head>
+        <meta charSet="utf-8" />
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+      </head>
       <body>
         <Providers>
           <HydrateRoot>
