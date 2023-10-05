@@ -1,9 +1,32 @@
+import { appErrors } from './error';
+
 export default class AppResponse<T> {
   public name: string;
   public statusCode: number;
   public message: string;
   public payload: T;
-  constructor(params: BaseResponse<T>) {
+  constructor(params: BaseResponse<T> | QuickResponse) {
+    if (typeof params === 'string') {
+      switch (params) {
+        case 'unknown':
+          return {
+            name: appErrors.unknown.name,
+            statusCode: appErrors.unknown.statusCode,
+            message: appErrors.unknown.message,
+            payload: null,
+          };
+        case 'success':
+          return {
+            name: '',
+            statusCode: 200,
+            message: '',
+            payload: null,
+          };
+      }
+
+      return;
+    }
+
     this.name = params.name;
     this.statusCode = params.statusCode;
     this.message = params.message;
@@ -24,3 +47,5 @@ interface BaseResponse<T> {
   message: string;
   payload: T;
 }
+
+type QuickResponse = 'unknown' | 'success';

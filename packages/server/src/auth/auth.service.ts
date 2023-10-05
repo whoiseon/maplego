@@ -3,7 +3,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { SignUpBodyDto } from 'src/auth/dto/sign-up-body.dto';
 import bcrypt from 'bcrypt';
 import { User } from '@prisma/client';
-import { AppError } from 'src/lib/error';
+import { AppError, appErrors } from 'src/lib/error';
 import { SignInResponseType, SignUpResponseType } from 'src/auth/types';
 import { SignInBodyDto } from 'src/auth/dto/sign-in-body.dto';
 import { JwtService } from '@nestjs/jwt';
@@ -50,9 +50,9 @@ export class AuthService {
 
       if (existingUser) {
         return new AppResponse({
-          name: 'EmailAlreadyExists',
-          statusCode: 409,
-          message: 'email already exists',
+          name: appErrors.emailAlreadyExists.name,
+          statusCode: appErrors.emailAlreadyExists.statusCode,
+          message: appErrors.emailAlreadyExists.message,
           payload: null,
         });
       }
@@ -70,20 +70,10 @@ export class AuthService {
         from: 'verify@maplego.me',
       });
 
-      return new AppResponse({
-        name: '',
-        statusCode: 200,
-        message: '',
-        payload: null,
-      });
+      return new AppResponse('success');
     } catch (e) {
       console.error(e);
-      return new AppResponse({
-        name: 'Unknown',
-        statusCode: 500,
-        message: 'Unknown',
-        payload: null,
-      });
+      return new AppResponse('unknown');
     }
   }
 
@@ -99,9 +89,9 @@ export class AuthService {
 
       if (!emailAuth) {
         return new AppResponse({
-          name: 'WrongCode',
-          statusCode: 400,
-          message: 'wrong code',
+          name: appErrors.wrongCode.name,
+          statusCode: appErrors.wrongCode.statusCode,
+          message: appErrors.wrongCode.message,
           payload: null,
         });
       }
@@ -114,9 +104,9 @@ export class AuthService {
 
       if (diffMinutes > 3) {
         return new AppResponse({
-          name: 'ExpiredCode',
-          statusCode: 400,
-          message: 'expired code',
+          name: appErrors.expiredCode.name,
+          statusCode: appErrors.expiredCode.statusCode,
+          message: appErrors.expiredCode.message,
           payload: null,
         });
       }
@@ -127,20 +117,10 @@ export class AuthService {
         },
       });
 
-      return new AppResponse({
-        name: '',
-        statusCode: 200,
-        message: '',
-        payload: null,
-      });
+      return new AppResponse('success');
     } catch (e) {
       console.error(e);
-      return new AppResponse({
-        name: 'Unknown',
-        statusCode: 500,
-        message: 'Unknown',
-        payload: null,
-      });
+      return new AppResponse('unknown');
     }
   }
 
@@ -158,9 +138,9 @@ export class AuthService {
 
       if (existingUser) {
         return new AppResponse({
-          name: 'UsernameAlreadyExists',
-          statusCode: 409,
-          message: 'username already exists',
+          name: appErrors.usernameAlreadyExists.name,
+          statusCode: appErrors.usernameAlreadyExists.statusCode,
+          message: appErrors.usernameAlreadyExists.message,
           payload: null,
         });
       }
@@ -181,14 +161,9 @@ export class AuthService {
 
       await this.maplePointService.signUpPointEvent(createdUser.id);
 
-      return new AppResponse({
-        name: '',
-        statusCode: 200,
-        message: '',
-        payload: null,
-      });
+      return new AppResponse('success');
     } catch (e) {
-      throw new AppError('Unknown');
+      return new AppResponse('unknown');
     }
   }
 
@@ -206,9 +181,9 @@ export class AuthService {
 
       if (!user) {
         return new AppResponse({
-          name: 'WrongCredentials',
-          statusCode: 401,
-          message: 'username or password is wrong',
+          name: appErrors.wrongCredentials.name,
+          statusCode: appErrors.wrongCredentials.statusCode,
+          message: appErrors.wrongCredentials.message,
           payload: null,
         });
       }
@@ -220,9 +195,9 @@ export class AuthService {
 
       if (!isPasswordValid) {
         return new AppResponse({
-          name: 'WrongCredentials',
-          statusCode: 401,
-          message: 'username or password is wrong',
+          name: appErrors.wrongCredentials.name,
+          statusCode: appErrors.wrongCredentials.statusCode,
+          message: appErrors.wrongCredentials.message,
           payload: null,
         });
       }
@@ -248,7 +223,7 @@ export class AuthService {
         },
       });
     } catch (e) {
-      throw new AppError('Unknown');
+      return new AppResponse('unknown');
     }
   }
 
