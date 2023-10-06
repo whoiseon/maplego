@@ -3,7 +3,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { SignUpBodyDto } from 'src/auth/dto/sign-up-body.dto';
 import bcrypt from 'bcrypt';
 import { User } from '@prisma/client';
-import { AppError, appErrors } from 'src/lib/error';
+import { AppError } from 'src/lib/error';
 import { SignInResponseType, SignUpResponseType } from 'src/auth/types';
 import { SignInBodyDto } from 'src/auth/dto/sign-in-body.dto';
 import { JwtService } from '@nestjs/jwt';
@@ -49,12 +49,7 @@ export class AuthService {
       });
 
       if (existingUser) {
-        return new AppResponse({
-          name: appErrors.emailAlreadyExists.name,
-          statusCode: appErrors.emailAlreadyExists.statusCode,
-          message: appErrors.emailAlreadyExists.message,
-          payload: null,
-        });
+        return new AppResponse('EmailAlreadyExists');
       }
 
       await this.db.emailAuth.create({
@@ -70,10 +65,10 @@ export class AuthService {
         from: 'verify@maplego.me',
       });
 
-      return new AppResponse('success');
+      return new AppResponse('Success');
     } catch (e) {
       console.error(e);
-      return new AppResponse('unknown');
+      return new AppResponse('Unknown');
     }
   }
 
@@ -88,12 +83,7 @@ export class AuthService {
       });
 
       if (!emailAuth) {
-        return new AppResponse({
-          name: appErrors.wrongCode.name,
-          statusCode: appErrors.wrongCode.statusCode,
-          message: appErrors.wrongCode.message,
-          payload: null,
-        });
+        return new AppResponse('WrongCode');
       }
 
       // 생성된 날짜로부터 3분이 지났는지 확인
@@ -103,12 +93,7 @@ export class AuthService {
       const diffMinutes = Math.floor(diff / 1000 / 60);
 
       if (diffMinutes > 3) {
-        return new AppResponse({
-          name: appErrors.expiredCode.name,
-          statusCode: appErrors.expiredCode.statusCode,
-          message: appErrors.expiredCode.message,
-          payload: null,
-        });
+        return new AppResponse('ExpiredCode');
       }
 
       await this.db.emailAuth.delete({
@@ -117,10 +102,10 @@ export class AuthService {
         },
       });
 
-      return new AppResponse('success');
+      return new AppResponse('Success');
     } catch (e) {
       console.error(e);
-      return new AppResponse('unknown');
+      return new AppResponse('Unknown');
     }
   }
 
@@ -137,12 +122,7 @@ export class AuthService {
       });
 
       if (existingUser) {
-        return new AppResponse({
-          name: appErrors.usernameAlreadyExists.name,
-          statusCode: appErrors.usernameAlreadyExists.statusCode,
-          message: appErrors.usernameAlreadyExists.message,
-          payload: null,
-        });
+        return new AppResponse('UsernameAlreadyExists');
       }
 
       const hashedPassword: string = await bcrypt.hash(
@@ -161,9 +141,9 @@ export class AuthService {
 
       await this.maplePointService.signUpPointEvent(createdUser.id);
 
-      return new AppResponse('success');
+      return new AppResponse('Success');
     } catch (e) {
-      return new AppResponse('unknown');
+      return new AppResponse('Unknown');
     }
   }
 
@@ -180,12 +160,7 @@ export class AuthService {
       });
 
       if (!user) {
-        return new AppResponse({
-          name: appErrors.wrongCredentials.name,
-          statusCode: appErrors.wrongCredentials.statusCode,
-          message: appErrors.wrongCredentials.message,
-          payload: null,
-        });
+        return new AppResponse('WrongCredentials');
       }
 
       const isPasswordValid: boolean = await bcrypt.compare(
@@ -194,12 +169,7 @@ export class AuthService {
       );
 
       if (!isPasswordValid) {
-        return new AppResponse({
-          name: appErrors.wrongCredentials.name,
-          statusCode: appErrors.wrongCredentials.statusCode,
-          message: appErrors.wrongCredentials.message,
-          payload: null,
-        });
+        return new AppResponse('WrongCredentials');
       }
 
       const tokens = await this.tokenService.generateTokens(user);
@@ -213,17 +183,12 @@ export class AuthService {
         },
       });
 
-      return new AppResponse({
-        name: '',
-        statusCode: 200,
-        message: '',
-        payload: {
-          user,
-          tokens,
-        },
+      return new AppResponse('Success', {
+        tokens,
+        user,
       });
     } catch (e) {
-      return new AppResponse('unknown');
+      return new AppResponse('Unknown');
     }
   }
 
@@ -252,12 +217,7 @@ export class AuthService {
       );
 
       if (!user) {
-        return new AppResponse({
-          name: 'Unauthorized',
-          statusCode: 401,
-          message: 'user not found',
-          payload: null,
-        });
+        return new AppResponse('NotFoundUser');
       }
 
       const accessToken = await this.tokenService.generateToken({
@@ -267,13 +227,8 @@ export class AuthService {
         displayName: user.displayName,
       });
 
-      return new AppResponse({
-        name: '',
-        statusCode: 200,
-        message: '',
-        payload: {
-          accessToken,
-        },
+      return new AppResponse('Success', {
+        accessToken,
       });
     } catch (e) {
       throw new AppError('RefreshFailure');
@@ -291,22 +246,12 @@ export class AuthService {
       });
 
       if (existUser) {
-        return new AppResponse({
-          name: 'DisplayNameAlreadyExists',
-          statusCode: 409,
-          message: 'display name already exists',
-          payload: null,
-        });
+        return new AppResponse('DisplayNameAlreadyExists');
       }
 
-      return new AppResponse({
-        name: '',
-        statusCode: 200,
-        message: '',
-        payload: null,
-      });
+      return new AppResponse('Success');
     } catch (e) {
-      throw new AppError('Unknown');
+      return new AppResponse('Unknown');
     }
   }
 
@@ -329,21 +274,11 @@ export class AuthService {
       );
 
       if (!isPasswordValid) {
-        return new AppResponse({
-          name: 'WrongCredentials',
-          statusCode: 401,
-          message: 'current password is wrong',
-          payload: null,
-        });
+        return new AppResponse('WrongCredentials');
       }
 
       if (currentPassword === newPassword) {
-        return new AppResponse({
-          name: 'SamePassword',
-          statusCode: 400,
-          message: 'current password and new password are the same',
-          payload: null,
-        });
+        return new AppResponse('SamePassword');
       }
 
       const hashedPassword: string = await bcrypt.hash(
@@ -360,14 +295,9 @@ export class AuthService {
         },
       });
 
-      return {
-        name: '',
-        statusCode: 200,
-        message: '',
-        payload: null,
-      };
+      return new AppResponse('Success');
     } catch (e) {
-      throw new AppError('Unknown');
+      return new AppResponse('Unknown');
     }
   }
 }

@@ -84,24 +84,22 @@ export class MaplePointService {
         },
       });
 
-      return new AppResponse({
-        name: '',
-        statusCode: 200,
-        message: '',
-        payload: {
-          showCount,
-          pageNumber: 1,
-          totalCount: historyCount,
-          data: history,
-        },
+      return new AppResponse('Success', {
+        showCount,
+        pageNumber: 1,
+        totalCount: historyCount,
+        data: history,
       });
     } catch (e) {
-      console.log(e);
-      throw new AppError('Unknown');
+      console.error(e);
+      return new AppResponse('Unknown');
     }
   }
 
-  public async updateMaplePoint(userId: number, mp: number): Promise<void> {
+  public async updateMaplePoint(
+    userId: number,
+    mp: number,
+  ): Promise<AppResponse<any> | void> {
     try {
       const user = await this.db.user.findUnique({
         where: {
@@ -110,7 +108,7 @@ export class MaplePointService {
       });
 
       if (!user) {
-        throw new AppError('NotFound');
+        return new AppResponse('NotFoundUser');
       }
 
       await this.db.user.update({
@@ -131,7 +129,7 @@ export class MaplePointService {
     mp: number,
     prevMp: number,
     message: string,
-  ): Promise<void> {
+  ): Promise<AppResponse<any> | void> {
     try {
       const log = await this.db.maplePoint.create({
         data: {
@@ -143,7 +141,7 @@ export class MaplePointService {
       });
 
       if (!log) {
-        throw new AppError('Unknown');
+        return new AppResponse('Unknown');
       }
     } catch (e) {
       throw new AppError('Unknown');
@@ -163,12 +161,7 @@ export class MaplePointService {
       });
 
       if (!user) {
-        return new AppResponse({
-          name: 'NotFoundUser',
-          statusCode: 404,
-          message: 'user not found',
-          payload: null,
-        });
+        return new AppResponse('NotFoundUser');
       }
 
       await this.updateMaplePoint(userId, mp);
@@ -178,12 +171,7 @@ export class MaplePointService {
         `[MaplePoint-Give] (${userId} ${user.username})에게 ${mp}만큼의 메이플포인트를 지급하였습니다.`,
       );
 
-      return new AppResponse({
-        name: '',
-        statusCode: 200,
-        message: '',
-        payload: null,
-      });
+      return new AppResponse('Success');
     } catch (e) {
       throw new AppError('Unknown');
     }
@@ -202,21 +190,11 @@ export class MaplePointService {
       });
 
       if (!user) {
-        return new AppResponse({
-          name: 'NotFoundUser',
-          statusCode: 404,
-          message: 'user not found',
-          payload: null,
-        });
+        return new AppResponse('NotFoundUser');
       }
 
       if (user.mp < mp) {
-        return new AppResponse({
-          name: 'NotEnoughMaplePoint',
-          statusCode: 400,
-          message: 'not enough maple point',
-          payload: null,
-        });
+        return new AppResponse('NotEnoughMaplePoint');
       }
 
       await this.updateMaplePoint(userId, mp);
@@ -226,12 +204,7 @@ export class MaplePointService {
         `[MaplePoint-Receive] (${userId} ${user.username})에게 ${mp}만큼의 메이플포인트를 회수하였습니다.`,
       );
 
-      return new AppResponse({
-        name: '',
-        statusCode: 200,
-        message: '',
-        payload: null,
-      });
+      return new AppResponse('Success');
     } catch (e) {
       throw new AppError('Unknown');
     }

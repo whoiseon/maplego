@@ -28,13 +28,8 @@ export class UploadService {
 
     const path = `/images/profile/${filename}`;
 
-    return new AppResponse({
-      name: '',
-      message: '',
-      statusCode: 200,
-      payload: {
-        path,
-      },
+    return new AppResponse('Success', {
+      path,
     });
   }
 }

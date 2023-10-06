@@ -36,12 +36,7 @@ export class UserService {
         data: updateProfileField,
       });
 
-      return new AppResponse({
-        name: '',
-        statusCode: 200,
-        message: '',
-        payload: null,
-      });
+      return new AppResponse('Success');
     } catch (e) {
       throw new AppError('Unknown');
     }

@@ -42,12 +42,7 @@ export class GameService {
         url = targetMap[target].url;
 
         if (!url) {
-          return new AppResponse({
-            name: 'InvalidTarget',
-            message: 'Invalid target',
-            statusCode: 400,
-            payload: null,
-          });
+          return new AppResponse('InvalidTarget');
         }
       }
 
@@ -97,24 +92,14 @@ export class GameService {
       let currentTarget = 'update';
       if (target) currentTarget = target;
 
-      return new AppResponse({
-        name: '',
-        message: '',
-        statusCode: 200,
-        payload: {
-          data: updateNews,
-          target: currentTarget,
-          page: page || 1,
-        },
+      return new AppResponse('Success', {
+        data: updateNews,
+        target: currentTarget,
+        page: page || 1,
       });
     } catch (e) {
       console.error(e);
-      return new AppResponse({
-        name: 'UnknownError',
-        message: 'An unknown error occurred',
-        statusCode: 500,
-        payload: null,
-      });
+      return new AppResponse('Unknown');
     }
   }
 
@@ -140,12 +125,7 @@ export class GameService {
         url = targetMap[target].url;
 
         if (!url) {
-          return new AppResponse({
-            name: 'InvalidTarget',
-            message: 'Invalid target',
-            statusCode: 400,
-            payload: null,
-          });
+          return new AppResponse('InvalidTarget');
         }
       }
 
@@ -172,25 +152,15 @@ export class GameService {
           .html();
       }
 
-      return new AppResponse({
-        name: '',
-        message: '',
-        statusCode: 200,
-        payload: {
-          title,
-          date,
-          link,
-          content: htmlContent,
-        },
+      return new AppResponse('Success', {
+        title,
+        date,
+        link,
+        content: htmlContent,
       });
     } catch (e) {
       console.error(e);
-      return new AppResponse({
-        name: 'UnknownError',
-        message: 'An unknown error occurred',
-        statusCode: 500,
-        payload: null,
-      });
+      return new AppResponse('Unknown');
     }
   }
 
@@ -235,20 +205,10 @@ export class GameService {
         );
       });
 
-      return new AppResponse({
-        name: '',
-        message: '',
-        statusCode: 200,
-        payload: sortedGameEvents,
-      });
+      return new AppResponse('Success', sortedGameEvents);
     } catch (e) {
       console.error(e);
-      return new AppResponse({
-        name: 'UnknownError',
-        message: 'An unknown error occurred',
-        statusCode: 500,
-        payload: null,
-      });
+      return new AppResponse('Unknown');
     }
   }
 
@@ -257,12 +217,7 @@ export class GameService {
       const eventList = await this.getEventIdList();
 
       if (!eventList.includes(id)) {
-        return new AppResponse({
-          name: 'EventNotFound',
-          message: 'Event not found',
-          statusCode: 404,
-          payload: null,
-        });
+        return new AppResponse('NotFound');
       }
 
       const url = parseUrl.event.view.normal(id);
@@ -288,20 +243,10 @@ export class GameService {
         content,
       };
 
-      return new AppResponse({
-        name: '',
-        message: '',
-        statusCode: 200,
-        payload: eventViewData,
-      });
+      return new AppResponse('Success', eventViewData);
     } catch (e) {
       console.error(e);
-      return new AppResponse({
-        name: 'UnknownError',
-        message: 'An unknown error occurred',
-        statusCode: 500,
-        payload: null,
-      });
+      return new AppResponse('Unknown');
     }
   }
 
