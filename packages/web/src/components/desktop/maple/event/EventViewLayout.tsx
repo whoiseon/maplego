@@ -12,6 +12,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { GameEvent } from '@/lib/api/types';
+import MapleBoardLayout from '@/components/desktop/maple/MapleBoardLayout';
 
 function EventViewLayout({ children }: { children: ReactNode }) {
   const { data: eventList } = useGetGameEvent();
@@ -22,8 +23,6 @@ function EventViewLayout({ children }: { children: ReactNode }) {
   const eventListExceptMe = useMemo(() => {
     return eventList?.payload?.filter((item) => item.id !== eventId);
   }, [eventList]);
-
-  const goBack = useGoBack();
 
   const renderEventList = useMemo(
     () =>
@@ -55,54 +54,11 @@ function EventViewLayout({ children }: { children: ReactNode }) {
           </EventItem>
         </Card>
       )),
-    [],
+    [eventListExceptMe],
   );
 
-  return (
-    <Block>
-      <EventActionsBox>
-        <ViewTitleBox>
-          <Logo
-            type="icon"
-            style={{
-              width: '22px',
-              height: '22px',
-            }}
-            hasLink={false}
-          />
-          <h2>이벤트</h2>
-        </ViewTitleBox>
-        <Button variant="gray" size="small" onClick={goBack}>
-          목록으로
-        </Button>
-      </EventActionsBox>
-      {children}
-      <EventList>{renderEventList}</EventList>
-    </Block>
-  );
+  return <MapleBoardLayout title="이벤트">{children}</MapleBoardLayout>;
 }
-
-const Block = styled.section`
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-`;
-
-const ViewTitleBox = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0 0.5rem;
-
-  h2 {
-    font-size: 18px;
-  }
-`;
-
-const EventActionsBox = styled.article`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
 
 const EventList = styled.div`
   display: flex;

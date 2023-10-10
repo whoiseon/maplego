@@ -76,6 +76,19 @@ export const endpoint = {
         }
         return url;
       },
+      notice: (target?: string, page?: number) => {
+        let url = `${this.base}/game/notice`;
+        if (target && page) {
+          url += `?target=${target}&page=${page}`;
+        }
+        if (target && !page) {
+          url += `?target=${target}`;
+        }
+        if (!target && page) {
+          url += `?page=${page}`;
+        }
+        return url;
+      },
     };
   },
 };

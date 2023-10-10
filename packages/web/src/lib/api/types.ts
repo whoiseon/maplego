@@ -65,3 +65,11 @@ export interface GameUpdateNewsView {
   link: string;
   content: string;
 }
+
+export interface GameNotice {
+  id: number;
+  title: string;
+  link: string;
+  date: string;
+  target: string;
+}

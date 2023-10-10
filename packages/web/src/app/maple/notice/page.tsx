@@ -1,5 +1,7 @@
+import HydrateMapleNotice from '@/components/desktop/maple/notice/hydrate/HydrateMapleNotice';
+
 function MapleNoticePage() {
-  return <div>MapleNoticePage</div>;
+  return <HydrateMapleNotice />;
 }
 
 export default MapleNoticePage;

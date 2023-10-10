@@ -9,30 +9,19 @@ import NewBadge from '@/components/common/system/NewBadge';
 
 interface Props {
   list: any;
+  route: string;
+  category?: string;
 }
 
-function MapleBoardList({ list }: Props) {
+function MapleBoardList({ list, route, category }: Props) {
   const searchParams = useSearchParams();
   const page = Number(searchParams.get('page')) || 1;
   const target = searchParams.get('target');
   const isEmpty = list?.payload?.data?.length <= 0;
   const isLastPage = list?.payload?.data?.length < 10;
 
-  const category = useMemo(() => {
-    switch (target) {
-      case '0':
-        return '본서버';
-      case 'tespia':
-        return '테스트서버';
-      case 'cash':
-        return '캐시샵';
-      default:
-        return '본서버';
-    }
-  }, [target]);
-
   const viewPath = (id: number) => {
-    let path = `/maple/update/${id}`;
+    let path = `/maple/${route}/${id}`;
 
     if (target) {
       path += `?target=${target}`;
@@ -45,23 +34,31 @@ function MapleBoardList({ list }: Props) {
     return path;
   };
 
+  const translateRoute = (route: string) => {
+    switch (route) {
+      case 'update':
+        return '업데이트';
+      case 'notice':
+        return '공지사항';
+      default:
+        return '업데이트';
+    }
+  };
   const renderList = useMemo(() => {
     if (isEmpty) {
       return (
         <tr>
           <td className="empty-list" colSpan={3}>
-            업데이트 내역이 없습니다.
+            {translateRoute(route)} 내역이 없습니다.
           </td>
         </tr>
       );
     }
 
     return list?.payload?.data?.map((item: any) => {
-      const href = `/maple/update/${item.id}`;
-
       return (
         <tr key={item.id}>
-          <td className={item.isNew ? 'new' : ''}>{category}</td>
+          <td className={item.isNew ? 'new' : ''}>{category || item.target}</td>
           <td className={item.isNew ? 'new' : ''}>
             <Link href={viewPath(item.id)}>{item.title}</Link>
             {item.isNew && <NewBadge />}
@@ -70,7 +67,7 @@ function MapleBoardList({ list }: Props) {
         </tr>
       );
     });
-  }, [page, list]);
+  }, [page, list, route]);
 
   const pathname = usePathname();
 

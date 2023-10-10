@@ -44,4 +44,12 @@ export const queryKey = {
     'target',
     target || '',
   ],
+  GET_GAME_NOTICE: (target?: string, page?: number) => [
+    'game',
+    'notice',
+    'target',
+    target || '',
+    'page',
+    page || '',
+  ],
 };
