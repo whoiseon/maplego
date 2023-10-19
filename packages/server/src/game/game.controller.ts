@@ -5,10 +5,12 @@ import { Public } from '../lib/decorators';
 import {
   GameEvent,
   GameEventView,
+  GameNoticeView,
   GameUpdateNews,
   GameUpdateNewsView,
 } from './types';
 import { GameUpdateNewsResponse } from './types/game-update-news-response.type';
+import { GameNoticeResponse } from './types/game-notice-response.type';
 
 @Controller('api/game')
 export class GameController {
@@ -45,5 +47,24 @@ export class GameController {
     @Param('id') id: number,
   ): Promise<AppResponse<GameEventView>> {
     return this.gameService.getEventView(id);
+  }
+
+  @Public()
+  @Get('notice')
+  public async getNotice(
+    @Query('page') page: number,
+    @Query('target') target: string,
+  ): Promise<AppResponse<GameNoticeResponse>> {
+    return this.gameService.getNotice(page, target);
+  }
+
+  @Public()
+  @Get('notice/:id')
+  public async getNoticeView(
+    @Param('id') id: number,
+    @Query('page') page: number,
+    @Query('target') target: string,
+  ): Promise<AppResponse<GameNoticeView>> {
+    return this.gameService.getNoticeView(id, target);
   }
 }

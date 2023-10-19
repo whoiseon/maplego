@@ -30,3 +30,20 @@ export interface GameUpdateNewsView {
   link: string;
   content: string;
 }
+
+export interface GameNotice {
+  id: number;
+  title: string;
+  link: string;
+  date: string;
+  target: string;
+}
+
+export interface GameNoticeView {
+  id: number;
+  title: string;
+  target: string;
+  date: string;
+  link: string;
+  content: string;
+}

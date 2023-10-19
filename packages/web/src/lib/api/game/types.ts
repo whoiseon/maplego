@@ -3,6 +3,7 @@ import {
   GameEvent,
   GameEventView,
   GameNotice,
+  GameNoticeView,
   GameUpdateNews,
   GameUpdateNewsView,
 } from '@/lib/api/types';
@@ -33,4 +34,8 @@ export interface GameNoticeResponse extends AppResponse {
     target: string;
     page: number;
   };
+}
+
+export interface GameNoticeViewResponse extends AppResponse {
+  payload: GameNoticeView;
 }

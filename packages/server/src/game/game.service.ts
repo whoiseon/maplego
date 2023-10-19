@@ -5,12 +5,15 @@ import * as cheerio from 'cheerio';
 import {
   GameEvent,
   GameEventView,
+  GameNotice,
+  GameNoticeView,
   GameUpdateNews,
   GameUpdateNewsView,
 } from './types';
 import * as console from 'console';
 import { GameUpdateNewsResponse } from './types/game-update-news-response.type';
 import { parseUrl } from '../lib/parseUrl';
+import { GameNoticeResponse } from './types/game-notice-response.type';
 
 @Injectable()
 export class GameService {
@@ -23,7 +26,7 @@ export class GameService {
     try {
       const targetMap = {
         tespia: {
-          url: parseUrl.update.normal,
+          url: parseUrl.update.tespia,
           selector: 'div.news_board ul li',
           titleSelector: 'p a span',
           linkSelector: 'p a',
@@ -270,6 +273,147 @@ export class GameService {
       return gameEventIdList;
     } catch (e) {
       console.error(e);
+    }
+  }
+
+  public async getNotice(
+    page: number,
+    target: string,
+  ): Promise<AppResponse<GameNoticeResponse>> {
+    try {
+      const targetMap = {
+        all: {
+          url: parseUrl.notice.all,
+        },
+        notice: {
+          url: parseUrl.notice.notice,
+        },
+        inspection: {
+          url: parseUrl.notice.inspection,
+        },
+        gmDiary: {
+          url: parseUrl.notice.gmDiary,
+        },
+      };
+
+      let url = parseUrl.notice.all;
+
+      if (target) {
+        url = targetMap[target].url;
+
+        if (!url) {
+          return new AppResponse('InvalidTarget');
+        }
+      }
+
+      if (page) {
+        url = `${url}?page=${page}`;
+      }
+
+      const html = await this.parseService.getHtml(url);
+      const $ = cheerio.load(html.data);
+      const newsBoard = $('div.news_board ul li');
+
+      const noticeList: GameNotice[] = [];
+
+      newsBoard.each((i, el) => {
+        const title = $(el).find('p:nth-of-type(1) a span').text().trim();
+        const link = $(el).find('p:nth-of-type(1) a').attr('href');
+        const id = Number(
+          link.split('/')[link.split('/').length - 1].split('?')[0],
+        );
+        let target = $(el).find('p:nth-of-type(1) a em img').attr('alt');
+
+        if (target[0] === '[') {
+          target = target.slice(1, -1);
+        }
+
+        const date = $(el).find('div.heart_date dl dd').text().trim();
+
+        noticeList.push({
+          title,
+          link,
+          id,
+          target,
+          date,
+        });
+      });
+
+      let currentTarget = 'all';
+      if (target) currentTarget = target;
+
+      return new AppResponse('Success', {
+        data: noticeList,
+        target: currentTarget,
+        page: page || 1,
+      });
+    } catch (e) {
+      console.error(e);
+      return new AppResponse('Unknown');
+    }
+  }
+
+  public async getNoticeView(
+    id: number,
+    target: string,
+  ): Promise<AppResponse<GameNoticeView>> {
+    try {
+      const targetMap = {
+        all: {
+          url: parseUrl.notice.view.all(id),
+        },
+        notice: {
+          url: parseUrl.notice.view.notice(id),
+        },
+        inspection: {
+          url: parseUrl.notice.view.inspection(id),
+        },
+        gmDiary: {
+          url: parseUrl.notice.view.gmDiary(id),
+        },
+      };
+
+      let url = parseUrl.update.view.normal(id);
+      let currentTarget = 'all';
+      if (target) currentTarget = target;
+
+      if (target) {
+        url = targetMap[target].url;
+
+        if (!url) {
+          return new AppResponse('InvalidTarget');
+        }
+      }
+
+      const html = await this.parseService.getHtml(url);
+      const $ = cheerio.load(html.data);
+      const content = $('div.contents_wrap');
+
+      const title = content.find('p.qs_title span').text().trim();
+      let postTarget = content.find('p.qs_title em img').attr('alt') || '';
+
+      if (postTarget[0] === '[') {
+        postTarget = postTarget.slice(1, -1);
+      }
+
+      const date = content
+        .find('div.qs_info_wrap div.qs_info p.last')
+        .text()
+        .trim();
+
+      const htmlContent = content.find('div.qs_text div.new_board_con').html();
+
+      return new AppResponse('Success', {
+        id,
+        title,
+        target: postTarget,
+        date,
+        link: url,
+        content: htmlContent,
+      });
+    } catch (e) {
+      console.error(e);
+      return new AppResponse('Unknown');
     }
   }
 

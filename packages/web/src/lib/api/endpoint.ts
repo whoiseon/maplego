@@ -89,6 +89,13 @@ export const endpoint = {
         }
         return url;
       },
+      noticeView: (id: number, target?: string) => {
+        let url = `${this.base}/game/notice/${id}`;
+        if (target) {
+          url += `?target=${target}`;
+        }
+        return url;
+      },
     };
   },
 };

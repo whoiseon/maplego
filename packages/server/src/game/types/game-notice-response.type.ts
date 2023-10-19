@@ -1,7 +1,7 @@
-import { GameUpdateNews } from './index';
+import { GameNotice } from './index';
 
-export interface GameUpdateNewsResponse {
-  data: GameUpdateNews[];
+export interface GameNoticeResponse {
+  data: GameNotice[];
   target: string;
   page: number;
 }

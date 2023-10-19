@@ -7,7 +7,7 @@ import Button from '@/components/common/system/Button';
 import { usePathname, useSearchParams } from 'next/navigation';
 
 const dummySubLinks = [
-  { name: '전체', query: 'all' },
+  { name: '전체', query: '0' },
   { name: '공지', query: 'notice' },
   { name: '점검', query: 'inspection' },
   { name: 'GM소식', query: 'gmDiary' },

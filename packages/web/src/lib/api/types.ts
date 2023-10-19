@@ -73,3 +73,12 @@ export interface GameNotice {
   date: string;
   target: string;
 }
+
+export interface GameNoticeView {
+  id: number;
+  title: string;
+  target: string;
+  date: string;
+  link: string;
+  content: string;
+}

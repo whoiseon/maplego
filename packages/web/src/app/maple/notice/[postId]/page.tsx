@@ -1,5 +1,7 @@
+import HydrateMapleNoticeView from '@/components/desktop/maple/notice/hydrate/HydrateMapleNoticeView';
+
 function NoticeViewPage() {
-  return '';
+  return <HydrateMapleNoticeView />;
 }
 
 export default NoticeViewPage;

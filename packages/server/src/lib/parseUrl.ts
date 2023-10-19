@@ -18,4 +18,19 @@ export const parseUrl = {
         `https://maplestory.nexon.com/News/Event/Ongoing/${id}`,
     },
   },
+  notice: {
+    all: 'https://maplestory.nexon.com/News/Notice/All',
+    notice: 'https://maplestory.nexon.com/News/Notice/Notice',
+    inspection: 'https://maplestory.nexon.com/News/Notice/Inspection',
+    gmDiary: 'https://maplestory.nexon.com/News/GMDiary',
+    view: {
+      all: (id: number) => `https://maplestory.nexon.com/News/Notice/All/${id}`,
+      notice: (id: number) =>
+        `https://maplestory.nexon.com/News/Notice/Notice/${id}`,
+      inspection: (id: number) =>
+        `https://maplestory.nexon.com/News/Notice/Inspection/${id}`,
+      gmDiary: (id: number) =>
+        `https://maplestory.nexon.com/News/GMDiary/${id}`,
+    },
+  },
 };

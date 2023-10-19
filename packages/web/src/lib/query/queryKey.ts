@@ -52,4 +52,13 @@ export const queryKey = {
     'page',
     page || '',
   ],
+  GET_GAME_NOTICE_VIEW: (id: number, target?: string) => [
+    'game',
+    'notice',
+    'view',
+    'id',
+    id || '',
+    'target',
+    target || 'all',
+  ],
 };
