@@ -3,6 +3,7 @@ import { ParseService } from '../parse/parse.service';
 import AppResponse from '../lib/app.response';
 import * as cheerio from 'cheerio';
 import {
+  GameCharacterRank,
   GameEvent,
   GameEventView,
   GameNotice,
@@ -14,6 +15,7 @@ import * as console from 'console';
 import { GameUpdateNewsResponse } from './types/game-update-news-response.type';
 import { parseUrl } from '../lib/parseUrl';
 import { GameNoticeResponse } from './types/game-notice-response.type';
+import { GameRankResponse } from './types/game-rank-response.type';
 
 @Injectable()
 export class GameService {
@@ -410,6 +412,148 @@ export class GameService {
         date,
         link: url,
         content: htmlContent,
+      });
+    } catch (e) {
+      console.error(e);
+      return new AppResponse('Unknown');
+    }
+  }
+
+  public async getRank(
+    page: number,
+    world: number,
+    target?: string,
+  ): Promise<AppResponse<GameRankResponse>> {
+    try {
+      const targetMap = {
+        all: {
+          url: parseUrl.rank.all(page, world),
+        },
+        dojang: {
+          url: parseUrl.rank.dojang(page, world),
+        },
+        union: {
+          url: parseUrl.rank.union(page, world),
+        },
+        seed: {
+          url: parseUrl.rank.seed(page, world),
+        },
+        pop: {
+          url: parseUrl.rank.pop(page, world),
+        },
+      };
+
+      let url = targetMap.all.url;
+      let currentTarget = 'all';
+
+      if (target) {
+        url = targetMap[target].url;
+
+        if (!url) {
+          return new AppResponse('InvalidTarget');
+        }
+      }
+
+      const html = await this.parseService.getHtml(url);
+      const $ = cheerio.load(html.data);
+      const rankItems = $('.rank_table tbody tr');
+
+      const rankList: GameCharacterRank[] = [];
+
+      rankItems.each((i, el) => {
+        let rank = $(el)
+          .find('td:nth-of-type(1) p:nth-of-type(1)')
+          .text()
+          .trim();
+
+        const isRanker =
+          $(el).hasClass('rank01') ||
+          $(el).hasClass('rank02') ||
+          $(el).hasClass('rank03');
+
+        if (isRanker) {
+          rank = $(el)
+            .find('td:nth-of-type(1) p:nth-of-type(1) img')
+            .attr('alt')
+            .slice(0, -1);
+        }
+
+        const characterImage = $(el)
+          .find('td:nth-of-type(2) span.char_img img')
+          .attr('src');
+
+        const serverSplit = $(el)
+          .find('td:nth-of-type(2) dl dt a img')
+          .attr('src')
+          .split('/');
+
+        const server = serverSplit[serverSplit.length - 1]
+          .split('.')[0]
+          .split('_')[1];
+
+        const characterName = $(el)
+          .find('td:nth-of-type(2) dl dt a')
+          .text()
+          .trim();
+
+        const job = $(el).find('td:nth-of-type(2) dl dd').text().trim();
+        const jobName = job.split(' / ')[1];
+
+        let level = 0;
+        let exp = '';
+        let pop = '';
+        let guild = '';
+        let record = '';
+        let clearTime = '';
+        let unionLevel = '';
+        let unionPower = '';
+
+        if (target === 'pop' || target === 'all') {
+          level = Number(
+            $(el).find('td:nth-of-type(3)').text().trim().split('.')[1],
+          );
+          exp = $(el).find('td:nth-of-type(4)').text().trim() || '';
+          pop = $(el).find('td:nth-of-type(5)').text().trim() || '';
+          guild = $(el).find('td:nth-of-type(6)').text().trim() || '';
+        }
+
+        if (target === 'dojang' || target === 'seed') {
+          level = Number(
+            $(el).find('td:nth-of-type(3)').text().trim().split('.')[1],
+          );
+          record = $(el).find('td:nth-of-type(4)').text().trim();
+          clearTime = $(el).find('td:nth-of-type(5)').text().trim();
+        }
+
+        if (target === 'union') {
+          unionLevel = $(el).find('td:nth-of-type(3)').text().trim();
+          unionPower = $(el).find('td:nth-of-type(4)').text().trim();
+        }
+
+        rankList.push({
+          rank,
+          characterImage,
+          server,
+          characterName,
+          jobName,
+          level,
+          exp,
+          pop,
+          guild,
+          record,
+          clearTime,
+          unionLevel,
+          unionPower,
+        });
+      });
+
+      currentTarget = target || 'all';
+      const currentPage = page || 1;
+
+      return new AppResponse('Success', {
+        data: rankList,
+        target: currentTarget,
+        page: currentPage,
       });
     } catch (e) {
       console.error(e);

@@ -1,5 +1,7 @@
+import HydrateMapleRank from '@/components/desktop/maple/rank/hydrate/HydrateMapleRank';
+
 function MapleRankPage() {
-  return <div>MapleRankPage</div>;
+  return <HydrateMapleRank />;
 }
 
 export default MapleRankPage;

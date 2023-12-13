@@ -67,4 +67,14 @@ export class GameController {
   ): Promise<AppResponse<GameNoticeView>> {
     return this.gameService.getNoticeView(id, target);
   }
+
+  @Public()
+  @Get('rank')
+  public async getRank(
+    @Query('page') page: number,
+    @Query('target') target: string,
+    @Query('w') world: number,
+  ): Promise<any> {
+    return this.gameService.getRank(page, world, target);
+  }
 }

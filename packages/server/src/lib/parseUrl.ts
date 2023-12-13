@@ -33,4 +33,26 @@ export const parseUrl = {
         `https://maplestory.nexon.com/News/GMDiary/${id}`,
     },
   },
+  rank: {
+    all: (page: number, world: number) =>
+      `https://maplestory.nexon.com/N23Ranking/World/Total?page=${
+        page || 1
+      }&w=${world || 0}`,
+    dojang: (page: number, world: number) =>
+      `https://maplestory.nexon.com/N23Ranking/Contents/Dojang/ThisWeek?page=${
+        page || 1
+      }&w=${world || 0}&t=2`,
+    seed: (page: number, world: number) =>
+      `https://maplestory.nexon.com/N23Ranking/Contents/Seed/thisWeek?page=${
+        page || 1
+      }&w=${world || 0}`,
+    pop: (page: number, world: number) =>
+      `https://maplestory.nexon.com/N23Ranking/World/Pop?page=${page || 1}&w=${
+        world || 0
+      }`,
+    union: (page: number, world: number) =>
+      `https://maplestory.nexon.com/N23Ranking/World/Union?page=${
+        page || 1
+      }&w=${world || 0}`,
+  },
 };

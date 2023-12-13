@@ -29,9 +29,6 @@ async function HydrateMapleNoticeView() {
 
   const target = query.target || 'all';
 
-  console.log('target', target);
-  console.log('postId', postId);
-
   await queryClient.prefetchQuery(
     queryKey.GET_GAME_NOTICE_VIEW(postId, target),
     () => fetchGetGameNoticeView(postId, target),

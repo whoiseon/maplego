@@ -96,6 +96,15 @@ export const endpoint = {
         }
         return url;
       },
+      rank: (target?: string, page?: number, world?: number) => {
+        const url = new URLSearchParams({
+          target: target || 'all',
+          page: page?.toString() || '1',
+          w: world?.toString() || '0',
+        });
+
+        return `${this.base}/game/rank?${url.toString()}`;
+      },
     };
   },
 };

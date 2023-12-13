@@ -193,7 +193,7 @@ const Thead = styled.thead`
 const Tbody = styled.tbody`
   td {
     height: 56px;
-    color: ${themedPalette.text3};
+    color: ${themedPalette.text2};
     font-size: 13px;
     text-align: center;
     border-bottom: 1px solid ${themedPalette.border4};
@@ -202,7 +202,7 @@ const Tbody = styled.tbody`
 
     &:nth-of-type(2) {
       text-align: left;
-      color: ${themedPalette.text1};
+      color: ${themedPalette.text2};
       font-size: 14px;
       font-weight: 600;
     }

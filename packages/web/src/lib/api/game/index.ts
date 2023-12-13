@@ -3,6 +3,7 @@ import {
   GameEventViewResponse,
   GameNoticeResponse,
   GameNoticeViewResponse,
+  GameRankResponse,
   GameUpdateNewsResponse,
   GameUpdateNewsViewResponse,
 } from '@/lib/api/game/types';
@@ -98,4 +99,21 @@ export async function fetchGetGameNoticeView(
   });
 
   return (await response.json()) as GameNoticeViewResponse;
+}
+
+export async function fetchGetGameRank(
+  target?: string,
+  page?: number,
+  world?: number,
+): Promise<GameRankResponse> {
+  const response = await fetch(endpoint.game.rank(target, page, world), {
+    method: 'GET',
+    cache: 'no-cache',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  return (await response.json()) as GameRankResponse;
 }

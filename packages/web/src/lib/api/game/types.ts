@@ -1,5 +1,6 @@
 import {
   AppResponse,
+  GameCharacterRank,
   GameEvent,
   GameEventView,
   GameNotice,
@@ -38,4 +39,12 @@ export interface GameNoticeResponse extends AppResponse {
 
 export interface GameNoticeViewResponse extends AppResponse {
   payload: GameNoticeView;
+}
+
+export interface GameRankResponse extends AppResponse {
+  payload: {
+    data: GameCharacterRank[];
+    target: string;
+    page: number;
+  };
 }

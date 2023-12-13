@@ -47,3 +47,19 @@ export interface GameNoticeView {
   link: string;
   content: string;
 }
+
+export interface GameCharacterRank {
+  rank: string;
+  characterImage: string;
+  server: string;
+  characterName: string;
+  jobName: string;
+  level?: number;
+  exp?: string;
+  pop?: string;
+  guild?: string;
+  record?: string;
+  clearTime?: string;
+  unionLevel?: string;
+  unionPower?: string;
+}

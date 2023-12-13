@@ -31,11 +31,11 @@ const dummyProfilePageMap: {
     description:
       '메이플스토리의 다양하고 풍부한 이벤트들을 확인하고, 참여해보세요!',
   },
-  {
-    name: '캐릭터 검색',
-    href: 'maple/user',
-    description: '메이플스토리 유저들을 검색해보세요!',
-  },
+  // {
+  //   name: '캐릭터 검색',
+  //   href: 'maple/user',
+  //   description: '메이플스토리 유저들을 검색해보세요!',
+  // },
   {
     name: '랭킹',
     href: 'maple/rank',

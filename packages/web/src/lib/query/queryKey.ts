@@ -61,4 +61,14 @@ export const queryKey = {
     'target',
     target || 'all',
   ],
+  GET_GAME_RANK: (target?: string, page?: number, world?: number) => [
+    'game',
+    'rank',
+    'target',
+    target || 'all',
+    'page',
+    page || 1,
+    'world',
+    world || 0,
+  ],
 };
