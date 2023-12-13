@@ -1,17 +1,55 @@
 import { useGetRankList } from '@/lib/hooks/queries/game/useGetRankList';
 import { useMemo, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import styled from '@emotion/styled';
 import { themedPalette } from '@/styles/palette';
 import Card from '@/components/common/system/Card';
 import RankCharacter from '@/components/desktop/maple/rank/RankCharacter';
+import Link from 'next/link';
 
 function MapleRankList() {
-  const page = useSearchParams().get('page') || 1;
-  const target = useSearchParams().get('target') || 'all';
-  const world = useSearchParams().get('world') || 0;
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+
+  const page = searchParams.get('page') || 1;
+  const target = searchParams.get('target') || 'all';
+  const world = searchParams.get('world') || 0;
 
   const { data } = useGetRankList(target, Number(page), Number(world));
+
+  const prevPageHref = () => {
+    if (Number(page) === 1) {
+      return '';
+    }
+
+    const query = searchParams.toString();
+    if (query) {
+      const queryPath = `${pathname}?${query}`;
+      const hasPage = queryPath.match(/page=\d+/);
+      if (hasPage) {
+        return queryPath.replace(/page=\d+/, `page=${Number(page) - 1}`);
+      } else {
+        return `${queryPath}&page=${Number(page) - 1}`;
+      }
+    } else {
+      return `${pathname}?page=${Number(page) - 1}`;
+    }
+  };
+
+  const nextPageHref = () => {
+    const query = searchParams.toString();
+    if (query) {
+      const queryPath = `${pathname}?${query}`;
+      const hasPage = queryPath.match(/page=\d+/);
+      if (hasPage) {
+        return queryPath.replace(/page=\d+/, `page=${Number(page) + 1}`);
+      } else {
+        return `${queryPath}&page=${Number(page) + 1}`;
+      }
+    } else {
+      return `${pathname}?page=${Number(page) + 1}`;
+    }
+  };
 
   const renderRankListHeader = useMemo(() => {
     switch (target) {
@@ -200,6 +238,14 @@ function MapleRankList() {
           <Thead>{renderRankListHeader}</Thead>
           <Tbody>{renderRankList}</Tbody>
         </StyledTable>
+        <Pagination>
+          {page === 1 ? (
+            <PaginationDisabled>이전</PaginationDisabled>
+          ) : (
+            <PaginationButton href={prevPageHref()}>이전</PaginationButton>
+          )}
+          <PaginationButton href={nextPageHref()}>다음</PaginationButton>
+        </Pagination>
       </Card>
     </Block>
   );
@@ -256,6 +302,53 @@ const Tbody = styled.tbody`
       font-weight: 600;
     }
   }
+`;
+
+const Pagination = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 0 8px;
+  padding: 30px 30px 40px;
+`;
+
+const PaginationButton = styled(Link)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 40px;
+  border-radius: 4px;
+  background-color: ${themedPalette.bg_element1};
+  border: 1px solid ${themedPalette.border4};
+  color: ${themedPalette.text1};
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background-color: ${themedPalette.bg_element2};
+    border: 1px solid ${themedPalette.border3};
+  }
+
+  &:active {
+    background-color: ${themedPalette.primary3};
+  }
+`;
+
+const PaginationDisabled = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 40px;
+  border-radius: 4px;
+  background-color: ${themedPalette.bg_element1};
+  color: ${themedPalette.text1};
+  font-size: 14px;
+  font-weight: 600;
+  cursor: not-allowed;
 `;
 
 export default MapleRankList;
